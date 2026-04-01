@@ -6,203 +6,159 @@
   <title>Josh Sundby</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #0a0a0a;
-      color: #e0e0e0;
-      font-family: 'Libre Baskerville', Georgia, serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 28px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      mix-blend-mode: difference;
-    }
-
-    .logo {
-      font-size: 14px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
+      background: #000;
       color: #fff;
-      font-weight: 700;
+      font-family: 'Inter', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
     }
 
-    .hero {
-      height: 100vh;
+    .page {
+      position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
     }
 
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 8rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #fff;
-      text-align: center;
-      line-height: 1;
-      z-index: 1;
-    }
-
-    .hero-subtitle {
+    /* background image cycle */
+    .bg {
       position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      letter-spacing: 0.4em;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .bg-img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .bg-img.active { opacity: 0.3; }
+
+    /* grain */
+    .grain {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0.04;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    /* content */
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .name {
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 0.6em;
+      opacity: 0;
+      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      margin: 0 auto 2em;
+      opacity: 0;
+      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    }
+
+    .status {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.5em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.4);
+      opacity: 0;
+      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
     }
 
-    .gallery {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 24px 120px;
+    /* corner marks */
+    .mark {
+      position: absolute;
+      z-index: 2;
+      width: 32px;
+      height: 32px;
+      opacity: 0;
+      animation: fadeIn 1.6s ease 1.4s forwards;
     }
 
-    .row {
-      display: grid;
-      gap: 24px;
-      margin-bottom: 24px;
+    .mark--tl { top: 32px; left: 32px; border-top: 1px solid rgba(255,255,255,0.15); border-left: 1px solid rgba(255,255,255,0.15); }
+    .mark--tr { top: 32px; right: 32px; border-top: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
+    .mark--bl { bottom: 32px; left: 32px; border-bottom: 1px solid rgba(255,255,255,0.15); border-left: 1px solid rgba(255,255,255,0.15); }
+    .mark--br { bottom: 32px; right: 32px; border-bottom: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .row--hero-single { grid-template-columns: 1fr; }
-    .row--two { grid-template-columns: 1fr 1fr; }
-    .row--three { grid-template-columns: 1fr 1fr 1fr; }
-    .row--wide-left { grid-template-columns: 2fr 1fr; }
-    .row--wide-right { grid-template-columns: 1fr 2fr; }
-
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      background: #111;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.03);
-    }
-
-    .gallery-item--dark { background: #050505; }
-    .gallery-item--light { background: #f0f0f0; }
-
-    .gallery-item--tall img { aspect-ratio: 3/4; }
-    .gallery-item--square img { aspect-ratio: 1/1; }
-    .gallery-item--wide img { aspect-ratio: 16/9; }
-
-    footer {
-      text-align: center;
-      padding: 60px 24px 40px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    footer p {
-      font-size: 12px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-    }
-
-    @media (max-width: 768px) {
-      header { padding: 20px 24px; }
-      .row--two, .row--three, .row--wide-left, .row--wide-right {
-        grid-template-columns: 1fr;
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">Josh Sundby</div>
-  </header>
+  <div class="page">
 
-  <section class="hero">
-    <h1 class="hero-title">Josh Sundby</h1>
-    <p class="hero-subtitle">Digital Art &amp; Print</p>
-  </section>
-
-  <section class="gallery">
-
-    <div class="row row--hero-single">
-      <div class="gallery-item gallery-item--dark">
-        <img src="images/03.png" alt="Sacred geometry — intricate circular mandala on black" class="gallery-item--wide">
-      </div>
+    <div class="bg">
+      <div class="bg-img active" style="background-image: url('images/03.png')"></div>
+      <div class="bg-img" style="background-image: url('images/01.png')"></div>
+      <div class="bg-img" style="background-image: url('images/07.png')"></div>
+      <div class="bg-img" style="background-image: url('images/10.png')"></div>
+      <div class="bg-img" style="background-image: url('images/05.png')"></div>
     </div>
 
-    <div class="row row--two">
-      <div class="gallery-item gallery-item--light">
-        <img src="images/02.png" alt="Geometric composition — circles and triangles on white" class="gallery-item--square">
-      </div>
-      <div class="gallery-item gallery-item--dark">
-        <img src="images/01.png" alt="Lunar geometry — crescent and radial lines on black" class="gallery-item--square">
-      </div>
+    <div class="grain"></div>
+
+    <div class="mark mark--tl"></div>
+    <div class="mark mark--tr"></div>
+    <div class="mark mark--bl"></div>
+    <div class="mark mark--br"></div>
+
+    <div class="content">
+      <h1 class="name">Josh<br>Sundby</h1>
+      <div class="divider"></div>
+      <p class="status">Coming Soon</p>
     </div>
 
-    <div class="row row--three">
-      <div class="gallery-item gallery-item--light">
-        <img src="images/04.png" alt="Geometric abstraction — circle and triangle on white" class="gallery-item--square">
-      </div>
-      <div class="gallery-item gallery-item--dark">
-        <img src="images/05.png" alt="Lunar geometry variant — crescent composition on black" class="gallery-item--square">
-      </div>
-      <div class="gallery-item gallery-item--light">
-        <img src="images/09.png" alt="Geometric study — triangles and circles on white" class="gallery-item--square">
-      </div>
-    </div>
+  </div>
 
-    <div class="row row--wide-right">
-      <div class="gallery-item gallery-item--dark">
-        <img src="images/07.png" alt="Bold color geometry — cyan, red, and gold on dark" class="gallery-item--square">
-      </div>
-      <div class="gallery-item gallery-item--light">
-        <img src="images/06.png" alt="Bauhaus-inspired composition — orange, red, and black" class="gallery-item--square">
-      </div>
-    </div>
+  <script>
+    const imgs = document.querySelectorAll('.bg-img');
+    let current = 0;
+    setInterval(() => {
+      imgs[current].classList.remove('active');
+      current = (current + 1) % imgs.length;
+      imgs[current].classList.add('active');
+    }, 5000);
+  </script>
 
-    <div class="row row--two">
-      <div class="gallery-item gallery-item--dark">
-        <img src="images/10.png" alt="Colorful geometric — triangles and circles on black" class="gallery-item--square">
-      </div>
-      <div class="gallery-item gallery-item--light">
-        <img src="images/11.png" alt="Delicate geometric — pastel circles and diamonds" class="gallery-item--square">
-      </div>
-    </div>
-
-    <div class="row row--hero-single">
-      <div class="gallery-item gallery-item--light">
-        <img src="images/08.png" alt="Bauhaus geometry — bold overlapping forms" class="gallery-item--wide">
-      </div>
-    </div>
-
-  </section>
-
-  <footer>
-    <p>Josh Sundby</p>
-  </footer>
-
-  <script type="text/javascript" src="//widget.fotomoto.com/stores/script/a5471333576aef96b674173d78baf4f595991d69.js"></script>
-  <noscript>If Javascript is disabled in your browser, to place orders please visit the page where I <a href="https://my.fotomoto.com/store/a5471333576aef96b674173d78baf4f595991d69">sell my photos</a>, powered by <a href="https://my.fotomoto.com/">Fotomoto</a>.</noscript>
 </body>
 </html>
