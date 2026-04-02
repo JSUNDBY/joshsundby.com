@@ -3,61 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Josh Sundby</title>
+  <title>Josh Sundby — Immersive Art &amp; Projection</title>
+  <meta name="description" content="Josh Sundby creates immersive projection installations, sound experiences, and digital art in Minneapolis. Custom content for venues, events, and public spaces.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --white: #fff;
-      --dim: rgba(255,255,255,0.35);
-      --faint: rgba(255,255,255,0.1);
+      --off: #ccc;
+      --dim: rgba(255,255,255,0.4);
+      --faint: rgba(255,255,255,0.08);
+      --black: #000;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: #000;
+      background: var(--black);
       color: var(--white);
       font-family: 'Inter', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* ─── NAV ─── */
+    /* ════════════════ NAV ════════════════ */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 24px 40px;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0 40px;
+      height: 64px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      mix-blend-mode: difference;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--faint);
     }
 
     .nav-name {
       font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.4em;
+      font-weight: 500;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: var(--white);
     }
 
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 28px;
       list-style: none;
     }
 
     .nav-links a {
       font-size: 11px;
       font-weight: 400;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--dim);
       text-decoration: none;
@@ -66,258 +71,388 @@
 
     .nav-links a:hover { color: var(--white); }
 
-    /* ─── HERO ─── */
+    /* ════════════════ HERO ════════════════ */
     .hero {
       height: 100vh;
       height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 40px 80px;
     }
 
-    .hero-bg {
+    .hero-media {
       position: absolute;
       inset: 0;
     }
 
-    .hero-bg-img {
+    .hero-slide {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(1.05);
+      transition: opacity 1.6s ease, transform 8s ease;
     }
 
-    .hero-bg-img.active { opacity: 0.25; }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
 
-    .hero-grain {
+    .hero-overlay {
       position: absolute;
       inset: 0;
-      opacity: 0.035;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 256px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.3) 100%);
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
-      text-align: center;
-      padding: 24px;
+      max-width: 800px;
     }
 
     .hero-title {
-      font-size: clamp(3rem, 8vw, 7rem);
+      font-size: clamp(3.5rem, 9vw, 8rem);
       font-weight: 200;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      line-height: 1.15;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      margin-bottom: 24px;
       opacity: 0;
-      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+      animation: heroIn 1.2s var(--ease) 0.3s forwards;
     }
 
-    .hero-rule {
-      width: 48px;
-      height: 1px;
-      background: var(--dim);
-      margin: 32px auto;
-      opacity: 0;
-      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    .hero-title span {
+      display: block;
+      font-weight: 500;
     }
 
-    .hero-tagline {
-      font-size: 12px;
+    .hero-desc {
+      font-size: 15px;
       font-weight: 300;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--dim);
+      line-height: 1.7;
+      color: var(--off);
+      max-width: 480px;
       opacity: 0;
-      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+      animation: heroIn 1.2s var(--ease) 0.6s forwards;
     }
 
-    .scroll-hint {
+    .hero-scroll {
       position: absolute;
       bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      height: 48px;
-      overflow: hidden;
+      right: 40px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
       opacity: 0;
       animation: fadeIn 1s ease 2s forwards;
     }
 
-    .scroll-hint::after {
-      content: '';
-      display: block;
-      width: 1px;
-      height: 48px;
-      background: linear-gradient(to bottom, transparent, var(--dim));
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-
-    /* ─── SECTIONS ─── */
-    section {
-      padding: 120px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.6em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 24px;
-    }
-
-    .section-heading {
-      font-size: clamp(1.8rem, 4vw, 3.2rem);
-      font-weight: 200;
-      letter-spacing: 0.05em;
-      line-height: 1.3;
-      max-width: 700px;
-      margin-bottom: 48px;
-    }
-
-    .section-body {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.6);
-      max-width: 560px;
-    }
-
-    /* ─── IMAGE STRIPS ─── */
-    .strip {
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      position: relative;
-    }
-
-    .strip-single {
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .strip-single img {
-      width: 100%;
-      height: 70vh;
-      object-fit: cover;
-      display: block;
-    }
-
-    .strip-duo {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4px;
-    }
-
-    .strip-duo img {
-      width: 100%;
-      height: 60vh;
-      object-fit: cover;
-      display: block;
-    }
-
-    .strip-trio {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 4px;
-    }
-
-    .strip-trio img {
-      width: 100%;
-      height: 50vh;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ─── DISCIPLINES ─── */
-    .disciplines {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 64px 48px;
-      margin-top: 64px;
-    }
-
-    .discipline-title {
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .discipline-desc {
-      font-size: 14px;
-      font-weight: 300;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.45);
-    }
-
-    /* ─── COMING SOON BAND ─── */
-    .cta-band {
-      text-align: center;
-      padding: 160px 40px;
-    }
-
-    .cta-heading {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 200;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-    }
-
-    .cta-sub {
-      font-size: 13px;
-      font-weight: 300;
+    .hero-scroll span {
+      font-size: 9px;
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--dim);
+      writing-mode: vertical-rl;
     }
 
-    /* ─── FOOTER ─── */
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .hero-scroll-line::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: var(--dim);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ════════════════ REEL (horizontal scroll) ════════════════ */
+    .reel-section {
+      padding: 120px 0 0;
+    }
+
+    .reel-header {
+      padding: 0 40px;
+      margin-bottom: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .reel-header h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 200;
+      letter-spacing: -0.01em;
+    }
+
+    .label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 12px;
+    }
+
+    .reel {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .reel::-webkit-scrollbar { display: none; }
+
+    .reel-item {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      position: relative;
+      overflow: hidden;
+      height: 70vh;
+      min-height: 500px;
+    }
+
+    .reel-item--wide { width: 70vw; }
+    .reel-item--med { width: 50vw; }
+    .reel-item--sq { width: 70vh; min-width: 500px; }
+
+    .reel-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--ease);
+    }
+
+    .reel-item:hover img { transform: scale(1.03); }
+
+    .reel-item-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px 24px 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .reel-item:hover .reel-item-caption { opacity: 1; }
+
+    .reel-item-caption p {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ════════════════ TEXT SECTIONS ════════════════ */
+    .text-section {
+      padding: 140px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .text-section h2 {
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      font-weight: 200;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      max-width: 720px;
+      margin-bottom: 40px;
+    }
+
+    .text-section p {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.55);
+      max-width: 540px;
+    }
+
+    /* ════════════════ FULL BLEED IMAGE ════════════════ */
+    .full-bleed {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .full-bleed img {
+      width: 100%;
+      height: 80vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    .full-bleed-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+    }
+
+    .full-bleed-overlay h3 {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 200;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ════════════════ GRID ════════════════ */
+    .grid-section {
+      padding: 4px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .grid-2x2 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 50vh 50vh;
+    }
+
+    .grid-2x2 img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ════════════════ CAPABILITIES ════════════════ */
+    .capabilities {
+      padding: 140px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .cap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 64px;
+      background: var(--faint);
+    }
+
+    .cap-item {
+      background: var(--black);
+      padding: 40px 32px;
+    }
+
+    .cap-item h4 {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .cap-item p {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ════════════════ CLIENTS/VENUES ════════════════ */
+    .venues {
+      padding: 80px 40px;
+      text-align: center;
+      border-top: 1px solid var(--faint);
+      border-bottom: 1px solid var(--faint);
+    }
+
+    .venues .label { margin-bottom: 32px; }
+
+    .venue-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px 48px;
+      list-style: none;
+    }
+
+    .venue-list li {
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ════════════════ CONTACT CTA ════════════════ */
+    .contact {
+      padding: 160px 40px;
+      text-align: center;
+    }
+
+    .contact .label { margin-bottom: 24px; }
+
+    .contact h2 {
+      font-size: clamp(2.2rem, 5vw, 4.5rem);
+      font-weight: 200;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+
+    .contact-link {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      padding: 16px 48px;
+      border: 1px solid rgba(255,255,255,0.25);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .contact-link:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    /* ════════════════ FOOTER ════════════════ */
     footer {
-      padding: 40px;
+      padding: 32px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid var(--faint);
     }
 
-    footer span {
+    footer span, footer a {
       font-size: 10px;
       font-weight: 400;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
       color: var(--dim);
     }
 
-    footer a {
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dim);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
+    footer a { text-decoration: none; transition: color 0.3s; }
     footer a:hover { color: var(--white); }
 
-    /* ─── REVEAL ─── */
+    .footer-links { display: flex; gap: 24px; }
+
+    /* ════════════════ REVEAL ════════════════ */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(32px);
+      transition: opacity 0.9s ease, transform 0.9s var(--ease);
     }
 
     .reveal.visible {
@@ -325,9 +460,9 @@
       transform: translateY(0);
     }
 
-    /* ─── KEYFRAMES ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
+    /* ════════════════ ANIMATIONS ════════════════ */
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(32px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -336,162 +471,233 @@
       to { opacity: 1; }
     }
 
-    @keyframes scrollLine {
+    @keyframes scrollPulse {
       0% { transform: translateY(-100%); }
       100% { transform: translateY(100%); }
     }
 
-    /* ─── MOBILE ─── */
+    /* ════════════════ MOBILE ════════════════ */
     @media (max-width: 768px) {
-      nav { padding: 20px 24px; }
-      .nav-links { display: none; }
-      section { padding: 80px 24px; }
-      .disciplines { grid-template-columns: 1fr; gap: 40px; }
-      .strip-duo { grid-template-columns: 1fr; }
-      .strip-trio { grid-template-columns: 1fr; }
-      .strip-single img { height: 40vh; }
-      .strip-duo img, .strip-trio img { height: 40vh; }
-      footer { flex-direction: column; gap: 12px; text-align: center; }
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .hero { padding: 0 20px 60px; }
+      .hero-scroll { display: none; }
+      .reel-header { padding: 0 20px; }
+      .reel-item { height: 50vh; min-height: 300px; }
+      .reel-item--wide { width: 85vw; }
+      .reel-item--med { width: 75vw; }
+      .reel-item--sq { width: 85vw; min-width: 300px; }
+      .reel-item-caption { opacity: 1; }
+      .text-section { padding: 80px 20px; }
+      .full-bleed img { height: 50vh; }
+      .grid-2x2 { grid-template-columns: 1fr; grid-template-rows: repeat(4, 50vh); }
+      .capabilities { padding: 80px 20px; }
+      .cap-grid { grid-template-columns: 1fr; }
+      .venues { padding: 60px 20px; }
+      .contact { padding: 100px 20px; }
+      footer { padding: 24px 20px; flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
     <div class="nav-name">Josh Sundby</div>
     <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
+      <li><a href="#installations">Work</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
       <li><a href="https://www.instagram.com/superthoughts.ART" target="_blank" rel="noopener">Instagram</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg">
-      <div class="hero-bg-img active" style="background-image: url('images/dc/installation-01.png')"></div>
-      <div class="hero-bg-img" style="background-image: url('images/dc/watershed.jpg')"></div>
-      <div class="hero-bg-img" style="background-image: url('images/03.png')"></div>
-      <div class="hero-bg-img" style="background-image: url('images/dc/icehouse-winter.jpg')"></div>
-      <div class="hero-bg-img" style="background-image: url('images/10.png')"></div>
+    <div class="hero-media">
+      <div class="hero-slide active" style="background-image: url('images/work/floral-faces.jpg')"></div>
+      <div class="hero-slide" style="background-image: url('images/work/nebula-bowls.jpg')"></div>
+      <div class="hero-slide" style="background-image: url('images/work/aurora-soundbath.jpg')"></div>
+      <div class="hero-slide" style="background-image: url('images/work/watershed-sunset.jpg')"></div>
+      <div class="hero-slide" style="background-image: url('images/work/cityscape-event.jpg')"></div>
     </div>
-    <div class="hero-grain"></div>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1 class="hero-title">Josh<br>Sundby</h1>
-      <div class="hero-rule"></div>
-      <p class="hero-tagline">Installations &middot; Digital Art &middot; Immersive Experience</p>
+      <h1 class="hero-title">Immersive<br><span>Experiences</span></h1>
+      <p class="hero-desc">Projection installations, generative content, and immersive environments for venues, events, and public spaces. Based in Minneapolis.</p>
     </div>
-    <div class="scroll-hint"></div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
   </section>
 
-  <!-- INSTALLATIONS -->
-  <div class="strip reveal">
-    <div class="strip-single">
-      <img src="images/dc/icehouse-winter.jpg" alt="Icehouse Minneapolis — generative projection installation">
-    </div>
-  </div>
-
-  <section id="work">
-    <p class="section-label reveal">Installations</p>
-    <h2 class="section-heading reveal">Immersive environments that blend light, color, and generative content</h2>
-    <p class="section-body reveal">Custom projection installations for venues, spas, and public spaces. Each piece is site-specific, built to transform the feel of a room through motion, color, and sound.</p>
-  </section>
-
-  <div class="strip reveal">
-    <div class="strip-duo">
-      <img src="images/dc/watershed.jpg" alt="Watershed Spa — Light Bath installation">
-      <img src="images/dc/installation-01.png" alt="Watershed Spa — geometric light projection">
-    </div>
-  </div>
-
-  <section>
-    <p class="section-label reveal">Select Projects</p>
-    <div class="disciplines reveal">
+  <!-- INSTALLATION REEL -->
+  <div class="reel-section" id="installations">
+    <div class="reel-header reveal">
       <div>
-        <p class="discipline-title">Watershed Spa</p>
-        <p class="discipline-desc">Three-projector Light Bath installation. Generative color and pattern synchronized to sound for a multisensory wellness experience.</p>
-      </div>
-      <div>
-        <p class="discipline-title">Icehouse MPLS</p>
-        <p class="discipline-desc">Panoramic projection above the bar. Evolving abstract landscapes that shift with the energy of the room.</p>
-      </div>
-      <div>
-        <p class="discipline-title">More Coming</p>
-        <p class="discipline-desc">New installations in development for gallery, retail, and public spaces across Minneapolis.</p>
+        <p class="label">Selected Work</p>
+        <h2>Installations</h2>
       </div>
     </div>
+    <div class="reel">
+      <div class="reel-item reel-item--wide">
+        <img src="images/work/floral-faces.jpg" alt="Large-scale floral and portrait projection installation">
+        <div class="reel-item-caption"><p>Generative Projection &mdash; Enterstellar MPLS</p></div>
+      </div>
+      <div class="reel-item reel-item--med">
+        <img src="images/work/aurora-soundbath.jpg" alt="Aurora borealis projection with sound bath">
+        <div class="reel-item-caption"><p>Aurora Sound Bath &mdash; Immersive Experience</p></div>
+      </div>
+      <div class="reel-item reel-item--wide">
+        <img src="images/work/watershed-sunset.jpg" alt="Sunset cloudscape projected across spa walls">
+        <div class="reel-item-caption"><p>Light Bath &mdash; Watershed Spa</p></div>
+      </div>
+      <div class="reel-item reel-item--med">
+        <img src="images/work/sound-bath-nebula.jpg" alt="Cosmic nebula projection with singing bowls and gongs">
+        <div class="reel-item-caption"><p>Cosmic Sound Bath &mdash; Projection + Live Sound</p></div>
+      </div>
+      <div class="reel-item reel-item--wide">
+        <img src="images/work/cityscape-event.jpg" alt="Minneapolis cityscape projected at live event">
+        <div class="reel-item-caption"><p>Cityscape Projection &mdash; Live Event</p></div>
+      </div>
+      <div class="reel-item reel-item--med">
+        <img src="images/dc/icehouse-winter.jpg" alt="Generative abstract landscape at Icehouse Minneapolis">
+        <div class="reel-item-caption"><p>Evolving Landscape &mdash; Icehouse MPLS</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEXT BLOCK -->
+  <section class="text-section">
+    <div class="reveal">
+      <p class="label">Approach</p>
+      <h2>Custom content designed to transform your space</h2>
+      <p>Every installation starts with the room. The architecture, the light, the purpose of the space. From there, I build generative visual content, multi-projector setups, and synchronized sound design that turns walls into living environments.</p>
+    </div>
   </section>
 
-  <!-- DIGITAL ART -->
-  <div class="strip reveal">
-    <div class="strip-trio">
-      <img src="images/03.png" alt="Sacred geometry — intricate mandala">
-      <img src="images/06.png" alt="Bauhaus-inspired geometric composition">
-      <img src="images/07.png" alt="Bold color geometry on dark">
+  <!-- FULL BLEED -->
+  <div class="full-bleed reveal">
+    <img src="images/work/nebula-bowls.jpg" alt="Immersive nebula projection with singing bowls and audience">
+  </div>
+
+  <!-- MORE WORK GRID -->
+  <div class="grid-section grid-2x2 reveal">
+    <img src="images/work/watershed-flora.jpg" alt="Botanical projection at Watershed Spa">
+    <img src="images/work/studio-cloudscape.jpg" alt="Panoramic cloudscape projection in studio">
+    <img src="images/work/halloween-projection.jpg" alt="Immersive projection at Halloween event">
+    <img src="images/work/live-vj.jpg" alt="Live VJ performance with generative visuals">
+  </div>
+
+  <!-- RECLINE + OVERLAY -->
+  <div class="full-bleed reveal">
+    <img src="images/work/nebula-recline.jpg" alt="Guests recline beneath nebula projection">
+    <div class="full-bleed-overlay">
+      <h3>Sound &middot; Light &middot; Space</h3>
     </div>
   </div>
 
-  <section>
-    <p class="section-label reveal">Digital Art</p>
-    <h2 class="section-heading reveal">Sacred geometry, generative form, bold abstraction</h2>
-    <p class="section-body reveal">Original digital works exploring the intersection of geometry, symmetry, and color. Rooted in precision, driven by intuition.</p>
+  <!-- DIGITAL ART REEL -->
+  <div class="reel-section">
+    <div class="reel-header reveal">
+      <div>
+        <p class="label">Studio</p>
+        <h2>Digital Art</h2>
+      </div>
+    </div>
+    <div class="reel">
+      <div class="reel-item reel-item--sq"><img src="images/03.png" alt="Sacred geometry mandala"></div>
+      <div class="reel-item reel-item--sq"><img src="images/07.png" alt="Color geometry on dark"></div>
+      <div class="reel-item reel-item--sq"><img src="images/06.png" alt="Bauhaus-inspired composition"></div>
+      <div class="reel-item reel-item--sq"><img src="images/01.png" alt="Lunar crescent geometry"></div>
+      <div class="reel-item reel-item--sq"><img src="images/10.png" alt="Colorful geometric on black"></div>
+      <div class="reel-item reel-item--sq"><img src="images/11.png" alt="Pastel geometric composition"></div>
+      <div class="reel-item reel-item--sq"><img src="images/02.png" alt="Geometric circles on white"></div>
+      <div class="reel-item reel-item--sq"><img src="images/08.png" alt="Bold overlapping forms"></div>
+    </div>
+  </div>
+
+  <!-- CAPABILITIES -->
+  <section class="capabilities" id="about">
+    <div class="reveal">
+      <p class="label">Capabilities</p>
+      <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 200; margin-bottom: 0;">What I Do</h2>
+    </div>
+    <div class="cap-grid reveal">
+      <div class="cap-item">
+        <h4>Projection Design</h4>
+        <p>Multi-projector installations with edge blending, mapping, and site-specific content. From intimate rooms to full venue takeovers.</p>
+      </div>
+      <div class="cap-item">
+        <h4>Generative Content</h4>
+        <p>Original visual content that evolves in real time. Cloudscapes, nebulae, abstract geometry, botanical, and custom themes for any environment.</p>
+      </div>
+      <div class="cap-item">
+        <h4>Immersive Events</h4>
+        <p>Sound baths, live performances, wellness experiences, and celebrations. Full production from concept through execution.</p>
+      </div>
+      <div class="cap-item">
+        <h4>Live Visuals</h4>
+        <p>Real-time VJ performance for concerts, DJ sets, and live events. Reactive visuals synced to music and energy.</p>
+      </div>
+      <div class="cap-item">
+        <h4>Digital Art</h4>
+        <p>Sacred geometry, generative form, and bold abstraction. Original works available as prints and commissions.</p>
+      </div>
+      <div class="cap-item">
+        <h4>Venue Consulting</h4>
+        <p>Equipment spec, projector placement, content strategy, and ongoing creative direction for permanent installations.</p>
+      </div>
+    </div>
   </section>
 
-  <div class="strip reveal">
-    <div class="strip-duo">
-      <img src="images/01.png" alt="Lunar geometry — crescent and radial lines">
-      <img src="images/02.png" alt="Geometric composition on white">
-    </div>
+  <!-- VENUES -->
+  <div class="venues reveal">
+    <p class="label">Select Venues &amp; Collaborations</p>
+    <ul class="venue-list">
+      <li>Watershed Spa</li>
+      <li>Icehouse MPLS</li>
+      <li>Enterstellar</li>
+      <li>Private Events</li>
+      <li>Corporate</li>
+    </ul>
   </div>
 
-  <div class="strip reveal" style="margin-top: 4px;">
-    <div class="strip-trio">
-      <img src="images/10.png" alt="Colorful triangles and circles on black">
-      <img src="images/11.png" alt="Pastel geometric composition">
-      <img src="images/08.png" alt="Bold overlapping forms">
-    </div>
-  </div>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <p class="section-label reveal">About</p>
-    <h2 class="section-heading reveal">Minneapolis-based artist and technologist</h2>
-    <p class="section-body reveal">Josh Sundby creates at the intersection of technology, light, and contemplative practice. Through Digital Coherence, he designs immersive projection installations for venues and public spaces. His digital art practice explores sacred geometry, generative systems, and bold visual language.</p>
+  <!-- CONTACT -->
+  <section class="contact reveal" id="contact">
+    <p class="label">Get in Touch</p>
+    <h2>Let's build something immersive</h2>
+    <a href="mailto:j.sundby@gmail.com" class="contact-link">j.sundby@gmail.com</a>
   </section>
 
-  <div class="strip reveal">
-    <div class="strip-single">
-      <img src="images/dc/energy-projection.png" alt="Energy Projection Art Minneapolis">
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div class="cta-band reveal">
-    <h2 class="cta-heading">Coming Soon</h2>
-    <p class="cta-sub">Full portfolio &middot; Print shop &middot; New work</p>
-  </div>
-
+  <!-- FOOTER -->
   <footer>
-    <span>Josh Sundby &copy; 2026</span>
-    <a href="mailto:josh@digitalcoherence.io">Contact</a>
+    <span>&copy; 2026 Josh Sundby</span>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/superthoughts.ART" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@DigitalCoherence-f9l" target="_blank" rel="noopener">YouTube</a>
+    </div>
   </footer>
 
   <script>
-    // bg cycle
-    const bgs = document.querySelectorAll('.hero-bg-img');
-    let idx = 0;
+    // Hero slideshow with Ken Burns
+    const slides = document.querySelectorAll('.hero-slide');
+    let si = 0;
     setInterval(() => {
-      bgs[idx].classList.remove('active');
-      idx = (idx + 1) % bgs.length;
-      bgs[idx].classList.add('active');
+      slides[si].classList.remove('active');
+      si = (si + 1) % slides.length;
+      slides[si].classList.add('active');
     }, 5000);
 
-    // scroll reveal
+    // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => obs.observe(el));
   </script>
 
 </body>
