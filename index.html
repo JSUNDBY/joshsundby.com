@@ -6,114 +6,328 @@
   <title>Josh Sundby</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+    :root {
+      --white: #fff;
+      --dim: rgba(255,255,255,0.35);
+      --faint: rgba(255,255,255,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
       background: #000;
-      color: #fff;
+      color: var(--white);
       font-family: 'Inter', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
-      overflow: hidden;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mix-blend-mode: difference;
+    }
+
+    .nav-name {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    /* ─── HERO ─── */
+    .hero {
       height: 100vh;
       height: 100dvh;
-    }
-
-    .page {
-      position: relative;
-      width: 100%;
-      height: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* background image cycle */
-    .bg {
+    .hero-bg {
       position: absolute;
       inset: 0;
-      z-index: 0;
     }
 
-    .bg-img {
+    .hero-bg-img {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .bg-img.active { opacity: 0.3; }
+    .hero-bg-img.active { opacity: 0.25; }
 
-    /* grain */
-    .grain {
+    .hero-grain {
       position: absolute;
       inset: 0;
-      z-index: 1;
-      opacity: 0.04;
+      opacity: 0.035;
       pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       background-repeat: repeat;
-      background-size: 256px 256px;
+      background-size: 256px;
     }
 
-    /* content */
-    .content {
+    .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
       padding: 24px;
     }
 
-    .name {
-      font-size: clamp(2.4rem, 7vw, 6rem);
-      font-weight: 300;
-      letter-spacing: 0.25em;
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 200;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 0.6em;
+      line-height: 1.15;
       opacity: 0;
-      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
     }
 
-    .divider {
-      width: 40px;
+    .hero-rule {
+      width: 48px;
       height: 1px;
-      background: rgba(255,255,255,0.3);
-      margin: 0 auto 2em;
+      background: var(--dim);
+      margin: 32px auto;
       opacity: 0;
-      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
     }
 
-    .status {
-      font-size: 11px;
-      font-weight: 400;
+    .hero-tagline {
+      font-size: 12px;
+      font-weight: 300;
       letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
+      color: var(--dim);
       opacity: 0;
-      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+      animation: fadeUp 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
     }
 
-    /* corner marks */
-    .mark {
+    .scroll-hint {
       position: absolute;
-      z-index: 2;
-      width: 32px;
-      height: 32px;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 48px;
+      overflow: hidden;
       opacity: 0;
-      animation: fadeIn 1.6s ease 1.4s forwards;
+      animation: fadeIn 1s ease 2s forwards;
     }
 
-    .mark--tl { top: 32px; left: 32px; border-top: 1px solid rgba(255,255,255,0.15); border-left: 1px solid rgba(255,255,255,0.15); }
-    .mark--tr { top: 32px; right: 32px; border-top: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
-    .mark--bl { bottom: 32px; left: 32px; border-bottom: 1px solid rgba(255,255,255,0.15); border-left: 1px solid rgba(255,255,255,0.15); }
-    .mark--br { bottom: 32px; right: 32px; border-bottom: 1px solid rgba(255,255,255,0.15); border-right: 1px solid rgba(255,255,255,0.15); }
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--dim));
+      animation: scrollLine 2s ease-in-out infinite;
+    }
 
+    /* ─── SECTIONS ─── */
+    section {
+      padding: 120px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 24px;
+    }
+
+    .section-heading {
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 200;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+      max-width: 700px;
+      margin-bottom: 48px;
+    }
+
+    .section-body {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+    }
+
+    /* ─── IMAGE STRIPS ─── */
+    .strip {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      position: relative;
+    }
+
+    .strip-single {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .strip-single img {
+      width: 100%;
+      height: 70vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    .strip-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .strip-duo img {
+      width: 100%;
+      height: 60vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    .strip-trio {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 4px;
+    }
+
+    .strip-trio img {
+      width: 100%;
+      height: 50vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ─── DISCIPLINES ─── */
+    .disciplines {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 64px 48px;
+      margin-top: 64px;
+    }
+
+    .discipline-title {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .discipline-desc {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ─── COMING SOON BAND ─── */
+    .cta-band {
+      text-align: center;
+      padding: 160px 40px;
+    }
+
+    .cta-heading {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 200;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .cta-sub {
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--faint);
+    }
+
+    footer span {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    footer a {
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover { color: var(--white); }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── KEYFRAMES ─── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -121,43 +335,163 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    @keyframes scrollLine {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      .disciplines { grid-template-columns: 1fr; gap: 40px; }
+      .strip-duo { grid-template-columns: 1fr; }
+      .strip-trio { grid-template-columns: 1fr; }
+      .strip-single img { height: 40vh; }
+      .strip-duo img, .strip-trio img { height: 40vh; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="page">
+  <nav>
+    <div class="nav-name">Josh Sundby</div>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://www.instagram.com/superthoughts.ART" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+  </nav>
 
-    <div class="bg">
-      <div class="bg-img active" style="background-image: url('images/03.png')"></div>
-      <div class="bg-img" style="background-image: url('images/01.png')"></div>
-      <div class="bg-img" style="background-image: url('images/07.png')"></div>
-      <div class="bg-img" style="background-image: url('images/10.png')"></div>
-      <div class="bg-img" style="background-image: url('images/05.png')"></div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-bg-img active" style="background-image: url('images/dc/installation-01.png')"></div>
+      <div class="hero-bg-img" style="background-image: url('images/dc/watershed.jpg')"></div>
+      <div class="hero-bg-img" style="background-image: url('images/03.png')"></div>
+      <div class="hero-bg-img" style="background-image: url('images/dc/icehouse-winter.jpg')"></div>
+      <div class="hero-bg-img" style="background-image: url('images/10.png')"></div>
     </div>
-
-    <div class="grain"></div>
-
-    <div class="mark mark--tl"></div>
-    <div class="mark mark--tr"></div>
-    <div class="mark mark--bl"></div>
-    <div class="mark mark--br"></div>
-
-    <div class="content">
-      <h1 class="name">Josh<br>Sundby</h1>
-      <div class="divider"></div>
-      <p class="status">Coming Soon</p>
+    <div class="hero-grain"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Josh<br>Sundby</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-tagline">Installations &middot; Digital Art &middot; Immersive Experience</p>
     </div>
+    <div class="scroll-hint"></div>
+  </section>
 
+  <!-- INSTALLATIONS -->
+  <div class="strip reveal">
+    <div class="strip-single">
+      <img src="images/dc/icehouse-winter.jpg" alt="Icehouse Minneapolis — generative projection installation">
+    </div>
   </div>
 
+  <section id="work">
+    <p class="section-label reveal">Installations</p>
+    <h2 class="section-heading reveal">Immersive environments that blend light, color, and generative content</h2>
+    <p class="section-body reveal">Custom projection installations for venues, spas, and public spaces. Each piece is site-specific, built to transform the feel of a room through motion, color, and sound.</p>
+  </section>
+
+  <div class="strip reveal">
+    <div class="strip-duo">
+      <img src="images/dc/watershed.jpg" alt="Watershed Spa — Light Bath installation">
+      <img src="images/dc/installation-01.png" alt="Watershed Spa — geometric light projection">
+    </div>
+  </div>
+
+  <section>
+    <p class="section-label reveal">Select Projects</p>
+    <div class="disciplines reveal">
+      <div>
+        <p class="discipline-title">Watershed Spa</p>
+        <p class="discipline-desc">Three-projector Light Bath installation. Generative color and pattern synchronized to sound for a multisensory wellness experience.</p>
+      </div>
+      <div>
+        <p class="discipline-title">Icehouse MPLS</p>
+        <p class="discipline-desc">Panoramic projection above the bar. Evolving abstract landscapes that shift with the energy of the room.</p>
+      </div>
+      <div>
+        <p class="discipline-title">More Coming</p>
+        <p class="discipline-desc">New installations in development for gallery, retail, and public spaces across Minneapolis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIGITAL ART -->
+  <div class="strip reveal">
+    <div class="strip-trio">
+      <img src="images/03.png" alt="Sacred geometry — intricate mandala">
+      <img src="images/06.png" alt="Bauhaus-inspired geometric composition">
+      <img src="images/07.png" alt="Bold color geometry on dark">
+    </div>
+  </div>
+
+  <section>
+    <p class="section-label reveal">Digital Art</p>
+    <h2 class="section-heading reveal">Sacred geometry, generative form, bold abstraction</h2>
+    <p class="section-body reveal">Original digital works exploring the intersection of geometry, symmetry, and color. Rooted in precision, driven by intuition.</p>
+  </section>
+
+  <div class="strip reveal">
+    <div class="strip-duo">
+      <img src="images/01.png" alt="Lunar geometry — crescent and radial lines">
+      <img src="images/02.png" alt="Geometric composition on white">
+    </div>
+  </div>
+
+  <div class="strip reveal" style="margin-top: 4px;">
+    <div class="strip-trio">
+      <img src="images/10.png" alt="Colorful triangles and circles on black">
+      <img src="images/11.png" alt="Pastel geometric composition">
+      <img src="images/08.png" alt="Bold overlapping forms">
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">About</p>
+    <h2 class="section-heading reveal">Minneapolis-based artist and technologist</h2>
+    <p class="section-body reveal">Josh Sundby creates at the intersection of technology, light, and contemplative practice. Through Digital Coherence, he designs immersive projection installations for venues and public spaces. His digital art practice explores sacred geometry, generative systems, and bold visual language.</p>
+  </section>
+
+  <div class="strip reveal">
+    <div class="strip-single">
+      <img src="images/dc/energy-projection.png" alt="Energy Projection Art Minneapolis">
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-band reveal">
+    <h2 class="cta-heading">Coming Soon</h2>
+    <p class="cta-sub">Full portfolio &middot; Print shop &middot; New work</p>
+  </div>
+
+  <footer>
+    <span>Josh Sundby &copy; 2026</span>
+    <a href="mailto:josh@digitalcoherence.io">Contact</a>
+  </footer>
+
   <script>
-    const imgs = document.querySelectorAll('.bg-img');
-    let current = 0;
+    // bg cycle
+    const bgs = document.querySelectorAll('.hero-bg-img');
+    let idx = 0;
     setInterval(() => {
-      imgs[current].classList.remove('active');
-      current = (current + 1) % imgs.length;
-      imgs[current].classList.add('active');
+      bgs[idx].classList.remove('active');
+      idx = (idx + 1) % bgs.length;
+      bgs[idx].classList.add('active');
     }, 5000);
+
+    // scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
   </script>
 
 </body>
