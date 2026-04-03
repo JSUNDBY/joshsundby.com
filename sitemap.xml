@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://joshsundby.com/</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://joshsundby.com/images/work/floral-faces.jpg</image:loc>
+      <image:caption>Large-scale floral and portrait projection art installation in Minneapolis</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://joshsundby.com/images/work/aurora-soundbath.jpg</image:loc>
+      <image:caption>Aurora borealis projection art with immersive sound bath in Minneapolis</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://joshsundby.com/images/work/watershed-sunset.jpg</image:loc>
+      <image:caption>Sunset cloudscape projection art at Watershed Spa Minneapolis</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://joshsundby.com/images/work/nebula-bowls.jpg</image:loc>
+      <image:caption>Immersive nebula projection with singing bowls Minneapolis sound bath</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://joshsundby.com/images/work/cityscape-event.jpg</image:loc>
+      <image:caption>Minneapolis cityscape projection art at live event</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://joshsundby.com/images/work/josh-portrait.webp</image:loc>
+      <image:caption>Josh Sundby — immersive artist and projection art designer in Minneapolis</image:caption>
+    </image:image>
+  </url>
+</urlset>
