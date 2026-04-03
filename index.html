@@ -514,6 +514,7 @@
       .text-section { padding: 80px 20px; }
       .full-bleed img { height: 50vh; }
       .grid-2x2 { grid-template-columns: 1fr; grid-template-rows: repeat(4, 50vh); }
+      #about { grid-template-columns: 1fr !important; gap: 32px !important; }
       .video-grid { grid-template-columns: 1fr; }
       .video-grid-item { aspect-ratio: 16/9; }
       .capabilities { padding: 80px 20px; }
@@ -540,10 +541,10 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-media">
-      <div class="hero-slide active" style="background-image: url('images/work/floral-faces.jpg')"></div>
+      <div class="hero-slide active" style="background-image: url('images/work/aurora-soundbath.jpg')"></div>
       <div class="hero-slide" style="background-image: url('images/work/nebula-bowls.jpg')"></div>
-      <div class="hero-slide" style="background-image: url('images/work/aurora-soundbath.jpg')"></div>
-      <div class="hero-slide" style="background-image: url('images/work/watershed-sunset.jpg')"></div>
+      <div class="hero-slide" style="background-image: url('images/work/floral-faces.jpg')"></div>
+      <div class="hero-slide" style="background-image: url('images/work/studio-cloudscape.jpg')"></div>
       <div class="hero-slide" style="background-image: url('images/work/cityscape-event.jpg')"></div>
     </div>
     <div class="hero-overlay"></div>
@@ -567,28 +568,36 @@
     </div>
     <div class="reel">
       <div class="reel-item reel-item--wide">
-        <img src="images/work/floral-faces.jpg" alt="Large-scale floral and portrait projection installation">
-        <div class="reel-item-caption"><p>Generative Projection &mdash; Enterstellar MPLS</p></div>
+        <img src="images/work/watershed-sunset.jpg" alt="Sunset cloudscape projected across spa walls">
+        <div class="reel-item-caption"><p>Light Bath &mdash; Watershed Spa</p></div>
       </div>
       <div class="reel-item reel-item--med">
         <img src="images/work/aurora-soundbath.jpg" alt="Aurora borealis projection with sound bath">
         <div class="reel-item-caption"><p>Aurora Sound Bath &mdash; Immersive Experience</p></div>
       </div>
       <div class="reel-item reel-item--wide">
-        <img src="images/work/watershed-sunset.jpg" alt="Sunset cloudscape projected across spa walls">
-        <div class="reel-item-caption"><p>Light Bath &mdash; Watershed Spa</p></div>
+        <img src="images/work/floral-faces.jpg" alt="Large-scale floral and portrait projection installation">
+        <div class="reel-item-caption"><p>Generative Projection &mdash; Enterstellar MPLS</p></div>
       </div>
       <div class="reel-item reel-item--med">
+        <img src="images/work/nebula-recline.jpg" alt="Guests recline beneath nebula projection">
+        <div class="reel-item-caption"><p>Nebula Projection &mdash; Immersive Sound Bath</p></div>
+      </div>
+      <div class="reel-item reel-item--wide">
         <img src="images/work/sound-bath-nebula.jpg" alt="Cosmic nebula projection with singing bowls and gongs">
         <div class="reel-item-caption"><p>Cosmic Sound Bath &mdash; Projection + Live Sound</p></div>
+      </div>
+      <div class="reel-item reel-item--med">
+        <img src="images/dc/icehouse-winter.jpg" alt="Generative abstract landscape at Icehouse Minneapolis">
+        <div class="reel-item-caption"><p>Evolving Landscape &mdash; Icehouse MPLS</p></div>
       </div>
       <div class="reel-item reel-item--wide">
         <img src="images/work/cityscape-event.jpg" alt="Minneapolis cityscape projected at live event">
         <div class="reel-item-caption"><p>Cityscape Projection &mdash; Live Event</p></div>
       </div>
       <div class="reel-item reel-item--med">
-        <img src="images/dc/icehouse-winter.jpg" alt="Generative abstract landscape at Icehouse Minneapolis">
-        <div class="reel-item-caption"><p>Evolving Landscape &mdash; Icehouse MPLS</p></div>
+        <img src="images/work/nebula-bowls.jpg" alt="Immersive nebula with singing bowls and audience">
+        <div class="reel-item-caption"><p>Nebula &amp; Bowls &mdash; Live Experience</p></div>
       </div>
     </div>
   </div>
@@ -653,8 +662,20 @@
     </div>
   </div>
 
+  <!-- ABOUT -->
+  <section class="text-section" id="about" style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; max-width: 1100px;">
+    <div class="reveal" style="overflow: hidden;">
+      <img src="images/work/josh-portrait.webp" alt="Josh Sundby" style="width: 100%; display: block;">
+    </div>
+    <div class="reveal">
+      <p class="label">About</p>
+      <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 200; line-height: 1.3; margin-bottom: 24px;">Minneapolis-based artist and technologist</h2>
+      <p style="font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,0.55);">Josh Sundby creates immersive projection installations, generative visual content, and multi-sensory experiences for venues, events, and public spaces. With a background spanning 25 years of mindfulness practice, ambient music production, and digital art, he brings a unique perspective to every project — blending technology with intention to transform how people experience a room.</p>
+    </div>
+  </section>
+
   <!-- CAPABILITIES -->
-  <section class="capabilities" id="about">
+  <section class="capabilities">
     <div class="reveal">
       <p class="label">Capabilities</p>
       <h2 style="font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 200; margin-bottom: 0;">What I Do</h2>
