@@ -33,99 +33,115 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 #hud{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;pointer-events:none}
 
 /* ── Header ──────────────────────────────────── */
-#header{padding:18px 20px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
-#header h1{font-family:'Orbitron',sans-serif;font-size:clamp(22px,3.5vw,36px);font-weight:900;letter-spacing:8px;color:#fff;text-shadow:0 0 50px rgba(40,120,255,.75)}
-#header .sub{font-size:clamp(9px,1vw,11px);letter-spacing:5px;color:var(--muted)}
-#header .met{font-family:'Orbitron',sans-serif;font-size:clamp(16px,2.2vw,24px);color:#88b0d8;letter-spacing:4px;margin-top:3px}
-#header .phase{font-size:clamp(11px,1.3vw,14px);letter-spacing:3px;color:var(--cyan);margin-top:1px}
+#header{padding:18px 20px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+#header h1{font-family:'Orbitron',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:8px;color:#fff;text-shadow:0 0 50px rgba(40,120,255,.75)}
+#header .sub{font-size:clamp(10px,1.2vw,13px);letter-spacing:5px;color:var(--muted)}
+#header .met{font-family:'Orbitron',sans-serif;font-size:clamp(20px,2.8vw,30px);color:#88b0d8;letter-spacing:4px;margin-top:4px}
+#header .phase{font-size:clamp(13px,1.5vw,17px);letter-spacing:3px;color:var(--cyan);margin-top:2px}
 
 /* ── Middle (panels + 3D view) ───────────────── */
 #mid{flex:1;display:flex;overflow:hidden;min-height:0}
 
 /* Side panels */
-.side{width:clamp(170px,19vw,230px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0}
-.box{background:var(--bg);border:1px solid var(--border);padding:13px 15px;backdrop-filter:blur(10px)}
-.boxlabel{font-size:8px;letter-spacing:4px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(20,55,110,.4)}
-.row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.side{width:clamp(200px,21vw,270px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0}
+.box{background:var(--bg);border:1px solid var(--border);padding:16px 18px;backdrop-filter:blur(10px)}
+.boxlabel{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(20,55,110,.4)}
+.row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
 .row:last-of-type{margin-bottom:0}
-.rk{font-size:9px;letter-spacing:1.5px;color:var(--muted)}
-.rv{font-size:clamp(14px,1.8vw,18px);color:var(--bright)}
-.ru{font-size:8px;color:var(--muted);margin-left:2px}
-.livebadge{display:flex;align-items:center;gap:5px;font-size:8px;letter-spacing:3px;color:var(--green);border-top:1px solid rgba(20,55,110,.4);padding-top:8px;margin-top:8px}
-.livebadge .dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+.rk{font-size:11px;letter-spacing:1.5px;color:var(--muted)}
+.rv{font-size:clamp(17px,2vw,22px);color:var(--bright)}
+.ru{font-size:10px;color:var(--muted);margin-left:3px}
+.livebadge{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:3px;color:var(--green);border-top:1px solid rgba(20,55,110,.4);padding-top:10px;margin-top:10px}
+.livebadge .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.12}}
 
-.crew{margin-bottom:9px}
+.crew{margin-bottom:10px}
 .crew:last-child{margin-bottom:0}
-.crole{font-size:7px;letter-spacing:3px;color:var(--muted)}
-.cname{font-size:clamp(10px,1.2vw,13px);color:var(--bright);letter-spacing:.5px}
-.corg{font-size:7px;color:var(--muted)}
+.crole{font-size:9px;letter-spacing:3px;color:var(--muted)}
+.cname{font-size:clamp(12px,1.4vw,15px);color:var(--bright);letter-spacing:.5px}
+.corg{font-size:9px;color:var(--muted)}
 
 /* Right explain box */
-.explain{font-size:clamp(9px,1vw,10px);line-height:1.65;color:var(--text)}
+.explain{font-size:clamp(11px,1.1vw,13px);line-height:1.7;color:var(--text)}
 .explain strong{color:var(--cyan)}
 
 /* Center (3D labels float here) */
 #center{flex:1;position:relative}
 
 /* Space labels */
-.sl{position:fixed;font-size:10px;letter-spacing:3px;pointer-events:none;transform:translateX(-50%);white-space:nowrap}
+.sl{position:fixed;font-size:13px;letter-spacing:3px;pointer-events:none;transform:translateX(-50%);white-space:nowrap}
 
 /* ── Bottom (scrubber) ────────────────────────── */
 #bottom{flex-shrink:0;padding:8px 18px 14px;display:flex;flex-direction:column;gap:7px;pointer-events:auto}
 
 /* Mobile stats (hidden on desktop) */
-#mstats{display:none;gap:6px;padding:6px 12px 0;pointer-events:auto}
-.mstat{flex:1;background:var(--bg);border:1px solid var(--border);padding:8px 10px;min-width:0}
-.msk{font-size:7px;letter-spacing:2px;color:var(--muted);margin-bottom:2px}
-.msv{font-size:clamp(13px,3.5vw,16px);color:var(--bright)}
+#mstats{display:none;gap:6px;padding:8px 12px 0;pointer-events:auto}
+.mstat{flex:1;background:var(--bg);border:1px solid var(--border);padding:10px 12px;min-width:0}
+.msk{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
+.msv{font-size:clamp(16px,4.5vw,22px);color:var(--bright)}
 
 /* Scrubber row */
-#srow{display:flex;align-items:center;gap:9px}
-.btn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;padding:7px 12px;cursor:pointer;transition:background .15s, color .1s;white-space:nowrap}
+#srow{display:flex;align-items:center;gap:10px}
+.btn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:2px;padding:10px 16px;cursor:pointer;transition:background .15s, color .1s;white-space:nowrap}
 .btn:hover{background:rgba(35,90,200,.5)}
 .btn.on{background:rgba(25,75,200,.65);color:var(--cyan);border-color:var(--cyan)}
-#pbt{font-size:16px;padding:7px 11px}
+#pbt{font-size:20px;padding:10px 14px}
 
-#sl{flex:1;height:4px;appearance:none;background:rgba(18,48,120,.35);border-radius:2px;outline:none;cursor:pointer;min-width:0}
-#sl::-webkit-slider-thumb{appearance:none;width:15px;height:15px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);cursor:pointer}
-#sl::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--cyan);border:none}
-#td{font-size:11px;color:var(--text);white-space:nowrap;min-width:110px;text-align:right}
+#sl{flex:1;height:6px;appearance:none;background:rgba(18,48,120,.35);border-radius:3px;outline:none;cursor:pointer;min-width:0}
+#sl::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);cursor:pointer}
+#sl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--cyan);border:none}
+#td{font-size:13px;color:var(--text);white-space:nowrap;min-width:120px;text-align:right}
+
+/* Fullscreen button */
+#fsbtn{position:fixed;top:14px;right:14px;z-index:30;background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:background .15s,color .1s}
+#fsbtn:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
 
 /* Milestone track */
-#mtrack{position:relative;height:28px;margin:0 2px}
-.mmark{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1px;top:0}
-.mtick{width:1px;height:6px;background:var(--muted)}
-.mlbl{font-size:7px;letter-spacing:1px;color:rgba(80,110,170,.75);white-space:nowrap}
-.mdate{font-size:6px;letter-spacing:.8px;color:rgba(40,65,110,.6);white-space:nowrap}
+#mtrack{position:relative;height:32px;margin:0 2px}
+.mmark{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;top:0}
+.mtick{width:1px;height:8px;background:var(--muted)}
+.mlbl{font-size:9px;letter-spacing:1.5px;color:rgba(80,110,170,.75);white-space:nowrap}
+.mdate{font-size:8px;letter-spacing:1px;color:rgba(40,65,110,.6);white-space:nowrap}
 .mmark.now .mtick{background:var(--gold);width:2px}
 .mmark.now .mlbl{color:var(--gold)}
 
 /* Scanlines */
 #hud::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,5,20,.016) 3px,rgba(0,5,20,.016) 4px);pointer-events:none}
 
-.fnote{position:fixed;bottom:7px;right:15px;font-size:6px;letter-spacing:2px;color:rgba(25,55,120,.38);pointer-events:none;z-index:20}
+.fnote{position:fixed;bottom:7px;right:15px;font-size:8px;letter-spacing:2px;color:rgba(25,55,120,.38);pointer-events:none;z-index:20}
 
 /* Legend */
 #legend{position:fixed;left:16px;bottom:60px;display:flex;flex-direction:column;gap:5px;pointer-events:none;z-index:20}
-.leg{display:flex;align-items:center;gap:7px;font-size:8px;letter-spacing:2px;color:rgba(100,140,200,.7)}
-.legdot{width:8px;height:3px;border-radius:2px;flex-shrink:0}
+.leg{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;color:rgba(100,140,200,.7)}
+.legdot{width:10px;height:4px;border-radius:2px;flex-shrink:0}
 
 @media(max-width:700px){
   .side{display:none}
-  #mstats{display:flex}
-  #header h1{font-size:20px;letter-spacing:4px}
-  #header .sub{letter-spacing:3px}
-  #bottom{padding:6px 10px 10px}
-  #td{min-width:80px;font-size:10px}
-  .btn{font-size:11px;padding:6px 8px;letter-spacing:1px}
+  #mstats{display:flex;flex-wrap:wrap;gap:8px;padding:8px 10px 0}
+  .mstat{flex:1 1 40%;padding:12px 14px}
+  .msk{font-size:11px;letter-spacing:2px;margin-bottom:4px}
+  .msv{font-size:clamp(18px,5vw,24px)}
+  #header{padding:14px 16px 6px;gap:4px}
+  #header h1{font-size:26px;letter-spacing:5px}
+  #header .sub{letter-spacing:3px;font-size:9px}
+  #header .met{font-size:20px;letter-spacing:3px}
+  #header .phase{font-size:13px;letter-spacing:2px}
+  #bottom{padding:8px 10px 14px}
+  #td{min-width:90px;font-size:12px}
+  .btn{font-size:14px;padding:12px 14px;letter-spacing:1px}
+  #pbt{font-size:22px;padding:12px 16px}
+  #sl::-webkit-slider-thumb{width:28px;height:28px}
+  #sl{height:8px}
   #legend{display:none}
   #mtrack{display:none}
+  #fsbtn{top:10px;right:10px;font-size:10px;padding:8px 12px}
+  .sl{font-size:12px}
 }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
+<button id="fsbtn" onclick="toggleFS()">FULLSCREEN</button>
 <div id="hud">
   <div id="header">
     <h1>ARTEMIS II</h1>
@@ -142,14 +158,14 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
         <div class="row"><span class="rk">EARTH DIST</span><span><span class="rv" id="de">—</span><span class="ru">KM</span></span></div>
         <div class="row"><span class="rk">MOON DIST</span><span><span class="rv" id="dm">—</span><span class="ru">KM</span></span></div>
         <div class="row"><span class="rk">VELOCITY</span><span><span class="rv" id="vel">—</span><span class="ru">KM/S</span></span></div>
-        <div class="row"><span class="rk">FLYBY ETA</span><span><span class="rv" id="eta" style="font-size:13px">—</span></span></div>
+        <div class="row"><span class="rk">FLYBY ETA</span><span><span class="rv" id="eta" style="font-size:16px">—</span></span></div>
         <div class="livebadge"><span class="dot"></span><span id="livetxt">LIVE</span></div>
       </div>
       <div class="box">
         <div class="boxlabel">Mission</div>
-        <div class="row"><span class="rk">PROGRESS</span><span class="rv" id="pct" style="font-size:15px">0%</span></div>
-        <div class="row"><span class="rk">MAX DIST</span><span><span class="rv" style="font-size:13px">406,841</span><span class="ru">KM</span></span></div>
-        <div class="row"><span class="rk">CREW</span><span class="rv" style="font-size:15px">4</span></div>
+        <div class="row"><span class="rk">PROGRESS</span><span class="rv" id="pct" style="font-size:18px">0%</span></div>
+        <div class="row"><span class="rk">MAX DIST</span><span><span class="rv" style="font-size:17px">406,841</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk">CREW</span><span class="rv" style="font-size:18px">4</span></div>
       </div>
     </div>
 
@@ -180,7 +196,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
     <div class="mstat"><div class="msk">EARTH</div><div class="msv" id="m-de">—</div></div>
     <div class="mstat"><div class="msk">MOON</div><div class="msv" id="m-dm">—</div></div>
     <div class="mstat"><div class="msk">KM/S</div><div class="msv" id="m-vel">—</div></div>
-    <div class="mstat"><div class="msk">ETA</div><div class="msv" id="m-eta" style="font-size:12px">—</div></div>
+    <div class="mstat"><div class="msk">ETA</div><div class="msv" id="m-eta" style="font-size:15px">—</div></div>
   </div>
 
   <!-- Scrubber -->
@@ -199,9 +215,9 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 <div class="sl" id="lb-e" style="color:rgba(60,140,255,.9)">EARTH</div>
 <div class="sl" id="lb-m" style="color:rgba(170,190,220,.8)">MOON</div>
 <div class="sl" id="lb-o" style="color:rgba(255,205,60,.95)">ORION</div>
-<div class="sl" id="lb-m0" style="color:rgba(110,130,160,.5);font-size:8px">MOON AT LAUNCH</div>
-<div class="sl" id="lb-m2" style="color:rgba(110,130,160,.5);font-size:8px">MOON AT RETURN</div>
-<div class="sl" id="lb-flyby" style="color:rgba(255,100,30,.7);font-size:8px">FLYBY ~APR 7</div>
+<div class="sl" id="lb-m0" style="color:rgba(110,130,160,.5);font-size:11px">MOON AT LAUNCH</div>
+<div class="sl" id="lb-m2" style="color:rgba(110,130,160,.5);font-size:11px">MOON AT RETURN</div>
+<div class="sl" id="lb-flyby" style="color:rgba(255,100,30,.7);font-size:11px">FLYBY ~APR 7</div>
 
 <!-- Legend -->
 <div id="legend">
@@ -579,6 +595,24 @@ window.addEventListener('resize',()=>{
   cam.aspect=window.innerWidth/window.innerHeight;
   cam.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+// Fullscreen toggle
+function toggleFS(){
+  const el=document.documentElement;
+  if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+    (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
+    document.getElementById('fsbtn').textContent='EXIT FS';
+  }else{
+    (document.exitFullscreen||document.webkitExitFullscreen).call(document);
+    document.getElementById('fsbtn').textContent='FULLSCREEN';
+  }
+}
+document.addEventListener('fullscreenchange',()=>{
+  document.getElementById('fsbtn').textContent=document.fullscreenElement?'EXIT FS':'FULLSCREEN';
+});
+document.addEventListener('webkitfullscreenchange',()=>{
+  document.getElementById('fsbtn').textContent=document.webkitFullscreenElement?'EXIT FS':'FULLSCREEN';
 });
 
 goLive();
