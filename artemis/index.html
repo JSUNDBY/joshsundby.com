@@ -53,7 +53,8 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 #mid{flex:1;display:flex;overflow:hidden;min-height:0}
 
 /* Side panels */
-.side{width:clamp(200px,21vw,270px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0}
+.side{width:clamp(200px,21vw,270px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0;overflow-y:auto;scrollbar-width:none}
+.side::-webkit-scrollbar{display:none}
 .box{background:var(--bg);border:1px solid var(--border);padding:16px 18px;backdrop-filter:blur(10px)}
 .boxlabel{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(20,55,110,.4)}
 .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
@@ -196,9 +197,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
       <div class="box">
         <div class="boxlabel">Free-Return Trajectory</div>
         <div class="explain">
-          Orion is aimed at where the Moon <strong>will be</strong> at T+132h — not where it is now.<br><br>
-          The Moon travels <strong>~72°</strong> of its orbit during the 5.5-day outbound leg. The ghost outlines show its position at launch and return.<br><br>
-          Scrub the timeline below to watch both objects move in sync.
+          Orion is aimed at where the Moon <strong>will be</strong> at T+132h — not where it is now. The Moon travels <strong>~72°</strong> during the outbound leg. Ghost outlines show its position at launch and return. Scrub the timeline to watch everything move in sync.
         </div>
       </div>
     </div>
