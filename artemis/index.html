@@ -102,6 +102,10 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 #sl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--cyan);border:none}
 #td{font-size:13px;color:var(--text);white-space:nowrap;min-width:120px;text-align:right}
 
+/* Home link */
+#homelink{position:fixed;top:calc(14px + env(safe-area-inset-top));left:calc(14px + env(safe-area-inset-left));z-index:30;background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;text-decoration:none;transition:background .15s,color .1s}
+#homelink:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
+
 /* Fullscreen button */
 #fsbtn{position:fixed;top:calc(14px + env(safe-area-inset-top));right:calc(14px + env(safe-area-inset-right));z-index:30;background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:background .15s,color .1s}
 #fsbtn:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
@@ -145,12 +149,14 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
   #legend{display:none}
   #mtrack{display:none}
   #fsbtn{top:10px;right:10px;font-size:10px;padding:8px 12px}
+  #homelink{top:10px;left:10px;font-size:9px;padding:7px 10px}
   .sl{font-size:12px}
 }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
+<a id="homelink" href="https://joshsundby.com">JOSHSUNDBY.COM</a>
 <button id="fsbtn" onclick="toggleFS()">FULLSCREEN</button>
 <div id="hud">
   <div id="header">
