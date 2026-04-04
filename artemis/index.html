@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artemis II — Live Mission Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#2878e0;--cyan:#28d0f8;--gold:#e8a030;
+  --green:#28d878;--orange:#f07020;--purple:#a040e0;
+  --dim:rgba(20,50,120,.35);--border:rgba(30,75,165,.45);
+  --bg:rgba(2,8,24,.88);--text:#b0c8ec;--bright:#d8ecff;--muted:#2a4070;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:#000410}
+body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
+#c{position:fixed;inset:0;width:100%;height:100%}
+
+/* ── HUD container ───────────────────────────── */
+#hud{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;pointer-events:none}
+
+/* ── Header ──────────────────────────────────── */
+#header{padding:18px 20px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+#header h1{font-family:'Orbitron',sans-serif;font-size:clamp(22px,3.5vw,36px);font-weight:900;letter-spacing:8px;color:#fff;text-shadow:0 0 50px rgba(40,120,255,.75)}
+#header .sub{font-size:clamp(9px,1vw,11px);letter-spacing:5px;color:var(--muted)}
+#header .met{font-family:'Orbitron',sans-serif;font-size:clamp(16px,2.2vw,24px);color:#88b0d8;letter-spacing:4px;margin-top:3px}
+#header .phase{font-size:clamp(11px,1.3vw,14px);letter-spacing:3px;color:var(--cyan);margin-top:1px}
+
+/* ── Middle (panels + 3D view) ───────────────── */
+#mid{flex:1;display:flex;overflow:hidden;min-height:0}
+
+/* Side panels */
+.side{width:clamp(170px,19vw,230px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0}
+.box{background:var(--bg);border:1px solid var(--border);padding:13px 15px;backdrop-filter:blur(10px)}
+.boxlabel{font-size:8px;letter-spacing:4px;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(20,55,110,.4)}
+.row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.row:last-of-type{margin-bottom:0}
+.rk{font-size:9px;letter-spacing:1.5px;color:var(--muted)}
+.rv{font-size:clamp(14px,1.8vw,18px);color:var(--bright)}
+.ru{font-size:8px;color:var(--muted);margin-left:2px}
+.livebadge{display:flex;align-items:center;gap:5px;font-size:8px;letter-spacing:3px;color:var(--green);border-top:1px solid rgba(20,55,110,.4);padding-top:8px;margin-top:8px}
+.livebadge .dot{width:5px;height:5px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.12}}
+
+.crew{margin-bottom:9px}
+.crew:last-child{margin-bottom:0}
+.crole{font-size:7px;letter-spacing:3px;color:var(--muted)}
+.cname{font-size:clamp(10px,1.2vw,13px);color:var(--bright);letter-spacing:.5px}
+.corg{font-size:7px;color:var(--muted)}
+
+/* Right explain box */
+.explain{font-size:clamp(9px,1vw,10px);line-height:1.65;color:var(--text)}
+.explain strong{color:var(--cyan)}
+
+/* Center (3D labels float here) */
+#center{flex:1;position:relative}
+
+/* Space labels */
+.sl{position:fixed;font-size:10px;letter-spacing:3px;pointer-events:none;transform:translateX(-50%);white-space:nowrap}
+
+/* ── Bottom (scrubber) ────────────────────────── */
+#bottom{flex-shrink:0;padding:8px 18px 14px;display:flex;flex-direction:column;gap:7px;pointer-events:auto}
+
+/* Mobile stats (hidden on desktop) */
+#mstats{display:none;gap:6px;padding:6px 12px 0;pointer-events:auto}
+.mstat{flex:1;background:var(--bg);border:1px solid var(--border);padding:8px 10px;min-width:0}
+.msk{font-size:7px;letter-spacing:2px;color:var(--muted);margin-bottom:2px}
+.msv{font-size:clamp(13px,3.5vw,16px);color:var(--bright)}
+
+/* Scrubber row */
+#srow{display:flex;align-items:center;gap:9px}
+.btn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;padding:7px 12px;cursor:pointer;transition:background .15s, color .1s;white-space:nowrap}
+.btn:hover{background:rgba(35,90,200,.5)}
+.btn.on{background:rgba(25,75,200,.65);color:var(--cyan);border-color:var(--cyan)}
+#pbt{font-size:16px;padding:7px 11px}
+
+#sl{flex:1;height:4px;appearance:none;background:rgba(18,48,120,.35);border-radius:2px;outline:none;cursor:pointer;min-width:0}
+#sl::-webkit-slider-thumb{appearance:none;width:15px;height:15px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);cursor:pointer}
+#sl::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--cyan);border:none}
+#td{font-size:11px;color:var(--text);white-space:nowrap;min-width:110px;text-align:right}
+
+/* Milestone track */
+#mtrack{position:relative;height:28px;margin:0 2px}
+.mmark{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:1px;top:0}
+.mtick{width:1px;height:6px;background:var(--muted)}
+.mlbl{font-size:7px;letter-spacing:1px;color:rgba(80,110,170,.75);white-space:nowrap}
+.mdate{font-size:6px;letter-spacing:.8px;color:rgba(40,65,110,.6);white-space:nowrap}
+.mmark.now .mtick{background:var(--gold);width:2px}
+.mmark.now .mlbl{color:var(--gold)}
+
+/* Scanlines */
+#hud::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,5,20,.016) 3px,rgba(0,5,20,.016) 4px);pointer-events:none}
+
+.fnote{position:fixed;bottom:7px;right:15px;font-size:6px;letter-spacing:2px;color:rgba(25,55,120,.38);pointer-events:none;z-index:20}
+
+/* Legend */
+#legend{position:fixed;left:16px;bottom:60px;display:flex;flex-direction:column;gap:5px;pointer-events:none;z-index:20}
+.leg{display:flex;align-items:center;gap:7px;font-size:8px;letter-spacing:2px;color:rgba(100,140,200,.7)}
+.legdot{width:8px;height:3px;border-radius:2px;flex-shrink:0}
+
+@media(max-width:700px){
+  .side{display:none}
+  #mstats{display:flex}
+  #header h1{font-size:20px;letter-spacing:4px}
+  #header .sub{letter-spacing:3px}
+  #bottom{padding:6px 10px 10px}
+  #td{min-width:80px;font-size:10px}
+  .btn{font-size:11px;padding:6px 8px;letter-spacing:1px}
+  #legend{display:none}
+  #mtrack{display:none}
+}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div id="header">
+    <h1>ARTEMIS II</h1>
+    <div class="sub">ORION · INTEGRITY · FIRST CREWED LUNAR MISSION SINCE APOLLO 17, 1972</div>
+    <div class="met" id="met">T+00:00:00:00</div>
+    <div class="phase" id="phase">INITIALIZING</div>
+  </div>
+
+  <div id="mid">
+    <!-- Left: telemetry -->
+    <div class="side">
+      <div class="box">
+        <div class="boxlabel">Live Telemetry</div>
+        <div class="row"><span class="rk">EARTH DIST</span><span><span class="rv" id="de">—</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk">MOON DIST</span><span><span class="rv" id="dm">—</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk">VELOCITY</span><span><span class="rv" id="vel">—</span><span class="ru">KM/S</span></span></div>
+        <div class="row"><span class="rk">FLYBY ETA</span><span><span class="rv" id="eta" style="font-size:13px">—</span></span></div>
+        <div class="livebadge"><span class="dot"></span><span id="livetxt">LIVE</span></div>
+      </div>
+      <div class="box">
+        <div class="boxlabel">Mission</div>
+        <div class="row"><span class="rk">PROGRESS</span><span class="rv" id="pct" style="font-size:15px">0%</span></div>
+        <div class="row"><span class="rk">MAX DIST</span><span><span class="rv" style="font-size:13px">406,841</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk">CREW</span><span class="rv" style="font-size:15px">4</span></div>
+      </div>
+    </div>
+
+    <div id="center"></div>
+
+    <!-- Right: crew + explain -->
+    <div class="side">
+      <div class="box">
+        <div class="boxlabel">Crew — Integrity</div>
+        <div class="crew"><div class="crole">CDR</div><div class="cname">REID WISEMAN</div><div class="corg">NASA · USA</div></div>
+        <div class="crew"><div class="crole">PLT</div><div class="cname">VICTOR GLOVER</div><div class="corg">NASA · USA</div></div>
+        <div class="crew"><div class="crole">MS1</div><div class="cname">CHRISTINA KOCH</div><div class="corg">NASA · USA</div></div>
+        <div class="crew"><div class="crole">MS2</div><div class="cname">JEREMY HANSEN</div><div class="corg">CSA · CANADA</div></div>
+      </div>
+      <div class="box">
+        <div class="boxlabel">Free-Return Trajectory</div>
+        <div class="explain">
+          Orion is aimed at where the Moon <strong>will be</strong> at T+132h — not where it is now.<br><br>
+          The Moon travels <strong>~72°</strong> of its orbit during the 5.5-day outbound leg. The ghost outlines show its position at launch and return.<br><br>
+          Scrub the timeline below to watch both objects move in sync.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile stats -->
+  <div id="mstats">
+    <div class="mstat"><div class="msk">EARTH</div><div class="msv" id="m-de">—</div></div>
+    <div class="mstat"><div class="msk">MOON</div><div class="msv" id="m-dm">—</div></div>
+    <div class="mstat"><div class="msk">KM/S</div><div class="msv" id="m-vel">—</div></div>
+    <div class="mstat"><div class="msk">ETA</div><div class="msv" id="m-eta" style="font-size:12px">—</div></div>
+  </div>
+
+  <!-- Scrubber -->
+  <div id="bottom">
+    <div id="srow">
+      <button class="btn" id="pbt" onclick="togglePlay()">▶</button>
+      <button class="btn on" id="lbt" onclick="goLive()">LIVE</button>
+      <input type="range" id="sl" min="0" max="216" step="0.05" value="0">
+      <div id="td">T+000D 00H 00M</div>
+    </div>
+    <div id="mtrack"></div>
+  </div>
+</div>
+
+<!-- Space labels (fixed-position, JS sets left/top) -->
+<div class="sl" id="lb-e" style="color:rgba(60,140,255,.9)">EARTH</div>
+<div class="sl" id="lb-m" style="color:rgba(170,190,220,.8)">MOON</div>
+<div class="sl" id="lb-o" style="color:rgba(255,205,60,.95)">ORION</div>
+<div class="sl" id="lb-m0" style="color:rgba(110,130,160,.5);font-size:8px">MOON AT LAUNCH</div>
+<div class="sl" id="lb-m2" style="color:rgba(110,130,160,.5);font-size:8px">MOON AT RETURN</div>
+<div class="sl" id="lb-flyby" style="color:rgba(255,100,30,.7);font-size:8px">FLYBY ~APR 7</div>
+
+<!-- Legend -->
+<div id="legend">
+  <div class="leg"><div class="legdot" style="background:#3898f8;"></div>OUTBOUND (TRANSLUNAR)</div>
+  <div class="leg"><div class="legdot" style="background:#ff7030;"></div>LUNAR FLYBY</div>
+  <div class="leg"><div class="legdot" style="background:#b050f0;"></div>RETURN TRANSIT</div>
+  <div class="leg"><div class="legdot" style="background:rgba(110,130,160,.4);border:1px solid rgba(110,130,160,.5);"></div>GHOST MOON POSITIONS</div>
+</div>
+
+<div class="fnote">ARTEMIS II · DATA: JPL HORIZONS / NASA BLOGS · NOT AFFILIATED WITH NASA</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════════════════
+const LAUNCH   = new Date('2026-04-01T22:35:00Z');
+const MH       = 216;           // mission hours
+const SCALE    = 10000;         // 1 THREE unit = 10,000 km
+const EM       = 384400/SCALE;  // 38.44 units
+const FLYBY_H  = 132;
+const MOON_PER = 27.3*24;
+const PLAY_SPD = MH/48;        // full mission in 48s
+
+// ══════════════════════════════════════════════════════
+// TRAJECTORY  [met_h, x, y, dist_earth_km, speed_km_s]
+// Earth at origin; Moon at (EM,0) at T=FLYBY_H
+// ══════════════════════════════════════════════════════
+const TW = [
+  [0,    0,      0.04,    0,       0    ],
+  [0.15, 0,      0.04,    150,     7.8  ],
+  [3,    0.02,   0.05,    600,     7.8  ],
+  [15,   0.3,    0.15,    3200,    9.8  ],
+  [25,   0.8,    0.22,    8000,    10.6 ],
+  [36,   3.0,    0.9,     30000,   3.9  ],
+  [48,   6.2,    1.5,     63000,   2.7  ],
+  [60,   11,     1.8,     110000,  2.1  ],
+  [72,   16.5,   2.0,     166000,  1.8  ],
+  [84,   22,     2.2,     221000,  1.55 ],
+  [96,   27,     2.3,     271000,  1.35 ],
+  [108,  32,     2.1,     321000,  1.1  ],
+  [120,  36,     1.8,     361000,  0.98 ],
+  [128,  38.2,   1.2,     383000,  0.90 ],
+  [132,  39.37,  0,       393700,  0.93 ],  // FLYBY — Moon at (EM,0)
+  [140,  40.1,  -0.8,     402000,  0.98 ],
+  [145,  40.68, -1.2,     406841,  1.02 ],  // MAX DISTANCE
+  [155,  40.2,  -2.0,     403000,  1.12 ],
+  [165,  38.5,  -2.8,     387000,  1.30 ],
+  [178,  34,    -3.2,     341000,  1.70 ],
+  [190,  26,    -3.5,     261000,  2.20 ],
+  [200,  17,    -3.0,     172000,  3.00 ],
+  [210,  8.5,   -2.0,     88000,   4.20 ],
+  [216,  2.5,   -0.8,     25000,   7.00 ],
+];
+
+// Milestones [met, label, color, date]
+const MS = [
+  {met:0,   lbl:'LAUNCH',     col:0x30e080, date:'APR 1'},
+  {met:25,  lbl:'TLI',        col:0x40c8ff, date:'APR 2'},
+  {met:132, lbl:'FLYBY',      col:0xff6018, date:'APR 7'},
+  {met:145, lbl:'MAX DIST',   col:0xee3838, date:'APR 8'},
+  {met:216, lbl:'SPLASHDOWN', col:0x6080ff, date:'APR 10'},
+];
+
+// ══════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════
+function catmull(p0,p1,p2,p3,t){
+  const t2=t*t,t3=t2*t;
+  return .5*(2*p1+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3);
+}
+function getState(met){
+  const c=Math.max(0,Math.min(met,MH));
+  let i=0;while(i<TW.length-2&&TW[i+1][0]<c)i++;
+  const a=TW[Math.max(0,i-1)],b=TW[i],d=TW[Math.min(TW.length-1,i+1)],e=TW[Math.min(TW.length-1,i+2)];
+  const t=(c-b[0])/Math.max(.001,d[0]-b[0]);
+  return{x:catmull(a[1],b[1],d[1],e[1],t),y:catmull(a[2],b[2],d[2],e[2],t),de:Math.max(0,catmull(a[3],b[3],d[3],e[3],t)),spd:Math.max(0,catmull(a[4],b[4],d[4],e[4],t))};
+}
+function moonXY(met){const a=((met-FLYBY_H)/MOON_PER)*Math.PI*2;return{x:EM*Math.cos(a),y:EM*Math.sin(a)};}
+function getMET(){return(Date.now()-LAUNCH.getTime())/3600000;}
+function p2(n){return String(n|0).padStart(2,'0')}
+function fmt(n){return Math.round(Math.abs(n)).toLocaleString()}
+function fmtMET(h){const ah=Math.abs(h),d=ah/24|0,hr=ah%24|0,m=(ah*60)%60|0,s=(ah*3600)%60|0;return`${p2(d)}D ${p2(hr)}H ${p2(m)}M ${p2(s)}S`}
+function fmtShort(h){const d=h/24|0,hr=h%24|0,m=(h*60)%60|0;return d>0?`T+${p2(d)}D ${p2(hr)}H ${p2(m)}M`:`T+${p2(hr)}H ${p2(m)}M`}
+function getPhase(met){
+  if(met<0)   return'PRE-LAUNCH';
+  if(met<3)   return'ASCENT';
+  if(met<25)  return'EARTH ORBIT SYSTEMS CHECK';
+  if(met<50)  return'TRANSLUNAR INJECTION';
+  if(met<128) return'TRANSLUNAR COAST — OUTBOUND';
+  if(met<136) return'POWERED LUNAR FLYBY';
+  if(met<148) return'MAXIMUM DISTANCE FROM EARTH';
+  if(met<210) return'RETURN TRANSIT';
+  if(met<216) return'ATMOSPHERIC ENTRY + DESCENT';
+  return'MISSION COMPLETE — SPLASHDOWN';
+}
+
+// ══════════════════════════════════════════════════════
+// THREE.JS SCENE
+// ══════════════════════════════════════════════════════
+const W=window.innerWidth,H=window.innerHeight;
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('c'),antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(W,H);
+renderer.setClearColor(0x000408);
+
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(50,W/H,.01,4000);
+// Center view over full trajectory (x: 0→40, y: -3.5→2.3)
+cam.position.set(18,-10,56);
+cam.lookAt(18,0,0);
+
+// Stars
+{
+  const N=4200,pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){const r=500+Math.random()*400,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);pos[i*3]=r*Math.sin(ph)*Math.cos(th);pos[i*3+1]=r*Math.sin(ph)*Math.sin(th);pos[i*3+2]=r*Math.cos(ph);}
+  const sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.28,sizeAttenuation:false,transparent:true,opacity:.72})));
+}
+
+// Lights
+scene.add(new THREE.AmbientLight(0x0d1f40,.75));
+const sun=new THREE.DirectionalLight(0xfff5e8,2.1);sun.position.set(-80,10,40);scene.add(sun);
+
+// Earth
+const earth=new THREE.Mesh(new THREE.SphereGeometry(2,64,64),new THREE.MeshPhongMaterial({color:0x0f5ab0,emissive:0x092848,emissiveIntensity:.85,specular:0x1a3a60,shininess:30}));
+scene.add(earth);
+[{r:2.22,o:.14,c:0x3888f8},{r:2.65,o:.04,c:0x1a50c0}].forEach(({r,o,c})=>scene.add(new THREE.Mesh(new THREE.SphereGeometry(r,32,32),new THREE.MeshPhongMaterial({color:c,transparent:true,opacity:o}))));
+
+// Van Allen belts (horizontal tori, glowing radiation)
+[{r:1.1,t:.22,o:.14,c:0x30a0ff},{r:4.6,t:2.3,o:.07,c:0x7030e0}].forEach(({r,t,o,c})=>{
+  const m=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,80),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o,side:THREE.DoubleSide}));
+  m.rotation.x=Math.PI/2;scene.add(m);
+});
+
+// Moon (live position)
+const moonMesh=new THREE.Mesh(new THREE.SphereGeometry(.65,32,32),new THREE.MeshPhongMaterial({color:0x6e7880,emissive:0x0d141f,emissiveIntensity:.15,shininess:4}));
+scene.add(moonMesh);
+moonMesh.add(new THREE.Mesh(new THREE.SphereGeometry(.82,16,16),new THREE.MeshPhongMaterial({color:0x4a6070,transparent:true,opacity:.07})));
+
+// Ghost moons (fixed positions: at launch, flyby marker, splashdown)
+function addGhostMoon(met, opacity){
+  const mp=moonXY(met);
+  const m=new THREE.Mesh(new THREE.SphereGeometry(.65,24,24),new THREE.MeshBasicMaterial({color:0x8090a8,transparent:true,opacity:opacity}));
+  m.position.set(mp.x,mp.y,-.05);scene.add(m);
+  const ring=new THREE.Mesh(new THREE.SphereGeometry(.7,24,24),new THREE.MeshBasicMaterial({color:0xa0b4c8,transparent:true,opacity:opacity*1.6,wireframe:true}));
+  ring.position.set(mp.x,mp.y,-.05);scene.add(ring);
+  return mp;
+}
+const gm0=addGhostMoon(0,  .2);   // at launch
+const gm1=addGhostMoon(MH, .14);  // at splashdown
+
+// Flyby ghost (brighter, at (EM,0))
+{
+  const m=new THREE.Mesh(new THREE.SphereGeometry(.68,24,24),new THREE.MeshBasicMaterial({color:0xa0b4c8,transparent:true,opacity:.1,wireframe:true}));
+  m.position.set(EM,0,-.1);scene.add(m);
+}
+
+// Orion
+const orion=new THREE.Mesh(new THREE.SphereGeometry(.13,16,16),new THREE.MeshPhongMaterial({color:0xffeedd,emissive:0xff8020,emissiveIntensity:2.6}));
+scene.add(orion);
+orion.add(new THREE.Mesh(new THREE.SphereGeometry(.4,16,16),new THREE.MeshPhongMaterial({color:0xffaa40,transparent:true,opacity:.2})));
+orion.add(new THREE.PointLight(0xff9030,.8,5));
+
+// Moon orbit guide (full ring, dim)
+{
+  const pts=[];for(let i=0;i<=128;i++){const a=(i/128)*Math.PI*2;pts.push(new THREE.Vector3(EM*Math.cos(a),EM*Math.sin(a),0));}
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x0c1828,transparent:true,opacity:.65})));
+}
+
+// Moon orbit arc during mission (highlighted)
+{
+  const a0=((0-FLYBY_H)/MOON_PER)*Math.PI*2;
+  const a1=((MH-FLYBY_H)/MOON_PER)*Math.PI*2;
+  const pts=[];
+  for(let i=0;i<=100;i++){const a=a0+(a1-a0)*(i/100);pts.push(new THREE.Vector3(EM*Math.cos(a),EM*Math.sin(a),.02));}
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x283a5a,transparent:true,opacity:.85})));
+}
+
+// ── Full trajectory with phase coloring ─────────────
+const spline=new THREE.CatmullRomCurve3(TW.map(d=>new THREE.Vector3(d[1],d[2],0)),false,'catmullrom',.5);
+const TRAJ_N=900;
+const ALL_PTS=spline.getPoints(TRAJ_N);
+
+// Dim full trajectory (shows future path)
+{
+  const pos=new Float32Array((TRAJ_N+1)*3);
+  const col=new Float32Array((TRAJ_N+1)*3);
+  const c_out=new THREE.Color(0x1050a8),c_fly=new THREE.Color(0xa04010),c_ret=new THREE.Color(0x6820a0);
+  ALL_PTS.forEach((pt,i)=>{
+    pos[i*3]=pt.x;pos[i*3+1]=pt.y;pos[i*3+2]=pt.z;
+    const met=(i/TRAJ_N)*MH;
+    let c;
+    if(met<FLYBY_H) c=c_out.clone().lerp(new THREE.Color(0x108898),(met/FLYBY_H)*.8);
+    else if(met<145) c=c_fly.clone();
+    else c=c_ret.clone().lerp(new THREE.Color(0x1830a0),((met-145)/(MH-145)));
+    col[i*3]=c.r*.45;col[i*3+1]=c.g*.45;col[i*3+2]=c.b*.45;
+  });
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  g.setAttribute('color',new THREE.BufferAttribute(col,3));
+  scene.add(new THREE.Line(g,new THREE.LineBasicMaterial({vertexColors:true})));
+}
+
+// Bright past trajectory (dynamic)
+const pastGeo=new THREE.BufferGeometry();
+const pastLine=new THREE.Line(pastGeo,new THREE.LineBasicMaterial({vertexColors:true}));
+scene.add(pastLine);
+
+// Milestone spheres on trajectory
+const msSpheres=MS.map(ms=>{
+  const st=getState(ms.met);
+  const m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),new THREE.MeshPhongMaterial({color:ms.col,emissive:ms.col,emissiveIntensity:1.4}));
+  m.position.set(st.x,st.y,.2);scene.add(m);
+  // Subtle halo ring
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(.35,.04,6,24),new THREE.MeshBasicMaterial({color:ms.col,transparent:true,opacity:.4}));
+  ring.position.set(st.x,st.y,.2);scene.add(ring);
+  return m;
+});
+
+// ══════════════════════════════════════════════════════
+// SCRUBBER CONTROLS
+// ══════════════════════════════════════════════════════
+let displayMET=getMET(),isLive=true,isPlaying=false,lastFrame=performance.now();
+const slider=document.getElementById('sl');
+const pbt=document.getElementById('pbt');
+const lbt=document.getElementById('lbt');
+const tdiv=document.getElementById('td');
+
+function togglePlay(){
+  if(isPlaying){isPlaying=false;pbt.textContent='▶';}
+  else{isLive=false;lbt.classList.remove('on');isPlaying=true;pbt.textContent='⏸';if(displayMET>=MH)displayMET=0;}
+}
+function goLive(){
+  isLive=true;isPlaying=false;pbt.textContent='▶';lbt.classList.add('on');
+  displayMET=getMET();slider.value=Math.max(0,Math.min(MH,displayMET));
+}
+slider.addEventListener('input',()=>{
+  isLive=false;isPlaying=false;pbt.textContent='▶';lbt.classList.remove('on');
+  displayMET=parseFloat(slider.value);
+});
+
+// Populate milestone track
+{
+  const track=document.getElementById('mtrack');
+  MS.forEach(ms=>{
+    const pct=(ms.met/MH)*100;
+    const el=document.createElement('div');
+    el.className='mmark';el.style.left=pct+'%';
+    el.innerHTML=`<div class="mtick"></div><div class="mlbl">${ms.lbl}</div><div class="mdate">${ms.date}</div>`;
+    track.appendChild(el);
+  });
+  // "NOW" marker (approximate T+72h = APR 4)
+  const nowPct=(72/MH)*100;
+  const nowEl=document.createElement('div');
+  nowEl.className='mmark now';nowEl.style.left=nowPct+'%';
+  nowEl.innerHTML=`<div class="mtick"></div><div class="mlbl" style="color:rgba(232,160,48,.85)">NOW</div><div class="mdate" style="color:rgba(180,120,30,.6)">APR 4</div>`;
+  track.appendChild(nowEl);
+}
+
+// ══════════════════════════════════════════════════════
+// SCREEN PROJECTION
+// ══════════════════════════════════════════════════════
+function toScreen(v3){
+  const c=v3.clone().project(cam);
+  return{x:(c.x*.5+.5)*window.innerWidth,y:(-c.y*.5+.5)*window.innerHeight,ok:c.z<1};
+}
+function posLabel(id,v3,dy){
+  const el=document.getElementById(id);if(!el)return;
+  const s=toScreen(v3);
+  if(s.ok){el.style.left=s.x+'px';el.style.top=(s.y+(dy||0))+'px';el.style.display='block';}
+  else el.style.display='none';
+}
+
+// ══════════════════════════════════════════════════════
+// ANIMATION
+// ══════════════════════════════════════════════════════
+let camAngle=0,lastN=0;
+
+function animate(){
+  requestAnimationFrame(animate);
+  const now=performance.now(),dt=(now-lastFrame)/1000;lastFrame=now;
+
+  if(isLive){displayMET=getMET();slider.value=Math.max(0,Math.min(MH,displayMET));}
+  else if(isPlaying){
+    displayMET+=dt*PLAY_SPD;
+    if(displayMET>MH){displayMET=MH;isPlaying=false;pbt.textContent='▶';}
+    slider.value=Math.max(0,Math.min(MH,displayMET));
+  }
+
+  const mc=Math.max(0,Math.min(displayMET,MH));
+  const st=getState(mc);
+  const mp=moonXY(mc);
+
+  orion.position.set(st.x,st.y,.12);
+  moonMesh.position.set(mp.x,mp.y,0);
+  earth.rotation.z+=.0005;moonMesh.rotation.z+=.0002;
+
+  // Past trajectory (vertex-colored, rebuilt when segment count changes)
+  const nPast=Math.max(2,Math.floor((mc/MH)*TRAJ_N)+1);
+  if(nPast!==lastN){
+    lastN=nPast;
+    const pts=ALL_PTS.slice(0,nPast);
+    const pos=new Float32Array(pts.length*3),col=new Float32Array(pts.length*3);
+    const c_out=new THREE.Color(0x3898f8),c_fly=new THREE.Color(0xff7030),c_ret=new THREE.Color(0xb050f0);
+    pts.forEach((pt,i)=>{
+      pos[i*3]=pt.x;pos[i*3+1]=pt.y;pos[i*3+2]=pt.z;
+      const met=(i/TRAJ_N)*MH;
+      let c;
+      if(met<FLYBY_H) c=c_out.clone().lerp(new THREE.Color(0x20d8ff),(met/FLYBY_H)*.9);
+      else if(met<145) c=c_fly.clone();
+      else c=c_ret.clone().lerp(new THREE.Color(0x4060e0),((met-145)/(MH-145)));
+      col[i*3]=c.r;col[i*3+1]=c.g;col[i*3+2]=c.b;
+    });
+    pastGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    pastGeo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  }
+
+  // Camera gentle drift — keeps full trajectory in view
+  camAngle+=.00013;
+  cam.position.x=18+Math.sin(camAngle)*5.5;
+  cam.position.y=-10+Math.sin(camAngle*.38)*3.5;
+  cam.lookAt(18+Math.sin(camAngle*.22)*2,Math.sin(camAngle*.14)*2,0);
+
+  // ── HUD ─────────────────────────────────────────
+  const metEl=document.getElementById('met');
+  if(displayMET<0)       metEl.textContent='T− '+fmtMET(-displayMET);
+  else if(displayMET>MH) metEl.textContent='MISSION COMPLETE';
+  else                   metEl.textContent='T+ '+fmtMET(displayMET);
+
+  document.getElementById('phase').textContent=getPhase(displayMET);
+
+  const dx=st.x-mp.x,dy_=st.y-mp.y;
+  const dmSurf=Math.max(0,Math.sqrt(dx*dx+dy_*dy_)*SCALE-1737);
+  const deV=fmt(st.de),dmV=fmt(dmSurf),velV=st.spd.toFixed(2);
+  document.getElementById('de').textContent=deV;
+  document.getElementById('dm').textContent=dmV;
+  document.getElementById('vel').textContent=velV;
+  document.getElementById('pct').textContent=Math.max(0,Math.min(100,(mc/MH)*100)).toFixed(1)+'%';
+  document.getElementById('m-de').textContent=deV;
+  document.getElementById('m-dm').textContent=dmV;
+  document.getElementById('m-vel').textContent=velV;
+
+  let etaTxt;
+  if(displayMET<FLYBY_H&&displayMET>=0){
+    const h=FLYBY_H-displayMET,d=h/24|0,hr=h%24|0,m=(h*60)%60|0;
+    etaTxt=d>0?`${d}D ${hr}H ${m}M`:`${hr}H ${m}M`;
+  } else if(displayMET>=FLYBY_H&&displayMET<FLYBY_H+13) etaTxt='IN PROGRESS';
+  else if(displayMET<0) etaTxt='PRE-LAUNCH';
+  else etaTxt='COMPLETE';
+  document.getElementById('eta').textContent=etaTxt;
+  document.getElementById('m-eta').textContent=etaTxt;
+
+  document.getElementById('livetxt').textContent=isLive?'LIVE':'SCRUBBING';
+
+  // Slider time label
+  if(displayMET<0) tdiv.textContent='PRE-LAUNCH';
+  else if(displayMET>MH) tdiv.textContent='COMPLETE';
+  else tdiv.textContent=fmtShort(displayMET);
+
+  // 3D labels
+  posLabel('lb-e', new THREE.Vector3(0,-2.8,0), 10);
+  posLabel('lb-m', new THREE.Vector3(mp.x, mp.y-1.0, 0), 10);
+  posLabel('lb-m0',new THREE.Vector3(gm0.x, gm0.y-1.0, 0), 10);
+  posLabel('lb-m2',new THREE.Vector3(gm1.x, gm1.y-1.0, 0), 10);
+  // Flyby label at (EM, 0.9) slightly above
+  posLabel('lb-flyby', new THREE.Vector3(EM, 1.3, 0), -16);
+  if(mc>3&&mc<MH) posLabel('lb-o', new THREE.Vector3(st.x, st.y+.7, 0), -18);
+  else document.getElementById('lb-o').style.display='none';
+
+  renderer.render(scene,cam);
+}
+
+window.addEventListener('resize',()=>{
+  cam.aspect=window.innerWidth/window.innerHeight;
+  cam.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+goLive();
+animate();
+</script>
+</body>
+</html>
