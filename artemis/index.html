@@ -599,21 +599,28 @@ window.addEventListener('resize',()=>{
 
 // Fullscreen toggle
 function toggleFS(){
-  const el=document.documentElement;
-  if(!document.fullscreenElement&&!document.webkitFullscreenElement){
-    (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
-    document.getElementById('fsbtn').textContent='EXIT FS';
+  var el=document.documentElement;
+  var isFS=document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement;
+  if(!isFS){
+    if(el.requestFullscreen) el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if(el.mozRequestFullScreen) el.mozRequestFullScreen();
+    else if(el.msRequestFullscreen) el.msRequestFullscreen();
   }else{
-    (document.exitFullscreen||document.webkitExitFullscreen).call(document);
-    document.getElementById('fsbtn').textContent='FULLSCREEN';
+    if(document.exitFullscreen) document.exitFullscreen();
+    else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+    else if(document.mozCancelFullScreen) document.mozCancelFullScreen();
+    else if(document.msExitFullscreen) document.msExitFullscreen();
   }
 }
-document.addEventListener('fullscreenchange',()=>{
-  document.getElementById('fsbtn').textContent=document.fullscreenElement?'EXIT FS':'FULLSCREEN';
-});
-document.addEventListener('webkitfullscreenchange',()=>{
-  document.getElementById('fsbtn').textContent=document.webkitFullscreenElement?'EXIT FS':'FULLSCREEN';
-});
+function updateFSBtn(){
+  var isFS=document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement;
+  document.getElementById('fsbtn').textContent=isFS?'EXIT FS':'FULLSCREEN';
+}
+document.addEventListener('fullscreenchange',updateFSBtn);
+document.addEventListener('webkitfullscreenchange',updateFSBtn);
+document.addEventListener('mozfullscreenchange',updateFSBtn);
+document.addEventListener('MSFullscreenChange',updateFSBtn);
 
 goLive();
 animate();
