@@ -328,9 +328,12 @@ renderer.setClearColor(0x000408);
 
 const scene=new THREE.Scene();
 const cam=new THREE.PerspectiveCamera(50,W/H,.01,4000);
-// Center view over full trajectory (x: 0→40, y: -3.5→2.3)
-cam.position.set(18,-10,56);
-cam.lookAt(18,0,0);
+// Camera Z scales with aspect ratio so trajectory fits any screen
+function getCamZ(){const a=window.innerWidth/window.innerHeight;if(a>=1.2)return 56;if(a>=0.9)return 68;if(a>=0.65)return 85;return 100;}
+function getCamCenter(){const a=window.innerWidth/window.innerHeight;return a>=1.2?18:a>=0.65?20:20;}
+var camZ=getCamZ(),camCX=getCamCenter();
+cam.position.set(camCX,-10,camZ);
+cam.lookAt(camCX,0,0);
 
 // Stars
 {
@@ -538,11 +541,13 @@ function animate(){
     pastGeo.setAttribute('color',new THREE.BufferAttribute(col,3));
   }
 
-  // Camera gentle drift — keeps full trajectory in view
+  // Camera gentle drift — scales with device
   camAngle+=.00013;
-  cam.position.x=18+Math.sin(camAngle)*5.5;
-  cam.position.y=-10+Math.sin(camAngle*.38)*3.5;
-  cam.lookAt(18+Math.sin(camAngle*.22)*2,Math.sin(camAngle*.14)*2,0);
+  var driftScale=window.innerWidth/window.innerHeight>=1.2?1:.5;
+  cam.position.x=camCX+Math.sin(camAngle)*5.5*driftScale;
+  cam.position.y=-10+Math.sin(camAngle*.38)*3.5*driftScale;
+  cam.position.z=camZ;
+  cam.lookAt(camCX+Math.sin(camAngle*.22)*2*driftScale,Math.sin(camAngle*.14)*2*driftScale,0);
 
   // ── HUD ─────────────────────────────────────────
   const metEl=document.getElementById('met');
@@ -597,6 +602,7 @@ window.addEventListener('resize',()=>{
   cam.aspect=window.innerWidth/window.innerHeight;
   cam.updateProjectionMatrix();
   renderer.setSize(window.innerWidth,window.innerHeight);
+  camZ=getCamZ();camCX=getCamCenter();
 });
 
 // Fullscreen toggle
