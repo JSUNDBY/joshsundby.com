@@ -53,18 +53,26 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 #mid{flex:1;display:flex;overflow:hidden;min-height:0}
 
 /* Side panels */
-.side{width:clamp(200px,21vw,270px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0;overflow-y:auto;scrollbar-width:none}
+.side{width:clamp(220px,22vw,290px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0;overflow-y:auto;scrollbar-width:none}
 .side::-webkit-scrollbar{display:none}
 .box{background:var(--bg);border:1px solid var(--border);padding:16px 18px;backdrop-filter:blur(10px)}
 .boxlabel{font-size:11px;letter-spacing:4px;color:var(--cyan);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(40,100,200,.35)}
-.row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
 .row:last-of-type{margin-bottom:0}
 .rk{font-size:11px;letter-spacing:1.5px;color:rgba(120,160,220,.7)}
 .rv{font-size:clamp(17px,2vw,22px);color:var(--bright)}
 .ru{font-size:10px;color:rgba(120,160,220,.55);margin-left:3px}
+.row-sub{display:flex;justify-content:flex-end;align-items:baseline;margin-bottom:8px;margin-top:-4px}
+.rv-sub{font-size:14px;color:rgba(140,170,220,.5)}
 .livebadge{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:3px;color:var(--green);border-top:1px solid rgba(20,55,110,.4);padding-top:10px;margin-top:10px}
 .livebadge .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.12}}
+
+/* Fun facts row */
+.fact{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;padding:6px 0;border-top:1px solid rgba(20,55,110,.25)}
+.fact:first-of-type{border-top:none}
+.fk{font-size:10px;letter-spacing:1.5px;color:rgba(100,140,200,.6)}
+.fv{font-size:clamp(14px,1.5vw,17px);color:var(--gold)}
 
 .crew{margin-bottom:10px}
 .crew:last-child{margin-bottom:0}
@@ -90,6 +98,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 .mstat{flex:1;background:var(--bg);border:1px solid var(--border);padding:10px 12px;min-width:0}
 .msk{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
 .msv{font-size:clamp(16px,4.5vw,22px);color:var(--bright)}
+.msu{font-size:9px;color:rgba(120,160,220,.4);margin-top:2px}
 
 /* Scrubber row */
 #srow{display:flex;align-items:center;gap:10px}
@@ -103,7 +112,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 #sl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--cyan);border:none}
 #td{font-size:13px;color:var(--text);white-space:nowrap;min-width:120px;text-align:right}
 
-/* Top bar with home + fullscreen */
+/* Top bar */
 #topbar{display:flex;justify-content:space-between;align-items:center;width:100%;pointer-events:auto;margin-bottom:4px}
 #homelink,#fsbtn,.topbtn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;text-decoration:none;cursor:pointer;transition:background .15s,color .1s}
 #homelink:hover,#fsbtn:hover,.topbtn:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
@@ -152,7 +161,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 .crew-dot{width:8px;height:8px;border-radius:50%;background:rgba(40,80,160,.3);border:1px solid rgba(40,80,160,.5);transition:all .3s;cursor:pointer}
 .crew-dot.active{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px var(--cyan)}
 
-/* Crew toggle button — special glowing style */
+/* Crew toggle button */
 #crew-toggle{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(90px + env(safe-area-inset-bottom));z-index:80;background:rgba(8,20,55,.85);border:1px solid rgba(40,160,248,.45);color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;padding:12px 18px;cursor:pointer;pointer-events:auto;transition:all .3s;backdrop-filter:blur(8px)}
 #crew-toggle:hover{background:rgba(20,50,120,.9);border-color:var(--cyan);box-shadow:0 0 20px rgba(40,160,248,.3)}
 #crew-toggle.open{border-color:var(--gold);color:var(--gold)}
@@ -227,20 +236,20 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
       <div class="box">
         <div class="boxlabel">LIVE TELEMETRY</div>
         <div class="row"><span class="rk">EARTH DIST</span><span><span class="rv" id="de">—</span><span class="ru">KM</span></span></div>
-        <div class="row"><span class="rk"></span><span><span class="rv" id="de-mi" style="font-size:15px;color:rgba(160,190,230,.6)">—</span><span class="ru">MI</span></span></div>
+        <div class="row-sub"><span class="rv-sub" id="de-mi">—</span><span class="ru">MI</span></div>
         <div class="row"><span class="rk">MOON DIST</span><span><span class="rv" id="dm">—</span><span class="ru">KM</span></span></div>
-        <div class="row"><span class="rk"></span><span><span class="rv" id="dm-mi" style="font-size:15px;color:rgba(160,190,230,.6)">—</span><span class="ru">MI</span></span></div>
+        <div class="row-sub"><span class="rv-sub" id="dm-mi">—</span><span class="ru">MI</span></div>
         <div class="row"><span class="rk">VELOCITY</span><span><span class="rv" id="vel">—</span><span class="ru">KM/S</span></span></div>
-        <div class="row"><span class="rk"></span><span><span class="rv" id="vel-mph" style="font-size:15px;color:rgba(160,190,230,.6)">—</span><span class="ru">MPH</span></span></div>
+        <div class="row-sub"><span class="rv-sub" id="vel-mph">—</span><span class="ru">MPH</span></div>
         <div class="row"><span class="rk">FLYBY ETA</span><span><span class="rv" id="eta" style="font-size:16px">—</span></span></div>
         <div class="livebadge"><span class="dot"></span><span id="livetxt">LIVE</span></div>
       </div>
       <div class="box">
-        <div class="boxlabel">MISSION</div>
-        <div class="row"><span class="rk">PROGRESS</span><span class="rv" id="pct" style="font-size:18px">0%</span></div>
-        <div class="row"><span class="rk">MAX DIST</span><span><span class="rv" style="font-size:17px">406,841</span><span class="ru">KM</span></span></div>
-        <div class="row"><span class="rk"></span><span><span class="rv" style="font-size:14px;color:rgba(160,190,230,.6)">252,818</span><span class="ru">MI</span></span></div>
-        <div class="row"><span class="rk">CREW</span><span class="rv" style="font-size:18px">4</span></div>
+        <div class="boxlabel">COOL NUMBERS</div>
+        <div class="fact"><span class="fk">SIGNAL DELAY</span><span class="fv" id="sig-delay">—</span></div>
+        <div class="fact"><span class="fk">SPEED AS</span><span class="fv" id="speed-compare">—</span></div>
+        <div class="fact"><span class="fk">EARTH LOOKS</span><span class="fv" id="earth-size">—</span></div>
+        <div class="fact"><span class="fk">RADIATION</span><span class="fv" id="radiation">—</span></div>
       </div>
     </div>
 
@@ -258,17 +267,24 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
       <div class="box">
         <div class="boxlabel">FREE-RETURN TRAJECTORY</div>
         <div class="explain">
-          Orion is aimed at where the Moon <strong>will be</strong> at T+132h — not where it is now. The Moon travels <strong>~72°</strong> during the outbound leg. Ghost outlines show its position at launch and return. Scrub the timeline to watch everything move in sync.
+          Orion is aimed at where the Moon <strong>will be</strong> at T+132h — not where it is now. After <strong>2 parking orbits</strong> around Earth, the upper stage fires for TLI. At the Moon, a <strong>powered flyby burn</strong> uses lunar gravity to slingshot Orion around the far side and back toward Earth. The crew will see Earthrise from deeper in space than any human in history.
         </div>
+      </div>
+      <div class="box">
+        <div class="boxlabel">MISSION</div>
+        <div class="row"><span class="rk">PROGRESS</span><span class="rv" id="pct" style="font-size:18px">0%</span></div>
+        <div class="row"><span class="rk">MAX DIST</span><span><span class="rv" style="font-size:17px">406,841</span><span class="ru">KM</span></span></div>
+        <div class="row-sub"><span class="rv-sub">252,818</span><span class="ru">MI</span></div>
+        <div class="row"><span class="rk">DURATION</span><span class="rv" style="font-size:16px">9 DAYS</span></div>
       </div>
     </div>
   </div>
 
   <!-- Mobile stats -->
   <div id="mstats">
-    <div class="mstat"><div class="msk">EARTH</div><div class="msv" id="m-de">—</div></div>
-    <div class="mstat"><div class="msk">MOON</div><div class="msv" id="m-dm">—</div></div>
-    <div class="mstat"><div class="msk">KM/S</div><div class="msv" id="m-vel">—</div></div>
+    <div class="mstat"><div class="msk">EARTH</div><div class="msv" id="m-de">—</div><div class="msu" id="m-de-mi">—</div></div>
+    <div class="mstat"><div class="msk">MOON</div><div class="msv" id="m-dm">—</div><div class="msu" id="m-dm-mi">—</div></div>
+    <div class="mstat"><div class="msk">SPEED</div><div class="msv" id="m-vel">—</div><div class="msu" id="m-vel-mph">—</div></div>
     <div class="mstat"><div class="msk">ETA</div><div class="msv" id="m-eta" style="font-size:15px">—</div></div>
     <button id="mbtn-crew" onclick="toggleCrew()">◆ MEET THE CREW</button>
   </div>
@@ -285,7 +301,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
   </div>
 </div>
 
-<!-- Space labels (fixed-position, JS sets left/top) -->
+<!-- Space labels -->
 <div class="sl" id="lb-e" style="color:rgba(60,140,255,.9)">EARTH</div>
 <div class="sl" id="lb-m" style="color:rgba(170,190,220,.8)">MOON</div>
 <div class="sl" id="lb-o" style="color:rgba(255,205,60,.95)">ORION</div>
@@ -295,13 +311,14 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 
 <!-- Legend -->
 <div id="legend">
+  <div class="leg"><div class="legdot" style="background:rgba(40,120,200,.4);border:1px dashed rgba(60,140,255,.5);"></div>PARKING ORBITS</div>
   <div class="leg"><div class="legdot" style="background:#3898f8;"></div>OUTBOUND (TRANSLUNAR)</div>
-  <div class="leg"><div class="legdot" style="background:#ff7030;"></div>LUNAR FLYBY</div>
+  <div class="leg"><div class="legdot" style="background:#ff7030;"></div>POWERED FLYBY BURN</div>
   <div class="leg"><div class="legdot" style="background:#b050f0;"></div>RETURN TRANSIT</div>
   <div class="leg"><div class="legdot" style="background:rgba(110,130,160,.4);border:1px solid rgba(110,130,160,.5);"></div>GHOST MOON POSITIONS</div>
 </div>
 
-<!-- Crew drawer (slides up from bottom) -->
+<!-- Crew drawer -->
 <div id="crew-drawer">
   <div id="crew-drawer-inner">
     <div id="crew-handle" onclick="toggleCrew()"><div class="bar"></div></div>
@@ -373,32 +390,23 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 // CONSTANTS
 // ══════════════════════════════════════════════════════
 const LAUNCH   = new Date('2026-04-01T22:35:00Z');
-const MH       = 216;           // mission hours
-const SCALE    = 10000;         // 1 THREE unit = 10,000 km
-const EM       = 384400/SCALE;  // 38.44 units
+const MH       = 216;
+const SCALE    = 10000;
+const EM       = 384400/SCALE;
 const FLYBY_H  = 132;
 const MOON_PER = 27.3*24;
-const PLAY_SPD = MH/48;        // full mission in 48s
+const PLAY_SPD = MH/48;
 const KM_TO_MI = 0.621371;
+const C_KMS    = 299792.458; // speed of light km/s
 
 // ══════════════════════════════════════════════════════
 // TRAJECTORY  [met_h, x, y, dist_earth_km, speed_km_s]
 // Earth at origin; Moon at (EM,0) at T=FLYBY_H
-// Now includes 2 parking orbits (T=0 to T~3h)
+// NO orbit points — orbits drawn as separate geometry
 // ══════════════════════════════════════════════════════
-const ORBIT_R = 2.5; // visual orbit radius (just outside Earth sphere)
-const ORBIT_PTS = [];
-// Generate 2 orbits worth of points (each orbit ~90min = 1.5h)
-for(let i=0;i<=48;i++){
-  const frac=i/48;
-  const met=frac*3; // 0 to 3 hours
-  const angle=frac*Math.PI*4+Math.PI/2; // 2 full rotations, start at top
-  const r=ORBIT_R+frac*0.3; // spiral out slightly
-  ORBIT_PTS.push([met, Math.cos(angle)*r, Math.sin(angle)*r, 200+frac*400, 7.8]);
-}
-
 const TW = [
-  ...ORBIT_PTS,
+  [0,    0,      0.04,    0,       0    ],
+  [0.15, 0,      0.04,    150,     7.8  ],
   [3,    0.02,   0.05,    600,     7.8  ],
   [15,   0.3,    0.15,    3200,    9.8  ],
   [25,   0.8,    0.22,    8000,    10.6 ],
@@ -411,7 +419,8 @@ const TW = [
   [108,  32,     2.1,     321000,  1.1  ],
   [120,  36,     1.8,     361000,  0.98 ],
   [128,  38.2,   1.2,     383000,  0.90 ],
-  [132,  39.37,  0,       393700,  0.93 ],  // FLYBY — Moon at (EM,0)
+  [132,  39.37,  0,       393700,  0.93 ],  // FLYBY — closest approach
+  [134,  39.8,  -0.4,     398000,  0.95 ],  // Powered flyby burn complete
   [140,  40.1,  -0.8,     402000,  0.98 ],
   [145,  40.68, -1.2,     406841,  1.02 ],  // MAX DISTANCE
   [155,  40.2,  -2.0,     403000,  1.12 ],
@@ -423,13 +432,14 @@ const TW = [
   [216,  2.5,   -0.8,     25000,   7.00 ],
 ];
 
-// Milestones [met, label, color, date]
+// Milestones
 const MS = [
-  {met:0,   lbl:'LAUNCH',     col:0x30e080, date:'APR 1'},
-  {met:25,  lbl:'TLI',        col:0x40c8ff, date:'APR 2'},
-  {met:132, lbl:'FLYBY',      col:0xff6018, date:'APR 7'},
-  {met:145, lbl:'MAX DIST',   col:0xee3838, date:'APR 8'},
-  {met:216, lbl:'SPLASHDOWN', col:0x6080ff, date:'APR 10'},
+  {met:0,   lbl:'LAUNCH',       col:0x30e080, date:'APR 1'},
+  {met:3,   lbl:'ORBITS',       col:0x2888d0, date:'APR 1'},
+  {met:25,  lbl:'TLI BURN',     col:0x40c8ff, date:'APR 2'},
+  {met:132, lbl:'FLYBY BURN',   col:0xff6018, date:'APR 7'},
+  {met:145, lbl:'MAX DIST',     col:0xee3838, date:'APR 8'},
+  {met:216, lbl:'SPLASHDOWN',   col:0x6080ff, date:'APR 10'},
 ];
 
 // ══════════════════════════════════════════════════════
@@ -455,15 +465,49 @@ function fmtMET(h){const ah=Math.abs(h),d=ah/24|0,hr=ah%24|0,m=(ah*60)%60|0,s=(a
 function fmtShort(h){const d=h/24|0,hr=h%24|0,m=(h*60)%60|0;return d>0?`T+${p2(d)}D ${p2(hr)}H ${p2(m)}M`:`T+${p2(hr)}H ${p2(m)}M`}
 function getPhase(met){
   if(met<0)   return'PRE-LAUNCH';
-  if(met<3)   return'PARKING ORBIT';
-  if(met<25)  return'EARTH ORBIT SYSTEMS CHECK';
-  if(met<50)  return'TRANSLUNAR INJECTION';
+  if(met<3)   return'PARKING ORBIT — 2 LAPS AROUND EARTH';
+  if(met<25)  return'SYSTEMS CHECK + TLI COAST';
+  if(met<30)  return'TRANSLUNAR INJECTION — ENGINE BURN';
   if(met<128) return'TRANSLUNAR COAST — OUTBOUND';
-  if(met<136) return'POWERED LUNAR FLYBY';
+  if(met<132) return'APPROACHING LUNAR FLYBY';
+  if(met<134) return'POWERED FLYBY BURN — BEHIND THE MOON';
   if(met<148) return'MAXIMUM DISTANCE FROM EARTH';
-  if(met<210) return'RETURN TRANSIT';
+  if(met<210) return'RETURN TRANSIT — HOMEWARD BOUND';
   if(met<216) return'ATMOSPHERIC ENTRY + DESCENT';
   return'MISSION COMPLETE — SPLASHDOWN';
+}
+
+// Fun fact generators
+function getSignalDelay(deKm){
+  if(deKm<1000) return'<0.01 SEC';
+  const sec=deKm/C_KMS;
+  if(sec<1) return(sec*1000).toFixed(0)+' MS';
+  return sec.toFixed(1)+' SEC';
+}
+function getSpeedCompare(kms){
+  if(kms<0.1) return'FLOATING';
+  const mph=kms*2236.94;
+  const bullet=1700; // mph, rifle bullet
+  const ratio=mph/bullet;
+  if(ratio>1) return(ratio).toFixed(1)+'× A BULLET';
+  const mach=mph/767;
+  return'MACH '+mach.toFixed(1);
+}
+function getEarthSize(deKm){
+  if(deKm<500) return'FILLS THE SKY';
+  // Angular diameter of Earth (12742km diameter) from distance
+  const angDeg=2*Math.atan(6371/deKm)*180/Math.PI;
+  if(angDeg>10) return'HUGE — '+angDeg.toFixed(0)+'°';
+  if(angDeg>2) return'LIKE A GRAPEFRUIT';
+  if(angDeg>1) return'LIKE A MARBLE';
+  return'LIKE A PEA';
+}
+function getRadiation(deKm,met){
+  if(met<0) return'SHIELDED';
+  if(deKm<1000) return'LEO NORMAL';
+  if(deKm<6000) return'VAN ALLEN — HIGH';
+  if(deKm<60000) return'VAN ALLEN EXIT';
+  return'DEEP SPACE — LOW';
 }
 
 // ══════════════════════════════════════════════════════
@@ -494,45 +538,36 @@ cam.lookAt(camCX,0,0);
 // Lights
 scene.add(new THREE.AmbientLight(0x0d1f40,.75));
 const sun=new THREE.DirectionalLight(0xfff5e8,2.1);sun.position.set(-80,10,40);scene.add(sun);
-// Rim light for depth
 const rim=new THREE.DirectionalLight(0x2040a0,.6);rim.position.set(50,-30,-20);scene.add(rim);
 
 // ── Earth (detailed) ────────────────────────────────
 const earthGroup=new THREE.Group();
 scene.add(earthGroup);
-// Base sphere
 const earth=new THREE.Mesh(
   new THREE.SphereGeometry(2,64,64),
   new THREE.MeshPhongMaterial({color:0x0a4888,emissive:0x061830,emissiveIntensity:.6,specular:0x3060a0,shininess:45})
 );
 earthGroup.add(earth);
-// Continents layer (lighter patches via vertex colors on a slightly larger sphere)
+// Procedural continents
 {
   const cGeo=new THREE.SphereGeometry(2.005,64,64);
   const colors=new Float32Array(cGeo.attributes.position.count*3);
   const pos=cGeo.attributes.position;
   for(let i=0;i<pos.count;i++){
     const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
-    // Procedural continent-like noise using sin combinations
     const n=Math.sin(x*3.1+1)*Math.sin(y*2.7+.5)*Math.sin(z*3.5+2)
            +Math.sin(x*5.2-1)*Math.sin(y*4.1+3)*Math.sin(z*4.8)*0.5;
-    if(n>0.15){
-      // Land (green-brown)
-      colors[i*3]=0.08+n*0.12;colors[i*3+1]=0.22+n*0.15;colors[i*3+2]=0.05;
-    }else{
-      // Ocean (transparent, let base show)
-      colors[i*3]=0;colors[i*3+1]=0;colors[i*3+2]=0;
-    }
+    if(n>0.15){colors[i*3]=0.08+n*0.12;colors[i*3+1]=0.22+n*0.15;colors[i*3+2]=0.05;}
+    else{colors[i*3]=0;colors[i*3+1]=0;colors[i*3+2]=0;}
   }
   cGeo.setAttribute('color',new THREE.BufferAttribute(colors,3));
-  const cMat=new THREE.MeshPhongMaterial({vertexColors:true,transparent:true,opacity:.55,blending:THREE.AdditiveBlending});
-  earthGroup.add(new THREE.Mesh(cGeo,cMat));
+  earthGroup.add(new THREE.Mesh(cGeo,new THREE.MeshPhongMaterial({vertexColors:true,transparent:true,opacity:.55,blending:THREE.AdditiveBlending})));
 }
-// Atmosphere glow layers
+// Atmosphere
 [{r:2.15,o:.12,c:0x4098ff},{r:2.35,o:.06,c:0x2868d8},{r:2.65,o:.025,c:0x1a50c0}].forEach(({r,o,c})=>
   earthGroup.add(new THREE.Mesh(new THREE.SphereGeometry(r,32,32),new THREE.MeshPhongMaterial({color:c,transparent:true,opacity:o})))
 );
-// City lights on night side (emissive dots)
+// City lights
 {
   const clGeo=new THREE.SphereGeometry(2.01,48,48);
   const em=new Float32Array(clGeo.attributes.position.count*3);
@@ -548,6 +583,23 @@ earthGroup.add(earth);
   earthGroup.add(new THREE.Mesh(clGeo,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.3,blending:THREE.AdditiveBlending})));
 }
 
+// ── Parking orbits (separate geometry, 2 loops near Earth) ──
+{
+  const pts=[];
+  const orbitR=2.5; // just outside Earth's visual atmosphere
+  for(let i=0;i<=200;i++){
+    const frac=i/200;
+    const angle=frac*Math.PI*4+Math.PI/2; // 2 full rotations
+    const r=orbitR+frac*0.15; // very slight spiral outward
+    pts.push(new THREE.Vector3(Math.cos(angle)*r,Math.sin(angle)*r,0.01));
+  }
+  const geo=new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Line(geo,new THREE.LineDashedMaterial({color:0x3080d0,transparent:true,opacity:.45,dashSize:.3,gapSize:.15})));
+  // LineDashedMaterial needs computeLineDistances
+  const line=scene.children[scene.children.length-1];
+  line.computeLineDistances();
+}
+
 // Van Allen belts
 [{r:1.1,t:.22,o:.14,c:0x30a0ff},{r:4.6,t:2.3,o:.07,c:0x7030e0}].forEach(({r,t,o,c})=>{
   const m=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,80),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o,side:THREE.DoubleSide}));
@@ -557,37 +609,28 @@ earthGroup.add(earth);
 // ── Moon (detailed) ─────────────────────────────────
 const moonGroup=new THREE.Group();
 scene.add(moonGroup);
-// Base sphere
 const moonMesh=new THREE.Mesh(
   new THREE.SphereGeometry(.65,48,48),
   new THREE.MeshPhongMaterial({color:0x8a9098,emissive:0x0d141f,emissiveIntensity:.15,shininess:4,specular:0x202830})
 );
 moonGroup.add(moonMesh);
-// Crater layer (dark patches)
+// Crater/maria layer
 {
   const mGeo=new THREE.SphereGeometry(.652,48,48);
   const colors=new Float32Array(mGeo.attributes.position.count*3);
   const pos=mGeo.attributes.position;
   for(let i=0;i<pos.count;i++){
     const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
-    // Maria (dark patches)
     const n=Math.sin(x*6+2)*Math.sin(y*5+1)*Math.sin(z*7);
     const n2=Math.sin(x*12)*Math.sin(y*11)*Math.sin(z*13)*0.3;
     const val=n+n2;
-    if(val>0.3){
-      // Dark maria
-      colors[i*3]=0.15;colors[i*3+1]=0.16;colors[i*3+2]=0.18;
-    }else if(val<-0.5){
-      // Bright highland
-      colors[i*3]=0.55;colors[i*3+1]=0.56;colors[i*3+2]=0.58;
-    }else{
-      colors[i*3]=0.35;colors[i*3+1]=0.36;colors[i*3+2]=0.38;
-    }
+    if(val>0.3){colors[i*3]=0.15;colors[i*3+1]=0.16;colors[i*3+2]=0.18;}
+    else if(val<-0.5){colors[i*3]=0.55;colors[i*3+1]=0.56;colors[i*3+2]=0.58;}
+    else{colors[i*3]=0.35;colors[i*3+1]=0.36;colors[i*3+2]=0.38;}
   }
   mGeo.setAttribute('color',new THREE.BufferAttribute(colors,3));
   moonGroup.add(new THREE.Mesh(mGeo,new THREE.MeshPhongMaterial({vertexColors:true,transparent:true,opacity:.45})));
 }
-// Subtle glow
 moonGroup.add(new THREE.Mesh(new THREE.SphereGeometry(.78,16,16),new THREE.MeshPhongMaterial({color:0x4a6070,transparent:true,opacity:.06})));
 
 // Ghost moons
@@ -601,8 +644,6 @@ function addGhostMoon(met, opacity){
 }
 const gm0=addGhostMoon(0,  .2);
 const gm1=addGhostMoon(MH, .14);
-
-// Flyby ghost
 {
   const m=new THREE.Mesh(new THREE.SphereGeometry(.68,24,24),new THREE.MeshBasicMaterial({color:0xa0b4c8,transparent:true,opacity:.1,wireframe:true}));
   m.position.set(EM,0,-.1);scene.add(m);
@@ -612,57 +653,43 @@ const gm1=addGhostMoon(MH, .14);
 const orion=new THREE.Group();
 scene.add(orion);
 {
-  // Crew module (tapered capsule shape)
-  const cmGeo=new THREE.CylinderGeometry(.04,.12,.22,16);
-  const cmMat=new THREE.MeshPhongMaterial({color:0xe0cdb0,emissive:0xd09020,emissiveIntensity:.8,specular:0x806040,shininess:40});
-  const cm=new THREE.Mesh(cmGeo,cmMat);
+  // Crew module
+  const cm=new THREE.Mesh(new THREE.CylinderGeometry(.04,.12,.22,16),new THREE.MeshPhongMaterial({color:0xe0cdb0,emissive:0xd09020,emissiveIntensity:.8,specular:0x806040,shininess:40}));
   cm.rotation.x=Math.PI/2;
   orion.add(cm);
-
-  // Nose cone
+  // Nose
   const nose=new THREE.Mesh(new THREE.ConeGeometry(.04,.08,12),new THREE.MeshPhongMaterial({color:0xc8b898,emissive:0x806020,emissiveIntensity:.4}));
   nose.rotation.x=Math.PI/2;nose.position.z=-.15;
   orion.add(nose);
-
-  // Heat shield (ablative, darker)
+  // Heat shield
   const shield=new THREE.Mesh(new THREE.CylinderGeometry(.125,.125,.025,16),new THREE.MeshPhongMaterial({color:0x302018,emissive:0x401808,emissiveIntensity:.5,specular:0x201008,shininess:10}));
   shield.rotation.x=Math.PI/2;shield.position.z=.115;
   orion.add(shield);
-
   // Service module
   const svc=new THREE.Mesh(new THREE.CylinderGeometry(.095,.095,.26,16),new THREE.MeshPhongMaterial({color:0x607888,emissive:0x152535,emissiveIntensity:.3,specular:0x304050,shininess:25}));
   svc.rotation.x=Math.PI/2;svc.position.z=.26;
   orion.add(svc);
-
   // SM detail rings
   [.15,.25,.37].forEach(z=>{
     const ring=new THREE.Mesh(new THREE.TorusGeometry(.1,.008,8,24),new THREE.MeshPhongMaterial({color:0x8098a8,emissive:0x304050,emissiveIntensity:.3}));
-    ring.position.z=z;
-    orion.add(ring);
+    ring.position.z=z;orion.add(ring);
   });
-
   // Nozzle
   const noz=new THREE.Mesh(new THREE.ConeGeometry(.04,.06,12,1,true),new THREE.MeshPhongMaterial({color:0x404848,emissive:0x181818,emissiveIntensity:.2,side:THREE.DoubleSide}));
   noz.rotation.x=-Math.PI/2;noz.position.z=.42;
   orion.add(noz);
-
   // Solar arrays (4 panels, X-shaped)
   [[-1,0],[1,0],[0,-1],[0,1]].forEach(([sx,sy])=>{
-    const arr=new THREE.Mesh(
-      new THREE.PlaneGeometry(.55,.05),
-      new THREE.MeshPhongMaterial({color:0x102860,emissive:0x1848a0,emissiveIntensity:1.8,side:THREE.DoubleSide,specular:0x2060d0,shininess:60})
-    );
+    const arr=new THREE.Mesh(new THREE.PlaneGeometry(.55,.05),new THREE.MeshPhongMaterial({color:0x102860,emissive:0x1848a0,emissiveIntensity:1.8,side:THREE.DoubleSide,specular:0x2060d0,shininess:60}));
     if(sy!==0){arr.rotation.z=Math.PI/2;arr.position.set(0,sy*.32,.26);}
     else{arr.position.set(sx*.32,0,.26);}
     orion.add(arr);
-    // Panel support strut
     const strut=new THREE.Mesh(new THREE.CylinderGeometry(.003,.003,.2,4),new THREE.MeshPhongMaterial({color:0x607080}));
     if(sy!==0){strut.position.set(0,sy*.15,.26);}
     else{strut.rotation.z=Math.PI/2;strut.position.set(sx*.15,0,.26);}
     orion.add(strut);
   });
-
-  // Glow halo
+  // Glow
   orion.add(new THREE.Mesh(new THREE.SphereGeometry(.45,16,16),new THREE.MeshPhongMaterial({color:0xffaa40,transparent:true,opacity:.15})));
   orion.add(new THREE.PointLight(0xff9030,.8,5));
 }
@@ -672,7 +699,6 @@ scene.add(orion);
   const pts=[];for(let i=0;i<=128;i++){const a=(i/128)*Math.PI*2;pts.push(new THREE.Vector3(EM*Math.cos(a),EM*Math.sin(a),0));}
   scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x0c1828,transparent:true,opacity:.65})));
 }
-
 // Moon orbit arc during mission
 {
   const a0=((0-FLYBY_H)/MOON_PER)*Math.PI*2;
@@ -750,7 +776,7 @@ function toggleFollow(){
   document.getElementById('cam-follow').classList.toggle('on',followCam);
 }
 
-// Populate milestone track
+// Milestone track
 {
   const track=document.getElementById('mtrack');
   MS.forEach(ms=>{
@@ -760,7 +786,8 @@ function toggleFollow(){
     el.innerHTML=`<div class="mtick"></div><div class="mlbl">${ms.lbl}</div><div class="mdate">${ms.date}</div>`;
     track.appendChild(el);
   });
-  const nowPct=(72/MH)*100;
+  const nowMet=Math.max(0,Math.min(getMET(),MH));
+  const nowPct=(nowMet/MH)*100;
   const nowEl=document.createElement('div');
   nowEl.className='mmark now';nowEl.style.left=nowPct+'%';
   nowEl.innerHTML=`<div class="mtick"></div><div class="mlbl" style="color:rgba(232,160,48,.85)">NOW</div><div class="mdate" style="color:rgba(180,120,30,.6)">APR 4</div>`;
@@ -788,8 +815,6 @@ function posLabel(id,v3,dy){
 // ANIMATION
 // ══════════════════════════════════════════════════════
 let camAngle=0,lastN=0;
-// Smooth camera interpolation targets
-let camTX=camCX,camTY=-10,camTZ=camZ,camLX=camCX,camLY=0;
 let curCX=camCX,curCY=-10,curCZ=camZ,curLX=camCX,curLY=0;
 
 function animate(){
@@ -808,7 +833,6 @@ function animate(){
   const mp=moonXY(mc);
 
   orion.position.set(st.x,st.y,.12);
-  // Orient capsule along trajectory tangent
   {const ddt=0.3,st2=getState(mc+ddt);orion.lookAt(st2.x,st2.y,.12);}
   moonGroup.position.set(mp.x,mp.y,0);
   earthGroup.rotation.z+=.0005;moonGroup.rotation.y+=.0002;
@@ -836,22 +860,23 @@ function animate(){
   // ── Camera ────────────────────────────────────────
   camAngle+=.00013;
   var driftScale=window.innerWidth/window.innerHeight>=1.2?1:.5;
+  var camTX,camTY,camTZ,camLX,camLY;
 
   if(followCam){
-    // Follow Orion — zoom in as it approaches Moon
+    // Camera follows Orion, zooms in near Moon
+    // Midpoint between Orion and Moon for framing
+    const midX=(st.x+mp.x)/2;
+    const midY=(st.y+mp.y)/2;
     const moonDist=Math.sqrt((st.x-mp.x)**2+(st.y-mp.y)**2);
-    const maxDist=42; // rough max separation in scene units
-    const closeness=1-Math.min(1,moonDist/maxDist);
-    // Zoom range: far=camZ, close=12
-    const followZ=camZ*(1-closeness)+12*closeness;
-    // Center between Orion and its target (Moon when close, midpoint when far)
-    const blendX=st.x*(0.5+closeness*0.3)+mp.x*(0.5-closeness*0.3);
-    const blendY=st.y*(0.5+closeness*0.3)+mp.y*(0.5-closeness*0.3);
-    camTX=blendX+Math.sin(camAngle)*2*driftScale;
-    camTY=blendY-5+Math.sin(camAngle*.38)*1.5*driftScale;
+    // Zoom: far when distant, close when near Moon
+    const closeness=Math.max(0,1-moonDist/42);
+    const followZ=camZ*(1-closeness*0.7)+16*closeness*0.7;
+    // Keep everything centered vertically — key fix: use midpoint Y, offset less
+    camTX=midX+Math.sin(camAngle)*2*driftScale;
+    camTY=midY-3+Math.sin(camAngle*.38)*1.5*driftScale;
     camTZ=followZ;
-    camLX=blendX+Math.sin(camAngle*.22)*driftScale;
-    camLY=blendY+Math.sin(camAngle*.14)*driftScale;
+    camLX=midX+Math.sin(camAngle*.22)*driftScale;
+    camLY=midY+Math.sin(camAngle*.14)*driftScale;
   }else{
     camTX=camCX+Math.sin(camAngle)*5.5*driftScale;
     camTY=-10+Math.sin(camAngle*.38)*3.5*driftScale;
@@ -860,14 +885,13 @@ function animate(){
     camLY=Math.sin(camAngle*.14)*2*driftScale;
   }
 
-  // Smooth interpolation (lerp)
+  // Smooth lerp
   const lerpF=1-Math.pow(0.03,dt);
   curCX+=(camTX-curCX)*lerpF;
   curCY+=(camTY-curCY)*lerpF;
   curCZ+=(camTZ-curCZ)*lerpF;
   curLX+=(camLX-curLX)*lerpF;
   curLY+=(camLY-curLY)*lerpF;
-
   cam.position.set(curCX,curCY,curCZ);
   cam.lookAt(curLX,curLY,0);
 
@@ -889,9 +913,20 @@ function animate(){
   document.getElementById('dm-mi').textContent=fmtMi(dmSurf);
   document.getElementById('vel-mph').textContent=fmt(st.spd*2236.94);
   document.getElementById('pct').textContent=Math.max(0,Math.min(100,(mc/MH)*100)).toFixed(1)+'%';
-  document.getElementById('m-de').textContent=deV;
-  document.getElementById('m-dm').textContent=dmV;
-  document.getElementById('m-vel').textContent=velV;
+
+  // Mobile stats with dual units
+  document.getElementById('m-de').textContent=deV+' km';
+  document.getElementById('m-de-mi').textContent=fmtMi(st.de)+' mi';
+  document.getElementById('m-dm').textContent=dmV+' km';
+  document.getElementById('m-dm-mi').textContent=fmtMi(dmSurf)+' mi';
+  document.getElementById('m-vel').textContent=velV+' km/s';
+  document.getElementById('m-vel-mph').textContent=fmt(st.spd*2236.94)+' mph';
+
+  // Fun facts
+  document.getElementById('sig-delay').textContent=getSignalDelay(st.de);
+  document.getElementById('speed-compare').textContent=getSpeedCompare(st.spd);
+  document.getElementById('earth-size').textContent=getEarthSize(st.de);
+  document.getElementById('radiation').textContent=getRadiation(st.de,mc);
 
   let etaTxt;
   if(displayMET<FLYBY_H&&displayMET>=0){
@@ -928,7 +963,7 @@ window.addEventListener('resize',()=>{
   camZ=getCamZ();camCX=getCamCenter();
 });
 
-// Fullscreen toggle
+// Fullscreen
 function toggleFS(){
   var el=document.documentElement;
   var isFS=document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement;
@@ -987,8 +1022,6 @@ function toggleCrew(){
   document.getElementById('crew-drawer').classList.toggle('open',crewOpen);
   document.getElementById('crew-toggle').classList.toggle('open',crewOpen);
 }
-
-// Dot indicators
 const carousel=document.getElementById('crew-carousel');
 const dots=document.querySelectorAll('.crew-dot');
 function scrollToCrew(i){
@@ -1002,14 +1035,12 @@ carousel.addEventListener('scroll',()=>{
   const idx=Math.round(scrollL/cardW);
   dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
 });
-
-// Close on Escape
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&crewOpen)toggleCrew();});
 
-// Gentle reveal after 4 seconds
+// Gentle reveal after 5 seconds, auto-hide after 8 more
 setTimeout(()=>{
-  if(!crewOpen){toggleCrew();setTimeout(()=>{if(crewOpen)toggleCrew();},6000);}
-},4000);
+  if(!crewOpen){toggleCrew();setTimeout(()=>{if(crewOpen)toggleCrew();},8000);}
+},5000);
 
 goLive();
 animate();
