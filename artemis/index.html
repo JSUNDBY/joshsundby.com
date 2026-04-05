@@ -56,24 +56,24 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 .side{width:clamp(200px,21vw,270px);display:flex;flex-direction:column;justify-content:center;padding:12px;gap:10px;flex-shrink:0;overflow-y:auto;scrollbar-width:none}
 .side::-webkit-scrollbar{display:none}
 .box{background:var(--bg);border:1px solid var(--border);padding:16px 18px;backdrop-filter:blur(10px)}
-.boxlabel{font-size:10px;letter-spacing:4px;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(20,55,110,.4)}
+.boxlabel{font-size:11px;letter-spacing:4px;color:var(--cyan);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(40,100,200,.35)}
 .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
 .row:last-of-type{margin-bottom:0}
-.rk{font-size:11px;letter-spacing:1.5px;color:var(--muted)}
+.rk{font-size:11px;letter-spacing:1.5px;color:rgba(120,160,220,.7)}
 .rv{font-size:clamp(17px,2vw,22px);color:var(--bright)}
-.ru{font-size:10px;color:var(--muted);margin-left:3px}
+.ru{font-size:10px;color:rgba(120,160,220,.55);margin-left:3px}
 .livebadge{display:flex;align-items:center;gap:6px;font-size:10px;letter-spacing:3px;color:var(--green);border-top:1px solid rgba(20,55,110,.4);padding-top:10px;margin-top:10px}
 .livebadge .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.12}}
 
 .crew{margin-bottom:10px}
 .crew:last-child{margin-bottom:0}
-.crole{font-size:9px;letter-spacing:3px;color:var(--muted)}
-.cname{font-size:clamp(12px,1.4vw,15px);color:var(--bright);letter-spacing:.5px}
-.corg{font-size:9px;color:var(--muted)}
+.crole{font-size:10px;letter-spacing:3px;color:var(--cyan)}
+.cname{font-size:clamp(13px,1.5vw,16px);color:#fff;letter-spacing:.5px;font-weight:bold}
+.corg{font-size:10px;color:rgba(140,170,220,.65)}
 
 /* Right explain box */
-.explain{font-size:clamp(11px,1.1vw,13px);line-height:1.7;color:var(--text)}
+.explain{font-size:clamp(12px,1.2vw,14px);line-height:1.8;color:rgba(160,190,230,.85)}
 .explain strong{color:var(--cyan)}
 
 /* Center (3D labels float here) */
@@ -104,9 +104,11 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 #td{font-size:13px;color:var(--text);white-space:nowrap;min-width:120px;text-align:right}
 
 /* Top bar with home + fullscreen */
-#topbar{display:flex;justify-content:space-between;width:100%;pointer-events:auto;margin-bottom:4px}
-#homelink,#fsbtn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;text-decoration:none;cursor:pointer;transition:background .15s,color .1s}
-#homelink:hover,#fsbtn:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
+#topbar{display:flex;justify-content:space-between;align-items:center;width:100%;pointer-events:auto;margin-bottom:4px}
+#homelink,#fsbtn,.topbtn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;text-decoration:none;cursor:pointer;transition:background .15s,color .1s}
+#homelink:hover,#fsbtn:hover,.topbtn:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
+.share-group{display:flex;gap:6px}
+.topbtn.copied{color:var(--green);border-color:var(--green)}
 
 /* Milestone track */
 #mtrack{position:relative;height:32px;margin:0 2px}
@@ -127,31 +129,43 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 .leg{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;color:rgba(100,140,200,.7)}
 .legdot{width:10px;height:4px;border-radius:2px;flex-shrink:0}
 
-/* Share buttons */
-#sharebtn,#xbtn,#copybtn{background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:background .15s,color .1s;text-decoration:none}
-#sharebtn:hover,#xbtn:hover,#copybtn:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
-#copybtn.copied{color:var(--green);border-color:var(--green)}
-.share-group{display:flex;gap:6px}
-
-/* Crew modal */
-#crew-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(0,4,16,.92);backdrop-filter:blur(12px);padding:20px;overflow-y:auto}
-#crew-modal.open{display:flex}
-.crew-grid{display:flex;flex-wrap:wrap;gap:20px;max-width:900px;justify-content:center}
-.crew-card{background:var(--bg);border:1px solid var(--border);padding:24px;width:400px;max-width:100%;display:flex;gap:20px;align-items:flex-start}
-.crew-card img{width:120px;height:150px;object-fit:cover;border:1px solid var(--border);flex-shrink:0}
+/* ── Crew Drawer ─────────────────────────────── */
+#crew-drawer{position:fixed;bottom:0;left:0;right:0;z-index:90;transform:translateY(100%);transition:transform .5s cubic-bezier(.22,1,.36,1);pointer-events:none}
+#crew-drawer.open{transform:translateY(0);pointer-events:auto}
+#crew-drawer-inner{background:rgba(2,6,18,.95);border-top:1px solid rgba(40,100,200,.4);backdrop-filter:blur(16px);padding:0 0 20px}
+#crew-handle{display:flex;justify-content:center;padding:12px 0 8px;cursor:pointer}
+#crew-handle .bar{width:40px;height:4px;border-radius:2px;background:rgba(80,120,200,.4)}
+#crew-title{text-align:center;font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;letter-spacing:4px;color:var(--cyan);margin-bottom:14px}
+#crew-carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;padding:0 20px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#crew-carousel::-webkit-scrollbar{display:none}
+.crew-card{flex:0 0 320px;scroll-snap-align:center;background:rgba(8,18,40,.9);border:1px solid rgba(40,80,180,.35);border-radius:8px;padding:20px;display:flex;gap:18px;align-items:flex-start;transition:border-color .3s,box-shadow .3s}
+.crew-card:hover{border-color:rgba(40,160,248,.5);box-shadow:0 0 20px rgba(40,120,255,.15)}
+.crew-card img{width:110px;height:140px;object-fit:cover;border-radius:4px;border:1px solid rgba(40,80,180,.3);flex-shrink:0}
 .crew-card .cc-info{flex:1;min-width:0}
-.crew-card .cc-role{font-size:10px;letter-spacing:3px;color:var(--cyan);margin-bottom:4px}
-.crew-card .cc-name{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:4px}
-.crew-card .cc-org{font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:10px}
-.crew-card .cc-bio{font-size:12px;line-height:1.7;color:var(--text)}
-.crew-card .cc-first{font-size:11px;color:var(--gold);margin-top:8px;letter-spacing:.5px}
-.crew-card .cc-credit{font-size:8px;color:rgba(60,90,140,.5);margin-top:8px}
-#crew-close{position:fixed;top:20px;right:20px;z-index:101;background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:18px;padding:8px 14px;cursor:pointer;transition:background .15s,color .1s}
-#crew-close:hover{background:rgba(35,90,200,.5);color:var(--cyan)}
+.crew-card .cc-role{font-size:11px;letter-spacing:3px;color:var(--cyan);margin-bottom:6px}
+.crew-card .cc-name{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:1px;margin-bottom:4px}
+.crew-card .cc-org{font-size:11px;letter-spacing:2px;color:rgba(140,170,220,.6);margin-bottom:12px}
+.crew-card .cc-bio{font-size:13px;line-height:1.7;color:rgba(170,200,240,.85)}
+.crew-card .cc-first{font-size:12px;color:var(--gold);margin-top:10px;letter-spacing:.5px;line-height:1.5}
+.crew-card .cc-credit{font-size:8px;color:rgba(60,90,140,.4);margin-top:10px}
+#crew-dots{display:flex;justify-content:center;gap:8px;padding-top:6px}
+.crew-dot{width:8px;height:8px;border-radius:50%;background:rgba(40,80,160,.3);border:1px solid rgba(40,80,160,.5);transition:all .3s;cursor:pointer}
+.crew-dot.active{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+
+/* Crew toggle button — special glowing style */
+#crew-toggle{position:fixed;right:calc(16px + env(safe-area-inset-right));bottom:calc(90px + env(safe-area-inset-bottom));z-index:80;background:rgba(8,20,55,.85);border:1px solid rgba(40,160,248,.45);color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;padding:12px 18px;cursor:pointer;pointer-events:auto;transition:all .3s;backdrop-filter:blur(8px)}
+#crew-toggle:hover{background:rgba(20,50,120,.9);border-color:var(--cyan);box-shadow:0 0 20px rgba(40,160,248,.3)}
+#crew-toggle.open{border-color:var(--gold);color:var(--gold)}
+#crew-toggle .icon{margin-right:6px}
+
+/* Camera follow button */
+#cam-follow{position:fixed;left:calc(16px + env(safe-area-inset-left));bottom:calc(90px + env(safe-area-inset-bottom));z-index:80;background:rgba(8,20,55,.85);border:1px solid var(--border);color:var(--text);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:10px 14px;cursor:pointer;pointer-events:auto;transition:all .3s;backdrop-filter:blur(8px)}
+#cam-follow:hover{background:rgba(20,50,120,.9);color:var(--cyan)}
+#cam-follow.on{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(40,160,248,.2)}
 
 /* Mobile crew button */
-#mbtn-crew{display:none;background:rgba(15,40,100,.55);border:1px solid var(--border);color:var(--cyan);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;padding:10px 14px;cursor:pointer;text-align:center;flex:1 1 100%;transition:background .15s}
-#mbtn-crew:hover{background:rgba(35,90,200,.5)}
+#mbtn-crew{display:none;background:rgba(8,20,55,.85);border:1px solid rgba(40,160,248,.45);color:var(--cyan);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;padding:12px 14px;cursor:pointer;text-align:center;flex:1 1 100%;transition:all .3s}
+#mbtn-crew:hover{background:rgba(20,50,120,.9);box-shadow:0 0 16px rgba(40,160,248,.2)}
 
 @media(max-width:700px){
   .side{display:none}
@@ -173,17 +187,18 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
   #sl{height:8px}
   #legend{display:none}
   #mtrack{display:none}
-  #homelink,#fsbtn{font-size:9px;padding:6px 10px}
+  #homelink,#fsbtn,.topbtn{font-size:9px;padding:6px 10px}
   #topbar{margin-bottom:2px;flex-wrap:wrap;gap:4px}
   .sl{font-size:12px}
   .share-group{order:3;width:100%;justify-content:center}
-  #sharebtn,#xbtn,#copybtn{font-size:9px;padding:6px 10px;flex:1}
+  .topbtn{flex:1}
   #mbtn-crew{display:block}
-  .crew-card{flex-direction:column;align-items:center;padding:18px;width:100%}
-  .crew-card img{width:100px;height:125px}
-  .crew-card .cc-info{text-align:center}
-  .crew-grid{flex-direction:column;max-height:80vh;overflow-y:auto}
-  #crew-close{top:10px;right:10px}
+  #crew-toggle{display:none}
+  #cam-follow{bottom:auto;top:calc(10px + env(safe-area-inset-top));left:auto;right:calc(10px + env(safe-area-inset-right));font-size:9px;padding:6px 10px}
+  .crew-card{flex:0 0 280px;padding:16px;gap:14px}
+  .crew-card img{width:90px;height:112px}
+  .crew-card .cc-name{font-size:15px}
+  .crew-card .cc-bio{font-size:12px}
 }
 </style>
 </head>
@@ -191,7 +206,15 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
 <canvas id="c"></canvas>
 <div id="hud">
   <div id="header">
-    <div id="topbar"><a id="homelink" href="https://joshsundby.com">JOSHSUNDBY.COM</a><div class="share-group"><button id="sharebtn" onclick="doShare()">SHARE</button><button id="xbtn" onclick="shareX()">X</button><button id="copybtn" onclick="copyLink()">COPY LINK</button></div><button id="fsbtn" onclick="toggleFS()">FULLSCREEN</button></div>
+    <div id="topbar">
+      <a id="homelink" href="https://joshsundby.com">JOSHSUNDBY.COM</a>
+      <div class="share-group">
+        <button class="topbtn" id="sharebtn" onclick="doShare()">SHARE</button>
+        <button class="topbtn" id="xbtn" onclick="shareX()">X</button>
+        <button class="topbtn" id="copybtn" onclick="copyLink()">COPY LINK</button>
+      </div>
+      <button id="fsbtn" onclick="toggleFS()">FULLSCREEN</button>
+    </div>
     <h1>ARTEMIS II</h1>
     <div class="sub">ORION · INTEGRITY · FIRST CREWED LUNAR MISSION SINCE APOLLO 17, 1972</div>
     <div class="met" id="met">T+00:00:00:00</div>
@@ -202,17 +225,21 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
     <!-- Left: telemetry -->
     <div class="side">
       <div class="box">
-        <div class="boxlabel">Live Telemetry</div>
+        <div class="boxlabel">LIVE TELEMETRY</div>
         <div class="row"><span class="rk">EARTH DIST</span><span><span class="rv" id="de">—</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk"></span><span><span class="rv" id="de-mi" style="font-size:15px;color:rgba(160,190,230,.6)">—</span><span class="ru">MI</span></span></div>
         <div class="row"><span class="rk">MOON DIST</span><span><span class="rv" id="dm">—</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk"></span><span><span class="rv" id="dm-mi" style="font-size:15px;color:rgba(160,190,230,.6)">—</span><span class="ru">MI</span></span></div>
         <div class="row"><span class="rk">VELOCITY</span><span><span class="rv" id="vel">—</span><span class="ru">KM/S</span></span></div>
+        <div class="row"><span class="rk"></span><span><span class="rv" id="vel-mph" style="font-size:15px;color:rgba(160,190,230,.6)">—</span><span class="ru">MPH</span></span></div>
         <div class="row"><span class="rk">FLYBY ETA</span><span><span class="rv" id="eta" style="font-size:16px">—</span></span></div>
         <div class="livebadge"><span class="dot"></span><span id="livetxt">LIVE</span></div>
       </div>
       <div class="box">
-        <div class="boxlabel">Mission</div>
+        <div class="boxlabel">MISSION</div>
         <div class="row"><span class="rk">PROGRESS</span><span class="rv" id="pct" style="font-size:18px">0%</span></div>
         <div class="row"><span class="rk">MAX DIST</span><span><span class="rv" style="font-size:17px">406,841</span><span class="ru">KM</span></span></div>
+        <div class="row"><span class="rk"></span><span><span class="rv" style="font-size:14px;color:rgba(160,190,230,.6)">252,818</span><span class="ru">MI</span></span></div>
         <div class="row"><span class="rk">CREW</span><span class="rv" style="font-size:18px">4</span></div>
       </div>
     </div>
@@ -222,14 +249,14 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
     <!-- Right: crew + explain -->
     <div class="side">
       <div class="box">
-        <div class="boxlabel">Crew — Integrity</div>
-        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="openCrew()"><div class="crole">CDR</div><div class="cname">REID WISEMAN</div><div class="corg">NASA · USA</div></div>
-        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="openCrew()"><div class="crole">PLT</div><div class="cname">VICTOR GLOVER</div><div class="corg">NASA · USA</div></div>
-        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="openCrew()"><div class="crole">MS1</div><div class="cname">CHRISTINA KOCH</div><div class="corg">NASA · USA</div></div>
-        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="openCrew()"><div class="crole">MS2</div><div class="cname">JEREMY HANSEN</div><div class="corg">CSA · CANADA</div></div>
+        <div class="boxlabel">CREW — INTEGRITY</div>
+        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="toggleCrew()"><div class="crole">CDR</div><div class="cname">REID WISEMAN</div><div class="corg">NASA · USA</div></div>
+        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="toggleCrew()"><div class="crole">PLT</div><div class="cname">VICTOR GLOVER</div><div class="corg">NASA · USA</div></div>
+        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="toggleCrew()"><div class="crole">MS1</div><div class="cname">CHRISTINA KOCH</div><div class="corg">NASA · USA</div></div>
+        <div class="crew" style="cursor:pointer;pointer-events:auto" onclick="toggleCrew()"><div class="crole">MS2</div><div class="cname">JEREMY HANSEN</div><div class="corg">CSA · CANADA</div></div>
       </div>
       <div class="box">
-        <div class="boxlabel">Free-Return Trajectory</div>
+        <div class="boxlabel">FREE-RETURN TRAJECTORY</div>
         <div class="explain">
           Orion is aimed at where the Moon <strong>will be</strong> at T+132h — not where it is now. The Moon travels <strong>~72°</strong> during the outbound leg. Ghost outlines show its position at launch and return. Scrub the timeline to watch everything move in sync.
         </div>
@@ -243,7 +270,7 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
     <div class="mstat"><div class="msk">MOON</div><div class="msv" id="m-dm">—</div></div>
     <div class="mstat"><div class="msk">KM/S</div><div class="msv" id="m-vel">—</div></div>
     <div class="mstat"><div class="msk">ETA</div><div class="msv" id="m-eta" style="font-size:15px">—</div></div>
-    <button id="mbtn-crew" onclick="openCrew()">◆ CREW PROFILES</button>
+    <button id="mbtn-crew" onclick="toggleCrew()">◆ MEET THE CREW</button>
   </div>
 
   <!-- Scrubber -->
@@ -274,56 +301,69 @@ body{font-family:'Share Tech Mono','Courier New',monospace;color:var(--text)}
   <div class="leg"><div class="legdot" style="background:rgba(110,130,160,.4);border:1px solid rgba(110,130,160,.5);"></div>GHOST MOON POSITIONS</div>
 </div>
 
-<!-- Crew modal -->
-<div id="crew-modal">
-  <button id="crew-close" onclick="closeCrew()">✕</button>
-  <div class="crew-grid">
-    <div class="crew-card">
-      <img src="crew/wiseman.jpg" alt="Reid Wiseman" loading="lazy">
-      <div class="cc-info">
-        <div class="cc-role">CDR — COMMANDER</div>
-        <div class="cc-name">REID WISEMAN</div>
-        <div class="cc-org">NASA · USA</div>
-        <div class="cc-bio">Navy test pilot and former ISS Expedition 41 crew member. Selected as NASA's chief astronaut in 2020 before being named Artemis II commander.</div>
-        <div class="cc-first">First Moon commander since Gene Cernan (Apollo 17, 1972)</div>
-        <div class="cc-credit">Photo: NASA/JSC</div>
+<!-- Crew drawer (slides up from bottom) -->
+<div id="crew-drawer">
+  <div id="crew-drawer-inner">
+    <div id="crew-handle" onclick="toggleCrew()"><div class="bar"></div></div>
+    <div id="crew-title">MEET THE CREW</div>
+    <div id="crew-carousel">
+      <div class="crew-card">
+        <img src="crew/wiseman.jpg" alt="Reid Wiseman">
+        <div class="cc-info">
+          <div class="cc-role">CDR — COMMANDER</div>
+          <div class="cc-name">REID WISEMAN</div>
+          <div class="cc-org">NASA · USA</div>
+          <div class="cc-bio">Navy test pilot and former ISS Expedition 41 crew member. Selected as NASA's chief astronaut in 2020 before being named Artemis II commander.</div>
+          <div class="cc-first">First Moon commander since Gene Cernan (Apollo 17, 1972)</div>
+          <div class="cc-credit">Photo: NASA/JSC</div>
+        </div>
+      </div>
+      <div class="crew-card">
+        <img src="crew/glover.jpg" alt="Victor Glover">
+        <div class="cc-info">
+          <div class="cc-role">PLT — PILOT</div>
+          <div class="cc-name">VICTOR GLOVER</div>
+          <div class="cc-org">NASA · USA</div>
+          <div class="cc-bio">Navy fighter pilot and test pilot who flew on SpaceX Crew-1 — the first operational Commercial Crew mission to the ISS. Logged 167 days in space.</div>
+          <div class="cc-first">First Black astronaut to fly beyond low Earth orbit</div>
+          <div class="cc-credit">Photo: NASA/JSC</div>
+        </div>
+      </div>
+      <div class="crew-card">
+        <img src="crew/koch.jpg" alt="Christina Koch">
+        <div class="cc-info">
+          <div class="cc-role">MS1 — MISSION SPECIALIST</div>
+          <div class="cc-name">CHRISTINA KOCH</div>
+          <div class="cc-org">NASA · USA</div>
+          <div class="cc-bio">Electrical engineer who set the record for the longest single spaceflight by a woman — 328 days aboard the ISS. Participated in the first all-female spacewalk.</div>
+          <div class="cc-first">First woman to fly beyond low Earth orbit</div>
+          <div class="cc-credit">Photo: NASA/JSC</div>
+        </div>
+      </div>
+      <div class="crew-card">
+        <img src="crew/hansen.jpg" alt="Jeremy Hansen">
+        <div class="cc-info">
+          <div class="cc-role">MS2 — MISSION SPECIALIST</div>
+          <div class="cc-name">JEREMY HANSEN</div>
+          <div class="cc-org">CSA · CANADA</div>
+          <div class="cc-bio">Canadian Forces fighter pilot and former CF-18 Hornet instructor. Selected by the Canadian Space Agency in 2009 — this is his first spaceflight.</div>
+          <div class="cc-first">First Canadian and first non-American to fly beyond low Earth orbit</div>
+          <div class="cc-credit">Photo: NASA/JSC</div>
+        </div>
       </div>
     </div>
-    <div class="crew-card">
-      <img src="crew/glover.jpg" alt="Victor Glover" loading="lazy">
-      <div class="cc-info">
-        <div class="cc-role">PLT — PILOT</div>
-        <div class="cc-name">VICTOR GLOVER</div>
-        <div class="cc-org">NASA · USA</div>
-        <div class="cc-bio">Navy fighter pilot and test pilot who flew on SpaceX Crew-1 — the first operational Commercial Crew mission to the ISS. Logged 167 days in space.</div>
-        <div class="cc-first">First Black astronaut to fly beyond low Earth orbit</div>
-        <div class="cc-credit">Photo: NASA/JSC</div>
-      </div>
-    </div>
-    <div class="crew-card">
-      <img src="crew/koch.jpg" alt="Christina Koch" loading="lazy">
-      <div class="cc-info">
-        <div class="cc-role">MS1 — MISSION SPECIALIST</div>
-        <div class="cc-name">CHRISTINA KOCH</div>
-        <div class="cc-org">NASA · USA</div>
-        <div class="cc-bio">Electrical engineer who set the record for the longest single spaceflight by a woman — 328 days aboard the ISS. Participated in the first all-female spacewalk.</div>
-        <div class="cc-first">First woman to fly beyond low Earth orbit</div>
-        <div class="cc-credit">Photo: NASA/JSC</div>
-      </div>
-    </div>
-    <div class="crew-card">
-      <img src="crew/hansen.jpg" alt="Jeremy Hansen" loading="lazy">
-      <div class="cc-info">
-        <div class="cc-role">MS2 — MISSION SPECIALIST</div>
-        <div class="cc-name">JEREMY HANSEN</div>
-        <div class="cc-org">CSA · CANADA</div>
-        <div class="cc-bio">Canadian Forces fighter pilot and former CF-18 Hornet instructor. Selected by the Canadian Space Agency in 2009 — this is his first spaceflight.</div>
-        <div class="cc-first">First Canadian and first non-American to fly beyond low Earth orbit</div>
-        <div class="cc-credit">Photo: NASA/JSC</div>
-      </div>
+    <div id="crew-dots">
+      <div class="crew-dot active" onclick="scrollToCrew(0)"></div>
+      <div class="crew-dot" onclick="scrollToCrew(1)"></div>
+      <div class="crew-dot" onclick="scrollToCrew(2)"></div>
+      <div class="crew-dot" onclick="scrollToCrew(3)"></div>
     </div>
   </div>
 </div>
+
+<!-- Sticky buttons -->
+<button id="crew-toggle" onclick="toggleCrew()"><span class="icon">◆</span>CREW</button>
+<button id="cam-follow" onclick="toggleFollow()">FOLLOW CAM</button>
 
 <div class="fnote">ARTEMIS II · DATA: JPL HORIZONS / NASA BLOGS · NOT AFFILIATED WITH NASA</div>
 
@@ -339,14 +379,26 @@ const EM       = 384400/SCALE;  // 38.44 units
 const FLYBY_H  = 132;
 const MOON_PER = 27.3*24;
 const PLAY_SPD = MH/48;        // full mission in 48s
+const KM_TO_MI = 0.621371;
 
 // ══════════════════════════════════════════════════════
 // TRAJECTORY  [met_h, x, y, dist_earth_km, speed_km_s]
 // Earth at origin; Moon at (EM,0) at T=FLYBY_H
+// Now includes 2 parking orbits (T=0 to T~3h)
 // ══════════════════════════════════════════════════════
+const ORBIT_R = 2.5; // visual orbit radius (just outside Earth sphere)
+const ORBIT_PTS = [];
+// Generate 2 orbits worth of points (each orbit ~90min = 1.5h)
+for(let i=0;i<=48;i++){
+  const frac=i/48;
+  const met=frac*3; // 0 to 3 hours
+  const angle=frac*Math.PI*4+Math.PI/2; // 2 full rotations, start at top
+  const r=ORBIT_R+frac*0.3; // spiral out slightly
+  ORBIT_PTS.push([met, Math.cos(angle)*r, Math.sin(angle)*r, 200+frac*400, 7.8]);
+}
+
 const TW = [
-  [0,    0,      0.04,    0,       0    ],
-  [0.15, 0,      0.04,    150,     7.8  ],
+  ...ORBIT_PTS,
   [3,    0.02,   0.05,    600,     7.8  ],
   [15,   0.3,    0.15,    3200,    9.8  ],
   [25,   0.8,    0.22,    8000,    10.6 ],
@@ -398,11 +450,12 @@ function moonXY(met){const a=((met-FLYBY_H)/MOON_PER)*Math.PI*2;return{x:EM*Math
 function getMET(){return(Date.now()-LAUNCH.getTime())/3600000;}
 function p2(n){return String(n|0).padStart(2,'0')}
 function fmt(n){return Math.round(Math.abs(n)).toLocaleString()}
+function fmtMi(km){return fmt(km*KM_TO_MI)}
 function fmtMET(h){const ah=Math.abs(h),d=ah/24|0,hr=ah%24|0,m=(ah*60)%60|0,s=(ah*3600)%60|0;return`${p2(d)}D ${p2(hr)}H ${p2(m)}M ${p2(s)}S`}
 function fmtShort(h){const d=h/24|0,hr=h%24|0,m=(h*60)%60|0;return d>0?`T+${p2(d)}D ${p2(hr)}H ${p2(m)}M`:`T+${p2(hr)}H ${p2(m)}M`}
 function getPhase(met){
   if(met<0)   return'PRE-LAUNCH';
-  if(met<3)   return'ASCENT';
+  if(met<3)   return'PARKING ORBIT';
   if(met<25)  return'EARTH ORBIT SYSTEMS CHECK';
   if(met<50)  return'TRANSLUNAR INJECTION';
   if(met<128) return'TRANSLUNAR COAST — OUTBOUND';
@@ -424,7 +477,6 @@ renderer.setClearColor(0x000408);
 
 const scene=new THREE.Scene();
 const cam=new THREE.PerspectiveCamera(50,W/H,.01,4000);
-// Camera Z scales with aspect ratio so trajectory fits any screen
 function getCamZ(){const a=window.innerWidth/window.innerHeight;if(a>=1.2)return 56;if(a>=0.9)return 68;if(a>=0.65)return 85;return 100;}
 function getCamCenter(){const a=window.innerWidth/window.innerHeight;return a>=1.2?18:a>=0.65?20:20;}
 var camZ=getCamZ(),camCX=getCamCenter();
@@ -442,24 +494,103 @@ cam.lookAt(camCX,0,0);
 // Lights
 scene.add(new THREE.AmbientLight(0x0d1f40,.75));
 const sun=new THREE.DirectionalLight(0xfff5e8,2.1);sun.position.set(-80,10,40);scene.add(sun);
+// Rim light for depth
+const rim=new THREE.DirectionalLight(0x2040a0,.6);rim.position.set(50,-30,-20);scene.add(rim);
 
-// Earth
-const earth=new THREE.Mesh(new THREE.SphereGeometry(2,64,64),new THREE.MeshPhongMaterial({color:0x0f5ab0,emissive:0x092848,emissiveIntensity:.85,specular:0x1a3a60,shininess:30}));
-scene.add(earth);
-[{r:2.22,o:.14,c:0x3888f8},{r:2.65,o:.04,c:0x1a50c0}].forEach(({r,o,c})=>scene.add(new THREE.Mesh(new THREE.SphereGeometry(r,32,32),new THREE.MeshPhongMaterial({color:c,transparent:true,opacity:o}))));
+// ── Earth (detailed) ────────────────────────────────
+const earthGroup=new THREE.Group();
+scene.add(earthGroup);
+// Base sphere
+const earth=new THREE.Mesh(
+  new THREE.SphereGeometry(2,64,64),
+  new THREE.MeshPhongMaterial({color:0x0a4888,emissive:0x061830,emissiveIntensity:.6,specular:0x3060a0,shininess:45})
+);
+earthGroup.add(earth);
+// Continents layer (lighter patches via vertex colors on a slightly larger sphere)
+{
+  const cGeo=new THREE.SphereGeometry(2.005,64,64);
+  const colors=new Float32Array(cGeo.attributes.position.count*3);
+  const pos=cGeo.attributes.position;
+  for(let i=0;i<pos.count;i++){
+    const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+    // Procedural continent-like noise using sin combinations
+    const n=Math.sin(x*3.1+1)*Math.sin(y*2.7+.5)*Math.sin(z*3.5+2)
+           +Math.sin(x*5.2-1)*Math.sin(y*4.1+3)*Math.sin(z*4.8)*0.5;
+    if(n>0.15){
+      // Land (green-brown)
+      colors[i*3]=0.08+n*0.12;colors[i*3+1]=0.22+n*0.15;colors[i*3+2]=0.05;
+    }else{
+      // Ocean (transparent, let base show)
+      colors[i*3]=0;colors[i*3+1]=0;colors[i*3+2]=0;
+    }
+  }
+  cGeo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  const cMat=new THREE.MeshPhongMaterial({vertexColors:true,transparent:true,opacity:.55,blending:THREE.AdditiveBlending});
+  earthGroup.add(new THREE.Mesh(cGeo,cMat));
+}
+// Atmosphere glow layers
+[{r:2.15,o:.12,c:0x4098ff},{r:2.35,o:.06,c:0x2868d8},{r:2.65,o:.025,c:0x1a50c0}].forEach(({r,o,c})=>
+  earthGroup.add(new THREE.Mesh(new THREE.SphereGeometry(r,32,32),new THREE.MeshPhongMaterial({color:c,transparent:true,opacity:o})))
+);
+// City lights on night side (emissive dots)
+{
+  const clGeo=new THREE.SphereGeometry(2.01,48,48);
+  const em=new Float32Array(clGeo.attributes.position.count*3);
+  const pos=clGeo.attributes.position;
+  for(let i=0;i<pos.count;i++){
+    const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+    const n=Math.sin(x*8.1)*Math.sin(y*7.3)*Math.sin(z*9.5);
+    const n2=Math.sin(x*3.1+1)*Math.sin(y*2.7+.5)*Math.sin(z*3.5+2);
+    if(n>0.7&&n2>0.15){em[i*3]=.9;em[i*3+1]=.75;em[i*3+2]=.3;}
+    else{em[i*3]=0;em[i*3+1]=0;em[i*3+2]=0;}
+  }
+  clGeo.setAttribute('color',new THREE.BufferAttribute(em,3));
+  earthGroup.add(new THREE.Mesh(clGeo,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.3,blending:THREE.AdditiveBlending})));
+}
 
-// Van Allen belts (horizontal tori, glowing radiation)
+// Van Allen belts
 [{r:1.1,t:.22,o:.14,c:0x30a0ff},{r:4.6,t:2.3,o:.07,c:0x7030e0}].forEach(({r,t,o,c})=>{
   const m=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,80),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o,side:THREE.DoubleSide}));
   m.rotation.x=Math.PI/2;scene.add(m);
 });
 
-// Moon (live position)
-const moonMesh=new THREE.Mesh(new THREE.SphereGeometry(.65,32,32),new THREE.MeshPhongMaterial({color:0x6e7880,emissive:0x0d141f,emissiveIntensity:.15,shininess:4}));
-scene.add(moonMesh);
-moonMesh.add(new THREE.Mesh(new THREE.SphereGeometry(.82,16,16),new THREE.MeshPhongMaterial({color:0x4a6070,transparent:true,opacity:.07})));
+// ── Moon (detailed) ─────────────────────────────────
+const moonGroup=new THREE.Group();
+scene.add(moonGroup);
+// Base sphere
+const moonMesh=new THREE.Mesh(
+  new THREE.SphereGeometry(.65,48,48),
+  new THREE.MeshPhongMaterial({color:0x8a9098,emissive:0x0d141f,emissiveIntensity:.15,shininess:4,specular:0x202830})
+);
+moonGroup.add(moonMesh);
+// Crater layer (dark patches)
+{
+  const mGeo=new THREE.SphereGeometry(.652,48,48);
+  const colors=new Float32Array(mGeo.attributes.position.count*3);
+  const pos=mGeo.attributes.position;
+  for(let i=0;i<pos.count;i++){
+    const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i);
+    // Maria (dark patches)
+    const n=Math.sin(x*6+2)*Math.sin(y*5+1)*Math.sin(z*7);
+    const n2=Math.sin(x*12)*Math.sin(y*11)*Math.sin(z*13)*0.3;
+    const val=n+n2;
+    if(val>0.3){
+      // Dark maria
+      colors[i*3]=0.15;colors[i*3+1]=0.16;colors[i*3+2]=0.18;
+    }else if(val<-0.5){
+      // Bright highland
+      colors[i*3]=0.55;colors[i*3+1]=0.56;colors[i*3+2]=0.58;
+    }else{
+      colors[i*3]=0.35;colors[i*3+1]=0.36;colors[i*3+2]=0.38;
+    }
+  }
+  mGeo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  moonGroup.add(new THREE.Mesh(mGeo,new THREE.MeshPhongMaterial({vertexColors:true,transparent:true,opacity:.45})));
+}
+// Subtle glow
+moonGroup.add(new THREE.Mesh(new THREE.SphereGeometry(.78,16,16),new THREE.MeshPhongMaterial({color:0x4a6070,transparent:true,opacity:.06})));
 
-// Ghost moons (fixed positions: at launch, flyby marker, splashdown)
+// Ghost moons
 function addGhostMoon(met, opacity){
   const mp=moonXY(met);
   const m=new THREE.Mesh(new THREE.SphereGeometry(.65,24,24),new THREE.MeshBasicMaterial({color:0x8090a8,transparent:true,opacity:opacity}));
@@ -468,49 +599,81 @@ function addGhostMoon(met, opacity){
   ring.position.set(mp.x,mp.y,-.05);scene.add(ring);
   return mp;
 }
-const gm0=addGhostMoon(0,  .2);   // at launch
-const gm1=addGhostMoon(MH, .14);  // at splashdown
+const gm0=addGhostMoon(0,  .2);
+const gm1=addGhostMoon(MH, .14);
 
-// Flyby ghost (brighter, at (EM,0))
+// Flyby ghost
 {
   const m=new THREE.Mesh(new THREE.SphereGeometry(.68,24,24),new THREE.MeshBasicMaterial({color:0xa0b4c8,transparent:true,opacity:.1,wireframe:true}));
   m.position.set(EM,0,-.1);scene.add(m);
 }
 
-// Orion capsule (Three.js primitives)
+// ── Orion capsule (detailed) ────────────────────────
 const orion=new THREE.Group();
 scene.add(orion);
 {
-  // Capsule body (cone)
-  const capsule=new THREE.Mesh(new THREE.ConeGeometry(.12,.28,12),new THREE.MeshPhongMaterial({color:0xe8d0b0,emissive:0xff8020,emissiveIntensity:1.2}));
-  capsule.rotation.x=Math.PI/2;
-  orion.add(capsule);
-  // Heat shield (flat disc at base)
-  const shield=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.02,12),new THREE.MeshPhongMaterial({color:0x302018,emissive:0x401808,emissiveIntensity:.6}));
-  shield.rotation.x=Math.PI/2;shield.position.z=.14;
+  // Crew module (tapered capsule shape)
+  const cmGeo=new THREE.CylinderGeometry(.04,.12,.22,16);
+  const cmMat=new THREE.MeshPhongMaterial({color:0xe0cdb0,emissive:0xd09020,emissiveIntensity:.8,specular:0x806040,shininess:40});
+  const cm=new THREE.Mesh(cmGeo,cmMat);
+  cm.rotation.x=Math.PI/2;
+  orion.add(cm);
+
+  // Nose cone
+  const nose=new THREE.Mesh(new THREE.ConeGeometry(.04,.08,12),new THREE.MeshPhongMaterial({color:0xc8b898,emissive:0x806020,emissiveIntensity:.4}));
+  nose.rotation.x=Math.PI/2;nose.position.z=-.15;
+  orion.add(nose);
+
+  // Heat shield (ablative, darker)
+  const shield=new THREE.Mesh(new THREE.CylinderGeometry(.125,.125,.025,16),new THREE.MeshPhongMaterial({color:0x302018,emissive:0x401808,emissiveIntensity:.5,specular:0x201008,shininess:10}));
+  shield.rotation.x=Math.PI/2;shield.position.z=.115;
   orion.add(shield);
-  // Service module (cylinder behind shield)
-  const svcmod=new THREE.Mesh(new THREE.CylinderGeometry(.09,.09,.22,12),new THREE.MeshPhongMaterial({color:0x708898,emissive:0x203040,emissiveIntensity:.4}));
-  svcmod.rotation.x=Math.PI/2;svcmod.position.z=.25;
-  orion.add(svcmod);
-  // Solar arrays (two planes, emissive blue)
-  [-1,1].forEach(side=>{
-    const arr=new THREE.Mesh(new THREE.PlaneGeometry(.5,.06),new THREE.MeshPhongMaterial({color:0x1848a0,emissive:0x2060d0,emissiveIntensity:1.5,side:THREE.DoubleSide}));
-    arr.position.set(side*.32,0,.25);
-    orion.add(arr);
+
+  // Service module
+  const svc=new THREE.Mesh(new THREE.CylinderGeometry(.095,.095,.26,16),new THREE.MeshPhongMaterial({color:0x607888,emissive:0x152535,emissiveIntensity:.3,specular:0x304050,shininess:25}));
+  svc.rotation.x=Math.PI/2;svc.position.z=.26;
+  orion.add(svc);
+
+  // SM detail rings
+  [.15,.25,.37].forEach(z=>{
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(.1,.008,8,24),new THREE.MeshPhongMaterial({color:0x8098a8,emissive:0x304050,emissiveIntensity:.3}));
+    ring.position.z=z;
+    orion.add(ring);
   });
+
+  // Nozzle
+  const noz=new THREE.Mesh(new THREE.ConeGeometry(.04,.06,12,1,true),new THREE.MeshPhongMaterial({color:0x404848,emissive:0x181818,emissiveIntensity:.2,side:THREE.DoubleSide}));
+  noz.rotation.x=-Math.PI/2;noz.position.z=.42;
+  orion.add(noz);
+
+  // Solar arrays (4 panels, X-shaped)
+  [[-1,0],[1,0],[0,-1],[0,1]].forEach(([sx,sy])=>{
+    const arr=new THREE.Mesh(
+      new THREE.PlaneGeometry(.55,.05),
+      new THREE.MeshPhongMaterial({color:0x102860,emissive:0x1848a0,emissiveIntensity:1.8,side:THREE.DoubleSide,specular:0x2060d0,shininess:60})
+    );
+    if(sy!==0){arr.rotation.z=Math.PI/2;arr.position.set(0,sy*.32,.26);}
+    else{arr.position.set(sx*.32,0,.26);}
+    orion.add(arr);
+    // Panel support strut
+    const strut=new THREE.Mesh(new THREE.CylinderGeometry(.003,.003,.2,4),new THREE.MeshPhongMaterial({color:0x607080}));
+    if(sy!==0){strut.position.set(0,sy*.15,.26);}
+    else{strut.rotation.z=Math.PI/2;strut.position.set(sx*.15,0,.26);}
+    orion.add(strut);
+  });
+
   // Glow halo
-  orion.add(new THREE.Mesh(new THREE.SphereGeometry(.4,16,16),new THREE.MeshPhongMaterial({color:0xffaa40,transparent:true,opacity:.18})));
+  orion.add(new THREE.Mesh(new THREE.SphereGeometry(.45,16,16),new THREE.MeshPhongMaterial({color:0xffaa40,transparent:true,opacity:.15})));
   orion.add(new THREE.PointLight(0xff9030,.8,5));
 }
 
-// Moon orbit guide (full ring, dim)
+// Moon orbit guide
 {
   const pts=[];for(let i=0;i<=128;i++){const a=(i/128)*Math.PI*2;pts.push(new THREE.Vector3(EM*Math.cos(a),EM*Math.sin(a),0));}
   scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0x0c1828,transparent:true,opacity:.65})));
 }
 
-// Moon orbit arc during mission (highlighted)
+// Moon orbit arc during mission
 {
   const a0=((0-FLYBY_H)/MOON_PER)*Math.PI*2;
   const a1=((MH-FLYBY_H)/MOON_PER)*Math.PI*2;
@@ -524,7 +687,7 @@ const spline=new THREE.CatmullRomCurve3(TW.map(d=>new THREE.Vector3(d[1],d[2],0)
 const TRAJ_N=900;
 const ALL_PTS=spline.getPoints(TRAJ_N);
 
-// Dim full trajectory (shows future path)
+// Dim full trajectory
 {
   const pos=new Float32Array((TRAJ_N+1)*3);
   const col=new Float32Array((TRAJ_N+1)*3);
@@ -544,17 +707,16 @@ const ALL_PTS=spline.getPoints(TRAJ_N);
   scene.add(new THREE.Line(g,new THREE.LineBasicMaterial({vertexColors:true})));
 }
 
-// Bright past trajectory (dynamic)
+// Bright past trajectory
 const pastGeo=new THREE.BufferGeometry();
 const pastLine=new THREE.Line(pastGeo,new THREE.LineBasicMaterial({vertexColors:true}));
 scene.add(pastLine);
 
-// Milestone spheres on trajectory
+// Milestone spheres
 const msSpheres=MS.map(ms=>{
   const st=getState(ms.met);
   const m=new THREE.Mesh(new THREE.SphereGeometry(.2,12,12),new THREE.MeshPhongMaterial({color:ms.col,emissive:ms.col,emissiveIntensity:1.4}));
   m.position.set(st.x,st.y,.2);scene.add(m);
-  // Subtle halo ring
   const ring=new THREE.Mesh(new THREE.TorusGeometry(.35,.04,6,24),new THREE.MeshBasicMaterial({color:ms.col,transparent:true,opacity:.4}));
   ring.position.set(st.x,st.y,.2);scene.add(ring);
   return m;
@@ -564,6 +726,7 @@ const msSpheres=MS.map(ms=>{
 // SCRUBBER CONTROLS
 // ══════════════════════════════════════════════════════
 let displayMET=getMET(),isLive=true,isPlaying=false,lastFrame=performance.now();
+let followCam=false;
 const slider=document.getElementById('sl');
 const pbt=document.getElementById('pbt');
 const lbt=document.getElementById('lbt');
@@ -582,6 +745,11 @@ slider.addEventListener('input',()=>{
   displayMET=parseFloat(slider.value);
 });
 
+function toggleFollow(){
+  followCam=!followCam;
+  document.getElementById('cam-follow').classList.toggle('on',followCam);
+}
+
 // Populate milestone track
 {
   const track=document.getElementById('mtrack');
@@ -592,7 +760,6 @@ slider.addEventListener('input',()=>{
     el.innerHTML=`<div class="mtick"></div><div class="mlbl">${ms.lbl}</div><div class="mdate">${ms.date}</div>`;
     track.appendChild(el);
   });
-  // "NOW" marker (approximate T+72h = APR 4)
   const nowPct=(72/MH)*100;
   const nowEl=document.createElement('div');
   nowEl.className='mmark now';nowEl.style.left=nowPct+'%';
@@ -621,6 +788,9 @@ function posLabel(id,v3,dy){
 // ANIMATION
 // ══════════════════════════════════════════════════════
 let camAngle=0,lastN=0;
+// Smooth camera interpolation targets
+let camTX=camCX,camTY=-10,camTZ=camZ,camLX=camCX,camLY=0;
+let curCX=camCX,curCY=-10,curCZ=camZ,curLX=camCX,curLY=0;
 
 function animate(){
   requestAnimationFrame(animate);
@@ -639,11 +809,11 @@ function animate(){
 
   orion.position.set(st.x,st.y,.12);
   // Orient capsule along trajectory tangent
-  {const dt=0.3,st2=getState(mc+dt);orion.lookAt(st2.x,st2.y,.12);}
-  moonMesh.position.set(mp.x,mp.y,0);
-  earth.rotation.z+=.0005;moonMesh.rotation.z+=.0002;
+  {const ddt=0.3,st2=getState(mc+ddt);orion.lookAt(st2.x,st2.y,.12);}
+  moonGroup.position.set(mp.x,mp.y,0);
+  earthGroup.rotation.z+=.0005;moonGroup.rotation.y+=.0002;
 
-  // Past trajectory (vertex-colored, rebuilt when segment count changes)
+  // Past trajectory
   const nPast=Math.max(2,Math.floor((mc/MH)*TRAJ_N)+1);
   if(nPast!==lastN){
     lastN=nPast;
@@ -663,13 +833,43 @@ function animate(){
     pastGeo.setAttribute('color',new THREE.BufferAttribute(col,3));
   }
 
-  // Camera gentle drift — scales with device
+  // ── Camera ────────────────────────────────────────
   camAngle+=.00013;
   var driftScale=window.innerWidth/window.innerHeight>=1.2?1:.5;
-  cam.position.x=camCX+Math.sin(camAngle)*5.5*driftScale;
-  cam.position.y=-10+Math.sin(camAngle*.38)*3.5*driftScale;
-  cam.position.z=camZ;
-  cam.lookAt(camCX+Math.sin(camAngle*.22)*2*driftScale,Math.sin(camAngle*.14)*2*driftScale,0);
+
+  if(followCam){
+    // Follow Orion — zoom in as it approaches Moon
+    const moonDist=Math.sqrt((st.x-mp.x)**2+(st.y-mp.y)**2);
+    const maxDist=42; // rough max separation in scene units
+    const closeness=1-Math.min(1,moonDist/maxDist);
+    // Zoom range: far=camZ, close=12
+    const followZ=camZ*(1-closeness)+12*closeness;
+    // Center between Orion and its target (Moon when close, midpoint when far)
+    const blendX=st.x*(0.5+closeness*0.3)+mp.x*(0.5-closeness*0.3);
+    const blendY=st.y*(0.5+closeness*0.3)+mp.y*(0.5-closeness*0.3);
+    camTX=blendX+Math.sin(camAngle)*2*driftScale;
+    camTY=blendY-5+Math.sin(camAngle*.38)*1.5*driftScale;
+    camTZ=followZ;
+    camLX=blendX+Math.sin(camAngle*.22)*driftScale;
+    camLY=blendY+Math.sin(camAngle*.14)*driftScale;
+  }else{
+    camTX=camCX+Math.sin(camAngle)*5.5*driftScale;
+    camTY=-10+Math.sin(camAngle*.38)*3.5*driftScale;
+    camTZ=camZ;
+    camLX=camCX+Math.sin(camAngle*.22)*2*driftScale;
+    camLY=Math.sin(camAngle*.14)*2*driftScale;
+  }
+
+  // Smooth interpolation (lerp)
+  const lerpF=1-Math.pow(0.03,dt);
+  curCX+=(camTX-curCX)*lerpF;
+  curCY+=(camTY-curCY)*lerpF;
+  curCZ+=(camTZ-curCZ)*lerpF;
+  curLX+=(camLX-curLX)*lerpF;
+  curLY+=(camLY-curLY)*lerpF;
+
+  cam.position.set(curCX,curCY,curCZ);
+  cam.lookAt(curLX,curLY,0);
 
   // ── HUD ─────────────────────────────────────────
   const metEl=document.getElementById('met');
@@ -685,6 +885,9 @@ function animate(){
   document.getElementById('de').textContent=deV;
   document.getElementById('dm').textContent=dmV;
   document.getElementById('vel').textContent=velV;
+  document.getElementById('de-mi').textContent=fmtMi(st.de);
+  document.getElementById('dm-mi').textContent=fmtMi(dmSurf);
+  document.getElementById('vel-mph').textContent=fmt(st.spd*2236.94);
   document.getElementById('pct').textContent=Math.max(0,Math.min(100,(mc/MH)*100)).toFixed(1)+'%';
   document.getElementById('m-de').textContent=deV;
   document.getElementById('m-dm').textContent=dmV;
@@ -702,7 +905,6 @@ function animate(){
 
   document.getElementById('livetxt').textContent=isLive?'LIVE':'SCRUBBING';
 
-  // Slider time label
   if(displayMET<0) tdiv.textContent='PRE-LAUNCH';
   else if(displayMET>MH) tdiv.textContent='COMPLETE';
   else tdiv.textContent=fmtShort(displayMET);
@@ -712,7 +914,6 @@ function animate(){
   posLabel('lb-m', new THREE.Vector3(mp.x, mp.y-1.0, 0), 10);
   posLabel('lb-m0',new THREE.Vector3(gm0.x, gm0.y-1.0, 0), 10);
   posLabel('lb-m2',new THREE.Vector3(gm1.x, gm1.y-1.0, 0), 10);
-  // Flyby label at (EM, 0.9) slightly above
   posLabel('lb-flyby', new THREE.Vector3(EM, 1.3, 0), -16);
   if(mc>3&&mc<MH) posLabel('lb-o', new THREE.Vector3(st.x, st.y+.7, 0), -18);
   else document.getElementById('lb-o').style.display='none';
@@ -757,7 +958,8 @@ document.addEventListener('MSFullscreenChange',updateFSBtn);
 // ══════════════════════════════════════════════════════
 function getShareText(){
   const st=getState(Math.max(0,Math.min(getMET(),MH)));
-  return`Orion is ${fmt(st.de)} km from Earth right now — tracking Artemis II live in 3D 🌙`;
+  const mi=fmt(st.de*KM_TO_MI);
+  return`Orion is ${fmt(st.de)} km (${mi} mi) from Earth right now — tracking Artemis II live in 3D`;
 }
 const SHARE_URL='https://joshsundby.com/artemis/';
 function doShare(){
@@ -777,16 +979,40 @@ function flashCopied(btn,txt){
 }
 
 // ══════════════════════════════════════════════════════
-// CREW MODAL
+// CREW DRAWER + CAROUSEL
 // ══════════════════════════════════════════════════════
-function openCrew(){document.getElementById('crew-modal').classList.add('open');}
-function closeCrew(){document.getElementById('crew-modal').classList.remove('open');}
-document.getElementById('crew-modal').addEventListener('click',function(e){if(e.target===this)closeCrew();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeCrew();});
+let crewOpen=false;
+function toggleCrew(){
+  crewOpen=!crewOpen;
+  document.getElementById('crew-drawer').classList.toggle('open',crewOpen);
+  document.getElementById('crew-toggle').classList.toggle('open',crewOpen);
+}
+
+// Dot indicators
+const carousel=document.getElementById('crew-carousel');
+const dots=document.querySelectorAll('.crew-dot');
+function scrollToCrew(i){
+  const cards=carousel.querySelectorAll('.crew-card');
+  if(cards[i]) cards[i].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+}
+carousel.addEventListener('scroll',()=>{
+  const cards=carousel.querySelectorAll('.crew-card');
+  const scrollL=carousel.scrollLeft;
+  const cardW=cards[0]?cards[0].offsetWidth+16:336;
+  const idx=Math.round(scrollL/cardW);
+  dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+});
+
+// Close on Escape
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&crewOpen)toggleCrew();});
+
+// Gentle reveal after 4 seconds
+setTimeout(()=>{
+  if(!crewOpen){toggleCrew();setTimeout(()=>{if(crewOpen)toggleCrew();},6000);}
+},4000);
 
 goLive();
 animate();
-setTimeout(openCrew,1500);
 </script>
 </body>
 </html>
