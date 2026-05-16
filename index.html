@@ -41,9 +41,12 @@
     },
     "email": "j.sundby@gmail.com",
     "sameAs": [
-      "https://www.instagram.com/superthoughts.ART",
+      "https://www.instagram.com/joshsundby",
       "https://www.youtube.com/@DigitalCoherence-f9l",
-      "https://iamenterstellar.com"
+      "https://insighttimer.com/joshsundby",
+      "https://iamenterstellar.com",
+      "https://bestofmpls.com",
+      "https://twincitycannabis.com"
     ],
     "knowsAbout": ["immersive art", "projection art", "projection installations", "sound baths", "generative art", "projection mapping", "immersive experiences", "Minneapolis art", "projection art Minneapolis"]
   }
@@ -460,6 +463,344 @@
       color: rgba(255,255,255,0.5);
     }
 
+    /* ════════════════ INSIGHT TIMER ════════════════ */
+    .meditate {
+      position: relative;
+      padding: 140px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .meditate-intro h2 {
+      font-size: clamp(2rem, 4.2vw, 3.5rem);
+      font-weight: 200;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+
+    .meditate-intro h2 em {
+      font-style: normal;
+      font-weight: 500;
+      display: block;
+    }
+
+    .meditate-intro p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.55);
+      max-width: 460px;
+      margin-bottom: 40px;
+    }
+
+    .meditate-stats {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .meditate-stat .num {
+      display: block;
+      font-size: clamp(2rem, 3.2vw, 2.6rem);
+      font-weight: 200;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .meditate-stat .lbl {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .meditate-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 28px;
+      border: 1px solid rgba(255,255,255,0.25);
+      transition: background 0.3s, border-color 0.3s, gap 0.3s;
+    }
+
+    .meditate-link::after {
+      content: '→';
+      font-size: 14px;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .meditate-link:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .meditate-link:hover::after { transform: translateX(4px); }
+
+    .meditate-card {
+      position: relative;
+      aspect-ratio: 4/5;
+      min-height: 520px;
+      overflow: hidden;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px;
+      box-shadow:
+        0 30px 80px -20px rgba(0,0,0,0.8),
+        0 60px 120px -40px rgba(125,155,138,0.18);
+    }
+
+    .meditate-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('images/work/aurora-soundbath.jpg');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+      transition: transform 8s var(--ease);
+      z-index: 0;
+    }
+
+    .meditate-card:hover::before { transform: scale(1.08); }
+
+    .meditate-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.25) 100%),
+        radial-gradient(at top right, rgba(125,155,138,0.25), transparent 60%);
+      z-index: 1;
+    }
+
+    .meditate-card > * { position: relative; z-index: 2; }
+
+    .meditate-tag {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      padding: 8px 14px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meditate-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #7d9b8a;
+      box-shadow: 0 0 8px rgba(125,155,138,0.9);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    .meditate-card-meta {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 16px;
+    }
+
+    .meditate-card h3 {
+      font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+      font-weight: 200;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      max-width: 90%;
+    }
+
+    .meditate-card-sub {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 28px;
+      max-width: 92%;
+    }
+
+    .meditate-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      padding: 14px 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .meditate-card-cta::after {
+      content: '→';
+      transition: transform 0.3s var(--ease);
+    }
+
+    .meditate-card-cta:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .meditate-card-cta:hover::after { transform: translateX(4px); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    /* ════════════════ VENTURES ════════════════ */
+    .ventures {
+      padding: 140px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .ventures-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 64px;
+    }
+
+    .ventures-header h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 200;
+      letter-spacing: -0.01em;
+    }
+
+    .ventures-header p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--dim);
+      max-width: 280px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .ventures-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .venture {
+      position: relative;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+      background: #0a0c10;
+    }
+
+    .venture-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.8s var(--ease), opacity 0.4s;
+      opacity: 0.55;
+    }
+
+    .venture:hover .venture-bg {
+      transform: scale(1.06);
+      opacity: 0.8;
+    }
+
+    .venture::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.3) 100%);
+      z-index: 1;
+    }
+
+    .venture > * { position: relative; z-index: 2; }
+
+    .venture-cat {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 12px;
+    }
+
+    .venture h3 {
+      font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+      font-weight: 200;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .venture p {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 24px;
+    }
+
+    .venture-url {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: gap 0.3s, color 0.3s;
+    }
+
+    .venture-url::after {
+      content: '↗';
+      font-size: 12px;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .venture:hover .venture-url { color: var(--white); gap: 14px; }
+    .venture:hover .venture-url::after { transform: translate(2px, -2px); }
+
     /* ════════════════ CONTACT CTA ════════════════ */
     .contact {
       padding: 160px 40px;
@@ -564,6 +905,14 @@
       .capabilities { padding: 80px 20px; }
       .cap-grid { grid-template-columns: 1fr; }
       .venues { padding: 60px 20px; }
+      .meditate { padding: 80px 20px; grid-template-columns: 1fr; gap: 48px; }
+      .meditate-stats { gap: 32px; }
+      .meditate-card { aspect-ratio: auto; min-height: 480px; padding: 28px; }
+      .ventures { padding: 80px 20px; }
+      .ventures-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .ventures-header p { text-align: left; }
+      .ventures-grid { grid-template-columns: 1fr; }
+      .venture { aspect-ratio: 5/4; padding: 24px; }
       .contact { padding: 100px 20px; }
       footer { padding: 24px 20px; flex-direction: column; gap: 12px; }
     }
@@ -577,8 +926,10 @@
     <ul class="nav-links">
       <li><a href="#installations">Work</a></li>
       <li><a href="#about">About</a></li>
+      <li><a href="#meditate">Meditate</a></li>
+      <li><a href="#ventures">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><a href="https://www.instagram.com/superthoughts.ART" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a href="https://www.instagram.com/joshsundby" target="_blank" rel="noopener">Instagram</a></li>
       <li><a href="/artemis/">Artemis II</a></li>
     </ul>
   </nav>
@@ -755,6 +1106,67 @@
     </ul>
   </div>
 
+  <!-- INSIGHT TIMER -->
+  <section class="meditate reveal" id="meditate">
+    <div class="meditate-intro">
+      <p class="label">Insight Timer</p>
+      <h2>Sit with me <em>any time.</em></h2>
+      <p>A growing library of guided meditations, sound baths, and ambient practices. Free to stream on the world's largest meditation app.</p>
+      <div class="meditate-stats">
+        <div class="meditate-stat">
+          <span class="num">55K+</span>
+          <span class="lbl">Plays</span>
+        </div>
+        <div class="meditate-stat">
+          <span class="num">25</span>
+          <span class="lbl">Years of Practice</span>
+        </div>
+      </div>
+      <a href="https://insighttimer.com/joshsundby" target="_blank" rel="noopener" class="meditate-link">Open Profile</a>
+    </div>
+    <a href="https://insighttimer.com/joshsundby" target="_blank" rel="noopener" class="meditate-card">
+      <span class="meditate-tag">Live on Insight Timer</span>
+      <p class="meditate-card-meta">Featured Practice</p>
+      <h3>Sound, breath, and stillness — for free.</h3>
+      <p class="meditate-card-sub">Sleep meditations, nervous system resets, sound baths, and ambient sessions designed to meet you where you are.</p>
+      <span class="meditate-card-cta">Listen Now</span>
+    </a>
+  </section>
+
+  <!-- VENTURES -->
+  <section class="ventures reveal" id="ventures">
+    <div class="ventures-header">
+      <div>
+        <p class="label">Elsewhere</p>
+        <h2>Other Projects</h2>
+      </div>
+      <p>A handful of other things I'm building, creating content for, and making noise about.</p>
+    </div>
+    <div class="ventures-grid">
+      <a href="https://iamenterstellar.com" target="_blank" rel="noopener" class="venture">
+        <div class="venture-bg" style="background-image: url('images/work/nebula-bowls.jpg');"></div>
+        <p class="venture-cat">Immersive Experience</p>
+        <h3>Enterstellar</h3>
+        <p>Cosmic sound baths, projection art, and ceremonial gatherings in Minneapolis.</p>
+        <span class="venture-url">iamenterstellar.com</span>
+      </a>
+      <a href="https://bestofmpls.com" target="_blank" rel="noopener" class="venture">
+        <div class="venture-bg" style="background-image: url('images/work/cityscape-event.jpg');"></div>
+        <p class="venture-cat">Local Guide</p>
+        <h3>Best of MPLS</h3>
+        <p>A curated guide to the people, places, and culture that make Minneapolis worth showing up for.</p>
+        <span class="venture-url">bestofmpls.com</span>
+      </a>
+      <a href="https://twincitycannabis.com" target="_blank" rel="noopener" class="venture">
+        <div class="venture-bg" style="background-image: url('images/work/floral-faces.jpg');"></div>
+        <p class="venture-cat">Cannabis Culture</p>
+        <h3>Twin City Cannabis</h3>
+        <p>Coverage of Minnesota's emerging legal cannabis scene. Dispensaries, products, and the people behind them.</p>
+        <span class="venture-url">twincitycannabis.com</span>
+      </a>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section class="contact reveal" id="contact">
     <p class="label">Get in Touch</p>
@@ -767,7 +1179,7 @@
     <span>&copy; 2026 Josh Sundby</span>
     <div class="footer-links">
       <a href="https://iamenterstellar.com" target="_blank" rel="noopener">Enterstellar</a>
-      <a href="https://www.instagram.com/superthoughts.ART" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.instagram.com/joshsundby" target="_blank" rel="noopener">Instagram</a>
       <a href="https://www.youtube.com/@DigitalCoherence-f9l" target="_blank" rel="noopener">YouTube</a>
     </div>
   </footer>
