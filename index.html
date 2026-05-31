@@ -11,17 +11,17 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Josh Sundby — Immersive Art &amp; Projection Installations | Minneapolis</title>
+  <title>Josh Sundby · Immersive Art &amp; Projection Installations | Minneapolis</title>
   <meta name="description" content="Josh Sundby creates immersive projection installations, sound baths, generative visual content, and large-format immersive art experiences in Minneapolis. Custom content for venues, events, and public spaces.">
   <meta name="keywords" content="immersive art Minneapolis, projection art Minneapolis, projection installation Minneapolis, Minneapolis sound baths, immersive experience Minneapolis, generative art, projection mapping, projection art, immersive events Minneapolis, sound bath Minneapolis, visual artist Minneapolis, projection artist Minneapolis, immersive venue content, large format projection, immersive art installation, projection art installation">
   <link rel="canonical" href="https://joshsundby.com">
-  <meta property="og:title" content="Josh Sundby — Immersive Art & Projection Installations | Minneapolis">
+  <meta property="og:title" content="Josh Sundby · Immersive Art & Projection Installations | Minneapolis">
   <meta property="og:description" content="Projection installations, sound baths, generative content, and immersive experiences for venues, events, and public spaces in Minneapolis.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://joshsundby.com">
   <meta property="og:image" content="https://joshsundby.com/images/work/floral-faces.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Josh Sundby — Immersive Art & Projection | Minneapolis">
+  <meta name="twitter:title" content="Josh Sundby · Immersive Art & Projection | Minneapolis">
   <meta name="twitter:description" content="Projection installations, sound baths, and immersive experiences in Minneapolis.">
   <meta name="twitter:image" content="https://joshsundby.com/images/work/floral-faces.jpg">
   <script type="application/ld+json">
@@ -54,14 +54,14 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --white: #fff;
       --off: #ccc;
-      --dim: rgba(255,255,255,0.4);
+      --dim: rgba(255,255,255,0.72);
       --faint: rgba(255,255,255,0.08);
       --black: #000;
       --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -75,6 +75,11 @@
       font-family: 'Inter', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+    }
+
+    /* Display headlines: Syne (contemporary art-world face). Body stays Inter. */
+    h1, h2 {
+      font-family: 'Syne', 'Inter', sans-serif;
     }
 
     /* ════════════════ NAV ════════════════ */
@@ -134,19 +139,18 @@
       inset: 0;
     }
 
-    .hero-slide {
+    .hero-video {
       position: absolute;
       inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transform: scale(1.05);
-      transition: opacity 1.6s ease, transform 8s ease;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+      animation: heroDrift 24s ease-out forwards;
     }
 
-    .hero-slide.active {
-      opacity: 1;
-      transform: scale(1);
+    @keyframes heroDrift {
+      to { transform: scale(1); }
     }
 
     .hero-overlay {
@@ -463,16 +467,157 @@
       color: rgba(255,255,255,0.5);
     }
 
+    /* ════════════════ PRINTS GALLERY ════════════════ */
+    .prints-section {
+      padding: 0 40px 80px;
+    }
+
+    .prints-intro {
+      padding: 140px 40px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .prints-intro h2 {
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      font-weight: 200;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      max-width: 720px;
+      margin-bottom: 32px;
+    }
+
+    .prints-intro p {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.55);
+      max-width: 540px;
+    }
+
+    .prints-cta {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 14px 28px;
+      border: 1px solid rgba(255,255,255,0.4);
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--white);
+      text-decoration: none;
+      transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+    }
+
+    .prints-cta:hover {
+      background: var(--white);
+      color: var(--black);
+      border-color: var(--white);
+    }
+
+    .prints-grid {
+      column-count: 3;
+      column-gap: 20px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    .print {
+      break-inside: avoid;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #0a0c10;
+      cursor: zoom-in;
+    }
+
+    .print img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: brightness(0.82) saturate(0.95);
+      transition: transform 0.8s var(--ease), opacity 0.6s, filter 0.6s var(--ease);
+      opacity: 0;
+    }
+
+    .print img.loaded { opacity: 1; }
+    .print:hover img { transform: scale(1.04); filter: brightness(1) saturate(1); }
+
+    .print::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.4), transparent 30%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+
+    .print:hover::after { opacity: 1; }
+
+    /* ════════════════ LIGHTBOX ════════════════ */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      padding: 40px;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transform: scale(0.96);
+      transition: transform 0.4s var(--ease);
+    }
+
+    .lightbox.open img { transform: scale(1); }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.25);
+      color: var(--white);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.5);
+    }
+
     /* ════════════════ INSIGHT TIMER ════════════════ */
     .meditate {
       position: relative;
-      padding: 140px 40px;
-      max-width: 1280px;
+      padding: 120px 40px;
+      max-width: 720px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 80px;
-      align-items: center;
+      text-align: center;
     }
 
     .meditate-intro h2 {
@@ -493,9 +638,9 @@
       font-size: 15px;
       font-weight: 300;
       line-height: 1.85;
-      color: rgba(255,255,255,0.55);
-      max-width: 460px;
-      margin-bottom: 40px;
+      color: var(--dim);
+      max-width: 540px;
+      margin: 0 auto 36px;
     }
 
     .meditate-stats {
@@ -551,6 +696,8 @@
 
     .meditate-card {
       position: relative;
+      text-decoration: none;
+      color: var(--white);
       aspect-ratio: 4/5;
       min-height: 520px;
       overflow: hidden;
@@ -677,6 +824,48 @@
     }
 
     .meditate-card-cta:hover::after { transform: translateX(4px); }
+
+    /* ════════════════ MUSIC (coming soon) ════════════════ */
+    .music-soon {
+      position: relative;
+      padding: 160px 40px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .music-soon-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.16;
+      filter: saturate(0.8);
+      z-index: 0;
+    }
+    .music-soon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.2), rgba(0,0,0,0.88) 80%);
+      z-index: 1;
+    }
+    .music-soon > * { position: relative; z-index: 2; }
+    .music-soon h2 {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 200;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin: 14px 0 24px;
+    }
+    .music-soon h2 em { font-style: normal; font-weight: 500; }
+    .music-soon p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--dim);
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
@@ -902,6 +1091,10 @@
       #about { grid-template-columns: 1fr !important; gap: 32px !important; }
       .video-grid { grid-template-columns: 1fr; }
       .video-grid-item { aspect-ratio: 16/9; }
+      .prints-intro { padding: 80px 20px 40px; }
+      .prints-grid { column-count: 2; }
+      .lightbox { padding: 20px; }
+      .lightbox-close { top: 16px; right: 16px; }
       .capabilities { padding: 80px 20px; }
       .cap-grid { grid-template-columns: 1fr; }
       .venues { padding: 60px 20px; }
@@ -925,8 +1118,10 @@
     <div class="nav-name">Josh Sundby</div>
     <ul class="nav-links">
       <li><a href="#installations">Work</a></li>
+      <li><a href="#prints">Stills</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#meditate">Meditate</a></li>
+      <li><a href="#music">Music</a></li>
       <li><a href="#ventures">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="https://www.instagram.com/joshsundby" target="_blank" rel="noopener">Instagram</a></li>
@@ -937,9 +1132,9 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-media">
-      <div class="hero-slide active" style="background-image: url('images/work/floral-faces.jpg')"></div>
-      <div class="hero-slide" style="background-image: url('images/work/aurora-soundbath.jpg')"></div>
-      <div class="hero-slide" style="background-image: url('images/work/nebula-bowls.jpg')"></div>
+      <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="images/work/floral-faces.jpg">
+        <source src="videos/nebula-floral.mp4" type="video/mp4">
+      </video>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -963,27 +1158,27 @@
     <div class="reel">
       <div class="reel-item reel-item--wide">
         <img src="images/work/watershed-sunset.jpg" alt="Sunset cloudscape projected across spa walls">
-        <div class="reel-item-caption"><p>Light Bath &mdash; Watershed Spa</p></div>
+        <div class="reel-item-caption"><p>Light Bath &middot; Watershed Spa</p></div>
       </div>
       <div class="reel-item reel-item--med">
         <img src="images/work/sound-bath-nebula.jpg" alt="Cosmic nebula projection with singing bowls and gongs">
-        <div class="reel-item-caption"><p>Cosmic Sound Bath &mdash; Projection + Live Sound</p></div>
+        <div class="reel-item-caption"><p>Cosmic Sound Bath &middot; Projection + Live Sound</p></div>
       </div>
       <div class="reel-item reel-item--wide">
         <img src="images/work/cityscape-event.jpg" alt="Minneapolis cityscape projected at live event">
-        <div class="reel-item-caption"><p>Cityscape Projection &mdash; Live Event</p></div>
+        <div class="reel-item-caption"><p>Cityscape Projection &middot; Live Event</p></div>
       </div>
       <div class="reel-item reel-item--med">
         <img src="images/dc/icehouse-winter.jpg" alt="Generative abstract landscape at Icehouse Minneapolis">
-        <div class="reel-item-caption"><p>Evolving Landscape &mdash; Icehouse MPLS</p></div>
+        <div class="reel-item-caption"><p>Evolving Landscape &middot; Icehouse MPLS</p></div>
       </div>
       <div class="reel-item reel-item--med">
         <img src="images/work/nebula-recline.jpg" alt="Guests recline beneath nebula projection">
-        <div class="reel-item-caption"><p>Nebula Projection &mdash; Immersive Sound Bath</p></div>
+        <div class="reel-item-caption"><p>Nebula Projection &middot; Immersive Sound Bath</p></div>
       </div>
       <div class="reel-item reel-item--wide">
         <img src="images/work/watershed-flora.jpg" alt="Botanical projection at Watershed Spa">
-        <div class="reel-item-caption"><p>Botanical Projection &mdash; Watershed Spa</p></div>
+        <div class="reel-item-caption"><p>Botanical Projection &middot; Watershed Spa</p></div>
       </div>
     </div>
   </div>
@@ -1048,6 +1243,37 @@
     </div>
   </div>
 
+  <!-- PRINTS GALLERY -->
+  <section class="prints-section" id="prints">
+    <div class="prints-intro reveal">
+      <p class="label">Stills</p>
+      <h2>Digital prints &amp; visual studies</h2>
+      <p>Generative explorations and hand-prompted compositions. Frescoes, figures, and frequencies. Click any image to expand.</p>
+      <a href="https://prints.joshsundby.com" class="prints-cta">Order a print →</a>
+    </div>
+    <div class="prints-grid reveal">
+      <div class="print"><img data-src="images/prints/01.jpg" alt="Balanced figure aligned with higher purpose"></div>
+      <div class="print"><img data-src="images/prints/02.jpg" alt="Transcendent being fresco"></div>
+      <div class="print"><img data-src="images/prints/03.jpg" alt="Navajo-inspired UFO painting"></div>
+      <div class="print"><img data-src="images/prints/04.jpg" alt="Balanced figure study"></div>
+      <div class="print"><img data-src="images/prints/05.jpg" alt="14th century handpainted UFO fresco"></div>
+      <div class="print"><img data-src="images/prints/06.jpg" alt="Red figure walking in space"></div>
+      <div class="print"><img data-src="images/prints/07.jpg" alt="Psychedelic UFO landing"></div>
+      <div class="print"><img data-src="images/prints/08.jpg" alt="Balanced figure composition"></div>
+      <div class="print"><img data-src="images/prints/09.jpg" alt="Biblical fresco UFO"></div>
+      <div class="print"><img data-src="images/prints/10.jpg" alt="Colorful 14th century drawing of UFO"></div>
+      <div class="print"><img data-src="images/prints/11.jpg" alt="Handpainted UFO fresco"></div>
+      <div class="print"><img data-src="images/prints/12.jpg" alt="Navajo-inspired UFO study"></div>
+      <div class="print"><img data-src="images/prints/13.jpg" alt="Abstract generative composition"></div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <img src="" alt="">
+  </div>
+
   <!-- ABOUT -->
   <section class="text-section" id="about" style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; max-width: 1100px;">
     <div class="reveal" style="overflow: hidden;">
@@ -1056,7 +1282,7 @@
     <div class="reveal">
       <p class="label">About</p>
       <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 200; line-height: 1.3; margin-bottom: 24px;">Minneapolis-based immersive artist and projection designer</h2>
-      <p style="font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,0.55);">Josh Sundby creates immersive art installations, generative projection content, and multi-sensory experiences for venues, events, and public spaces across Minneapolis. With 25 years of mindfulness practice, ambient music production, and digital art, he brings a unique perspective to immersive experiences — blending technology with intention to transform how people experience a room. His sound bath and projection work has been featured at venues throughout the Twin Cities.</p>
+      <p style="font-size: 15px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,0.55);">Josh Sundby creates immersive art installations, generative projection content, and multi-sensory experiences for venues, events, and public spaces across Minneapolis. With 25 years of mindfulness practice, ambient music production, and digital art, he brings a unique perspective to immersive experiences, blending technology with intention to transform how people experience a room. His sound bath and projection work has been featured at venues throughout the Twin Cities.</p>
     </div>
   </section>
 
@@ -1110,27 +1336,21 @@
   <section class="meditate reveal" id="meditate">
     <div class="meditate-intro">
       <p class="label">Insight Timer</p>
-      <h2>Sit with me <em>any time.</em></h2>
-      <p>A growing library of guided meditations, sound baths, and ambient practices. Free to stream on the world's largest meditation app.</p>
-      <div class="meditate-stats">
-        <div class="meditate-stat">
-          <span class="num">55K+</span>
-          <span class="lbl">Plays</span>
-        </div>
-        <div class="meditate-stat">
-          <span class="num">25</span>
-          <span class="lbl">Years of Practice</span>
-        </div>
-      </div>
-      <a href="https://insighttimer.com/joshsundby" target="_blank" rel="noopener" class="meditate-link">Open Profile</a>
+      <h2>Guided meditation, <em>if you'd like.</em></h2>
+      <p>Alongside the visual work, I've spent 25 years guiding meditation: sleep, sound baths, and nervous-system resets. A growing library, free to stream on Insight Timer.</p>
+      <a href="https://insighttimer.com/joshsundby" target="_blank" rel="noopener" class="meditate-link">Listen on Insight Timer</a>
     </div>
-    <a href="https://insighttimer.com/joshsundby" target="_blank" rel="noopener" class="meditate-card">
-      <span class="meditate-tag">Live on Insight Timer</span>
-      <p class="meditate-card-meta">Featured Practice</p>
-      <h3>Sound, breath, and stillness — for free.</h3>
-      <p class="meditate-card-sub">Sleep meditations, nervous system resets, sound baths, and ambient sessions designed to meet you where you are.</p>
-      <span class="meditate-card-cta">Listen Now</span>
-    </a>
+  </section>
+
+  <!-- MUSIC -->
+  <section class="music-soon reveal" id="music">
+    <video class="music-soon-bg" autoplay muted loop playsinline poster="images/work/nebula-bowls.jpg">
+      <source src="videos/ink.mp4" type="video/mp4">
+    </video>
+    <p class="label">Sound</p>
+    <h2>Music, <em>coming soon.</em></h2>
+    <p>Ambient and generative music, made from the same practice as the light and the breath. The next surface, arriving soon.</p>
+    <a href="#contact" class="meditate-link">Notify Me</a>
   </section>
 
   <!-- VENTURES -->
@@ -1185,14 +1405,7 @@
   </footer>
 
   <script>
-    // Hero slideshow with Ken Burns
-    const slides = document.querySelectorAll('.hero-slide');
-    let si = 0;
-    setInterval(() => {
-      slides[si].classList.remove('active');
-      si = (si + 1) % slides.length;
-      slides[si].classList.add('active');
-    }, 5000);
+    // Hero is a full-bleed looping video (.hero-video); no slideshow rotator needed.
 
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
@@ -1202,6 +1415,38 @@
       });
     }, { threshold: 0.08 });
     reveals.forEach(el => obs.observe(el));
+
+    // Lazy load prints + lightbox
+    const printImgs = document.querySelectorAll('.print img[data-src]');
+    const imgObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const img = e.target;
+          img.src = img.dataset.src;
+          img.onload = () => img.classList.add('loaded');
+          imgObs.unobserve(img);
+        }
+      });
+    }, { rootMargin: '300px' });
+    printImgs.forEach(img => imgObs.observe(img));
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    document.querySelectorAll('.print').forEach(p => {
+      p.addEventListener('click', () => {
+        const img = p.querySelector('img');
+        lightboxImg.src = img.dataset.src || img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    lightbox.addEventListener('click', e => { if (e.target === lightbox || e.target.classList.contains('lightbox-close')) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   </script>
 
 </body>
